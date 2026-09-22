@@ -589,3 +589,32 @@
     right: 0.6rem;
   }
 }
+/* =========================================================================
+ * 横屏手机点按目标（横屏宽度常 > 820px，故用 max-height 匹配）
+ * ========================================================================= */
+@media (max-height: 560px) {
+  .side-nav__item {
+    min-height: 30px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .homepage-copy__replay {
+    min-height: 30px;
+    padding: 0.3rem 0;
+  }
+
+  .headquarters-actions__fallback {
+    min-height: 30px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .info-modal__close {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
