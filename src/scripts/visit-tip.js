@@ -1,8 +1,12 @@
 /* =========================================================================
  * visit-tip.js —— 访问提示弹窗
  * -------------------------------------------------------------------------
- * 进入页面后短暂延时弹出提示：建议电脑访问，移动端请竖屏访问。
- * - 纯前端、零依赖，不使用 localStorage/Cookie（刷新页面会再次弹出）；
+ * 进入页面后短暂延时弹出提示：建议电脑访问。
+ * - 纯前端、零依赖；
+ * - 仅在「进入网站」时提示一次：
+ *     1) 从子页面返回主站时 URL 会带 from 参数，此时不再弹出；
+ *     2) 用 sessionStorage 记住本次会话已提示过（关闭标签页即清除，
+ *        不写入 localStorage/Cookie，不跨会话、不追踪）。
  * - 点击「知道了」或弹窗背景即可关闭；
  * - z-index 低于横屏守卫（landscape.js），移动端竖屏被强制横屏遮罩覆盖，
  *   横屏后本弹窗自然可见。
@@ -15,6 +19,17 @@
     return /Mobi|Android|iPhone|iPad|iPod|Mobile|Tablet/i.test(ua);
   }
   if (!isMobileDevice()) return;
+
+  /* 从子页面返回（带 from 参数）时属于站内跳转，不再重复提示 */
+  var params = new URLSearchParams(window.location.search);
+  if (params.has("from")) return;
+
+  /* 本次会话已提示过则跳过（sessionStorage 随标签页关闭而清除） */
+  var SEEN_KEY = "sec_visit_tip_seen";
+  try {
+    if (window.sessionStorage.getItem(SEEN_KEY) === "1") return;
+    window.sessionStorage.setItem(SEEN_KEY, "1");
+  } catch (e) { /* 隐私模式等禁用存储时忽略，仍按 from 逻辑提示 */ }
 
   var GUARD_Z = 90000; // 低于横屏守卫的 99999
 
@@ -62,7 +77,7 @@
     '<div class="visit-tip__box">' +
       '<p class="visit-tip__kicker">VISIT TIP · 访问建议</p>' +
       '<h2 class="visit-tip__title">访问提示</h2>' +
-      '<p class="visit-tip__text">建议电脑访问，移动端请竖屏访问。</p>' +
+      '<p class="visit-tip__text">建议使用电脑访问以获得完整的手势互动体验；手机端请横屏观看。</p>' +
       '<button class="visit-tip__btn" type="button">知道了</button>' +
     '</div>';
 
