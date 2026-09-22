@@ -539,10 +539,11 @@ function hideParticle() {
   }
 }
 
-/* 是否移动触屏设备（用于禁止手机端进入手势粒子） */
+/* 是否移动设备（用于禁止手机端进入手势粒子）。
+ * 仅按 UA 判断，与 landscape.js 保持一致：触屏笔记本不会被误判为手机。 */
 function isMobileDevice() {
   const ua = navigator.userAgent || "";
-  return /Mobi|Android|iPhone|iPad|iPod|Mobile|Tablet/i.test(ua) || navigator.maxTouchPoints > 0;
+  return /Mobi|Android|iPhone|iPad|iPod|Mobile|Tablet/i.test(ua);
 }
 
 /* 移动端禁止进入手势粒子的提示弹窗（复用 visit-tip.js 注入的样式类） */
