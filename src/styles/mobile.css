@@ -253,6 +253,12 @@
 
   .homepage-visual {
     width: min(20rem, 40vw);
+    overflow: hidden; /* 裁剪旋转方块装饰，避免矮屏横向溢出 */
+  }
+
+  /* 首页欢迎字母在矮屏再收小，压缩首屏高度 */
+  .homepage-copy__welcome span {
+    font-size: clamp(1.3rem, 5.4vh, 1.9rem);
   }
 
   .homepage-screen .side-nav {
