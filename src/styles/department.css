@@ -358,7 +358,7 @@
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 760px), (max-height: 560px) {
   .department-panel {
     position: relative;
     left: auto;

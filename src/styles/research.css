@@ -374,3 +374,54 @@
     right: 1.5rem;
   }
 }
+
+/* —— 小屏 / 横屏手机：取消绝对定位，背景固定，内容改为竖向流式并可滚动 —— */
+@media (max-width: 820px), (max-height: 560px) {
+  .research-screen__content {
+    padding: 7rem 1.6rem 6.5rem;
+  }
+
+  /* 背景视频/星空固定在视口，滚动内容时不跟着滑走 */
+  .research-screen__bg,
+  .research-screen__stars {
+    position: fixed;
+  }
+
+  .research-panel {
+    position: static;
+    width: auto;
+    max-width: 34rem;
+    margin: 0 auto;
+  }
+
+  .research-info {
+    position: static;
+    width: auto;
+    max-width: 34rem;
+    margin: 2rem auto 0;
+  }
+
+  /* 取消入场动画的位移（否则竖向导航会被 translateY(-50%) 顶出屏幕） */
+  .research-screen.is-visible .side-nav--light {
+    animation: none;
+  }
+
+  .research-screen .side-nav--light {
+    position: static;
+    right: auto;
+    top: auto;
+    transform: none;
+    opacity: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.55rem 1rem;
+    border: 0;
+    background: rgba(18, 24, 30, 0.45);
+    margin-top: 2rem;
+  }
+
+  .research-screen .side-nav--light .side-nav__item {
+    text-align: center;
+  }
+}
