@@ -467,3 +467,76 @@
     font-size: 0.72rem;
   }
 }
+/* =========================================================================
+ * 触屏 / 安全区增强（追加）
+ * -------------------------------------------------------------------------
+ * 1. 刘海屏、圆角屏安全区：避免顶部品牌与底部页脚被系统 UI 遮挡；
+ * 2. 触屏设备取消 :hover 位移，避免点按后元素“粘”在悬浮态；
+ * 3. 加大触屏点按目标，提升可点性；
+ * 4. iOS 聚焦输入框不自动缩放（字号 ≥ 16px）。
+ * ========================================================================= */
+
+/* 1) 安全区适配（需页面 meta 含 viewport-fit=cover） */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .homepage-screen .side-nav,
+  .headquarters-screen .side-nav,
+  .member-screen .side-nav,
+  .department-screen .side-nav,
+  .research-screen .side-nav--light,
+  .particle-screen .side-nav--light {
+    padding-right: max(0px, env(safe-area-inset-right));
+    padding-left: max(0px, env(safe-area-inset-left));
+  }
+
+  .screen-footer {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .brand-mark {
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+  }
+}
+
+/* 2) 触屏：取消 hover 造成的位移“粘滞” */
+@media (hover: none) {
+  .quick-links__item:hover,
+  .command-button:hover,
+  .homepage-copy__experience:hover,
+  .side-nav__item:hover,
+  .department-card:hover,
+  .member-carousel__arrow:hover,
+  .opt:hover,
+  .flag-form__btn:hover,
+  .direction-card__back:hover {
+    transform: none;
+  }
+}
+
+/* 3) 触屏点按目标加大（≥ 44px 更易点中） */
+@media (max-width: 820px) {
+  .side-nav__item {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .quick-links__item {
+    min-height: 44px;
+  }
+
+  .command-button,
+  .homepage-copy__experience.command-button {
+    min-height: 46px;
+  }
+}
+
+/* 4) iOS 聚焦输入框不自动放大（字号 ≥ 16px） */
+@media (max-width: 560px) {
+  input,
+  textarea,
+  select,
+  .flag-form__input {
+    font-size: 16px;
+  }
+}
