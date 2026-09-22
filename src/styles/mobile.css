@@ -546,3 +546,46 @@
     font-size: 16px;
   }
 }
+/* =========================================================================
+ * 手机端可读性 / 可点性增强（追加）
+ * -------------------------------------------------------------------------
+ * 依据手机视口审计：提升过小文字（方向卡描述、活动切换）与过小点按目标
+ * （轮播箭头、弹窗关闭、各类文字链接）。仅作用于窄屏，不影响桌面。
+ * ========================================================================= */
+@media (max-width: 820px) {
+  .department-card__desc {
+    font-size: 0.66rem;
+    line-height: 1.45;
+  }
+
+  .research-info__switch {
+    font-size: 0.8rem;
+    padding: 0.55rem 0.85rem;
+  }
+
+  .homepage-copy__replay {
+    min-height: 32px;
+    padding: 0.35rem 0;
+  }
+
+  .department-panel__link,
+  .research-info__link {
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .member-carousel__arrow {
+    min-width: 40px;
+  }
+
+  .info-modal__close {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    top: 0.6rem;
+    right: 0.6rem;
+  }
+}
