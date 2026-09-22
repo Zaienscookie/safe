@@ -1,0 +1,410 @@
+.department-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 7;
+  background:
+    radial-gradient(circle at 50% 44%, rgba(255, 255, 255, 0.46), transparent 18%),
+    linear-gradient(180deg, #efefea 0%, #e8e8e2 100%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.9s var(--ease-standard);
+}
+
+.department-screen.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.department-screen__content {
+  position: relative;
+  min-height: 100vh;
+  padding: 8rem 5rem 5rem;
+}
+
+.department-cluster {
+  --outer-width: 11rem;
+  --outer-height: 11rem;
+  --inner-width: 9.6rem;
+  --inner-height: 9.6rem;
+  --card-gap: 12px;
+  --column-gap: 10px;
+  position: absolute;
+  top: calc(50% + 12vh);
+  width: 27rem;
+  height: 46rem;
+  transform: translateY(-50%);
+}
+
+.department-cluster--left {
+  left: 7.2%;
+}
+
+.department-cluster--right {
+  right: 18%;
+}
+
+.department-card {
+  position: absolute;
+  padding: 1rem 0.9rem;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.08), transparent 34%),
+    linear-gradient(180deg, #111111 0%, #181818 100%);
+  color: #f7f5ef;
+  text-align: left;
+  cursor: pointer;
+  box-shadow:
+    4px 4px 15px rgba(0, 0, 0, 0.28),
+    0 2px 5px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.35s var(--ease-standard),
+    border-color 0.35s var(--ease-standard),
+    box-shadow 0.35s var(--ease-standard);
+}
+
+.department-cluster--left .department-card {
+  transform: perspective(800px) rotateY(8deg) rotateX(2deg);
+  transform-origin: right center;
+}
+
+.department-cluster--right .department-card {
+  transform: perspective(800px) rotateY(-8deg) rotateX(2deg);
+  transform-origin: left center;
+}
+
+.department-card:hover,
+.department-card:focus-visible,
+.department-card.is-active {
+  border-color: rgba(255, 140, 0, 0.58);
+  box-shadow:
+    0 0 0 1px rgba(255, 140, 0, 0.12),
+    0 0 26px rgba(255, 140, 0, 0.18);
+}
+
+.department-cluster--left .department-card:hover,
+.department-cluster--left .department-card:focus-visible,
+.department-cluster--left .department-card.is-active {
+  transform: perspective(800px) rotateY(3deg) rotateX(1deg) scale(1.05);
+}
+
+.department-cluster--right .department-card:hover,
+.department-cluster--right .department-card:focus-visible,
+.department-cluster--right .department-card.is-active {
+  transform: perspective(800px) rotateY(-3deg) rotateX(1deg) scale(1.05);
+}
+
+.department-card--outer {
+  width: var(--outer-width);
+  height: var(--outer-height);
+}
+
+.department-card--inner {
+  width: var(--inner-width);
+  height: var(--inner-height);
+}
+
+.department-card--outer-middle {
+  width: var(--outer-width);
+  height: calc(var(--inner-height) + var(--card-gap));
+}
+
+.department-cluster--left .department-card--outer,
+.department-cluster--left .department-card--outer-middle {
+  left: 0;
+}
+
+.department-cluster--left .department-card--inner {
+  left: calc(var(--outer-width) + var(--column-gap));
+}
+
+.department-cluster--right .department-card--outer,
+.department-cluster--right .department-card--outer-middle {
+  right: 0;
+}
+
+.department-cluster--right .department-card--inner {
+  right: calc(var(--outer-width) + var(--column-gap));
+}
+
+.department-card--inner-top {
+  top: 9.5rem;
+}
+
+.department-card--inner-bottom {
+  top: calc(9.5rem + var(--inner-height) + var(--card-gap));
+}
+
+.department-card--outer-middle {
+  top: calc(9.5rem + (var(--inner-height) / 2));
+}
+
+.department-card--outer-top {
+  top: calc(9.5rem + (var(--inner-height) / 2) - var(--outer-height) - var(--card-gap));
+}
+
+.department-card--outer-bottom {
+  top: calc(9.5rem + (var(--inner-height) / 2) + var(--inner-height) + (var(--card-gap) * 2));
+}
+
+.department-card__code {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+}
+
+.department-card__code--split {
+  line-height: 0.86;
+}
+
+.department-card__desc {
+  display: block;
+  margin-top: auto;
+  padding-top: 1.1rem;
+  font-size: 0.52rem;
+  line-height: 1.45;
+  letter-spacing: 0.12em;
+  color: rgba(247, 245, 239, 0.58);
+}
+
+.department-panel {
+  position: absolute;
+  left: 44.5%;
+  top: calc(45% + 12vh);
+  width: min(31rem, 32vw);
+  min-height: 22rem;
+  max-height: 76vh;
+  overflow-y: auto;   /* 内容较多时面板内部滚动，避免超出屏幕 */
+  padding: 2.6rem 2.4rem;
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0.96), rgba(18, 18, 18, 0.94));
+  color: #f7f5ef;
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.18),
+    0 0 34px rgba(255, 140, 0, 0.08);
+  transform: translate(-50%, -50%);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 140, 0, 0.4) transparent;
+}
+
+.department-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 140, 0, 0.26);
+  pointer-events: none;
+}
+
+.department-panel__frame {
+  position: absolute;
+  inset: 1rem;
+  pointer-events: none;
+}
+
+.department-panel__corner {
+  position: absolute;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-color: rgba(255, 255, 255, 0.88);
+  border-style: solid;
+}
+
+.department-panel__corner--tl {
+  top: 0;
+  left: 0;
+  border-width: 2px 0 0 2px;
+}
+
+.department-panel__corner--tr {
+  top: 0;
+  right: 0;
+  border-width: 2px 2px 0 0;
+}
+
+.department-panel__corner--bl {
+  bottom: 0;
+  left: 0;
+  border-width: 0 0 2px 2px;
+}
+
+.department-panel__corner--br {
+  right: 0;
+  bottom: 0;
+  border-width: 0 2px 2px 0;
+}
+
+.department-panel__dots {
+  position: absolute;
+  inset: 2.8rem 3rem auto 3rem;
+  height: 2.4rem;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.28) 1px, transparent 1px);
+  background-size: 9px 9px;
+  opacity: 0.26;
+}
+
+.department-panel__content {
+  position: relative;
+  z-index: 1;
+}
+
+.department-panel.is-refreshing .department-panel__content {
+  animation: departmentPanelSwap 0.28s var(--ease-standard);
+}
+
+.department-panel__eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.department-panel__title {
+  margin: 3.6rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 0.94;
+}
+
+.department-panel__subtitle {
+  margin: 0.5rem 0 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  color: #ffb14d;
+}
+
+.department-panel__copy {
+  max-width: 24rem;
+  margin: 0.9rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: rgba(247, 245, 239, 0.82);
+}
+
+.department-panel__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.2rem;
+  color: rgba(247, 245, 239, 0.74);
+  text-decoration: none;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+}
+
+.department-panel__link.is-link {
+  color: #ffb14d;
+}
+
+.department-panel__link[aria-disabled="true"] {
+  pointer-events: none;
+}
+
+.department-screen .side-nav {
+  position: absolute;
+  right: 5rem;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+  opacity: 0;
+  transform: translateY(-50%) translateX(24px);
+}
+
+.department-screen.is-visible .side-nav {
+  animation: departmentNavIn 0.75s 0.24s var(--ease-standard) forwards;
+}
+
+.department-screen .side-nav__item {
+  text-align: right;
+}
+
+@keyframes departmentNavIn {
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+@keyframes departmentPanelSwap {
+  0% {
+    opacity: 0.45;
+    transform: translateY(8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1200px) {
+  .department-cluster--right {
+    right: 8rem;
+  }
+
+  .department-cluster--left {
+    left: 1.5rem;
+  }
+
+  .department-panel {
+    width: min(34rem, 42vw);
+  }
+
+  .department-screen .side-nav {
+    right: 2rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .department-panel {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: min(100%, 24rem);
+    min-height: 20rem;
+    padding: 2rem 1.6rem;
+    margin: 12rem auto 0;
+  }
+
+  .department-panel__title {
+    margin-top: 4.8rem;
+  }
+
+  .department-cluster {
+    position: static;
+    width: 100%;
+    height: auto;
+    transform: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 11rem));
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+
+  .department-card {
+    position: static;
+    transform: none !important;
+    width: 100%;
+    height: auto;
+    min-height: 8rem;
+  }
+
+  .department-screen .side-nav {
+    position: static;
+    transform: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 1;
+    margin-top: 2rem;
+  }
+
+  .department-screen .side-nav__item {
+    text-align: center;
+  }
+}

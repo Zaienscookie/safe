@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>网络安全社 · 方向详情</title>
+    <link rel="stylesheet" href="./src/styles/base.css" />
+    <link rel="stylesheet" href="./src/styles/direction.css" />
+  </head>
+  <body>
+    <main class="direction-shell">
+      <!-- 品牌标记：左上角，风格与主站一致 -->
+      <header class="brand-mark">
+        <p class="brand-mark__title">网络安全社</p>
+        <div class="brand-mark__meta-wrap">
+          <p class="brand-mark__meta">CYBER SECURITY CLUB</p>
+          <p class="brand-mark__meta">方向详情 DIRECTION</p>
+        </div>
+      </header>
+
+      <!-- 顶部方向切换导航（由 direction.js 渲染） -->
+      <nav class="direction-nav" id="direction-nav" aria-label="方向切换"></nav>
+
+      <!-- 主内容卡片：展示所选方向的完整文案 -->
+      <section class="direction-card">
+        <div class="direction-card__frame" aria-hidden="true">
+          <span class="direction-card__corner direction-card__corner--tl"></span>
+          <span class="direction-card__corner direction-card__corner--tr"></span>
+          <span class="direction-card__corner direction-card__corner--bl"></span>
+          <span class="direction-card__corner direction-card__corner--br"></span>
+        </div>
+
+        <div class="direction-card__content">
+          <p class="direction-card__eyebrow" id="d-mode">CAPABILITY MATRIX</p>
+          <h1 class="direction-card__title" id="d-title">WEB 安全</h1>
+          <p class="direction-card__subtitle" id="d-subtitle">PENTEST / VULN ANALYSIS</p>
+          <p class="direction-card__slogan" id="d-slogan"></p>
+
+          <div class="direction-card__block">
+            <p class="direction-card__label">进阶路线 · ROADMAP</p>
+            <ul class="direction-card__roadmap" id="d-roadmap"></ul>
+          </div>
+
+          <div class="direction-card__block">
+            <p class="direction-card__label">技能标签 · TAGS</p>
+            <div class="direction-card__tags" id="d-tags"></div>
+          </div>
+
+          <p class="direction-card__quote" id="d-quote"></p>
+
+          <a class="direction-card__back" href="./index.html">返回主站 ← BACK</a>
+        </div>
+      </section>
+    </main>
+
+    <script src="./src/scripts/site-copy.js"></script>
+    <script src="./src/scripts/direction.js"></script>
+    <script>
+      /* 返回主站：若带 from 参数，回到进入前所在的栏目，否则回首页 */
+      (function () {
+        var btn = document.querySelector(".direction-card__back");
+        if (!btn) return;
+        var from = new URLSearchParams(window.location.search).get("from");
+        if (from) btn.href = "index.html?from=" + encodeURIComponent(from);
+      })();
+    </script>
+    <script src="./src/scripts/landscape.js"></script>
+  </body>
+</html>

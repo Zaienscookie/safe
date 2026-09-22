@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>网络安全社 · 纳新</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.4/lottie.min.js"></script>
+    <script src="./src/scripts/rhine-logo-animation-data.js"></script>
+    <link rel="stylesheet" href="./src/styles/base.css" />
+    <link rel="stylesheet" href="./src/styles/enter.css" />
+    <link rel="stylesheet" href="./src/styles/auth.css" />
+    <link rel="stylesheet" href="./src/styles/homepage.css" />
+    <link rel="stylesheet" href="./src/styles/headquarters.css" />
+    <link rel="stylesheet" href="./src/styles/member.css" />
+    <link rel="stylesheet" href="./src/styles/department.css" />
+    <link rel="stylesheet" href="./src/styles/research.css" />
+    <link rel="stylesheet" href="./src/styles/modal.css" />
+    <link rel="stylesheet" href="./src/styles/particle.css" />
+    <link rel="stylesheet" href="./src/styles/mobile.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="enter-screen" id="enter-screen" aria-label="Rhine Lab Enter">
+        <header class="brand-mark">
+          <p class="brand-mark__title">网络安全社</p>
+          <div class="brand-mark__meta-wrap">
+            <p class="brand-mark__meta">CYBER SECURITY CLUB</p>
+            <p class="brand-mark__meta">纳新开放 RECRUITING</p>
+          </div>
+        </header>
+
+        <div class="enter-screen__content">
+          <div class="logo-stage">
+            <div class="logo-stage__glow" aria-hidden="true"></div>
+            <div class="logo-stage__lottie" id="logo-lottie" aria-hidden="true"></div>
+            <img
+              class="logo-stage__image"
+              id="logo-fallback"
+              src="./assets/images/ui/icon/icon-BLogo.svg"
+              alt="网络安全社 logo"
+            />
+          </div>
+
+          <div class="enter-panel">
+            <p class="enter-panel__eyebrow">WELCOME · 欢迎</p>
+            <h1 class="enter-panel__title">网络安全社</h1>
+            <p class="enter-panel__copy">
+              欢迎来到网络安全社纳新入口。研究 Web 安全、二进制逆向与 CTF，
+              一起打靶场、写工具、做实验，从零开始成长为安全工程师。
+            </p>
+
+            <button class="enter-button" id="enter-button" type="button" aria-label="Enter Rhine Lab">
+              <span class="enter-button__core" aria-hidden="true">
+                <img class="enter-button__icon" src="./assets/images/ui/icon/icon-arrow-up.svg" alt="" />
+              </span>
+              <span class="enter-button__label">进入 · ENTER</span>
+            </button>
+
+            <p class="enter-panel__hint"></p>
+          </div>
+        </div>
+
+        <footer class="screen-footer">
+          <div class="screen-footer__compliance">
+            <span class="screen-footer__report">
+              网络安全社纳新开放中 · 欢迎扫码报名
+            </span>
+          </div>
+          <div class="screen-footer__brand">
+            <span>POWERED BY CYBER SECURITY CLUB</span>
+            <span class="screen-footer__bar" aria-hidden="true"></span>
+          </div>
+        </footer>
+      </section>
+
+      <section class="auth-screen" id="auth-screen" aria-label="Permission authorized" aria-hidden="true">
+        <div class="auth-screen__inner">
+          <p class="auth-screen__status">AUTH SEQUENCE</p>
+          <div class="orbit-system" aria-hidden="true">
+            <span class="orbit orbit--outer"></span>
+            <span class="orbit orbit--middle"></span>
+            <span class="orbit orbit--inner"></span>
+            <span class="orbit-trace orbit-trace--one"></span>
+            <span class="orbit-trace orbit-trace--two"></span>
+            <span class="orbit-center"></span>
+          </div>
+
+          <div class="auth-screen__copy">
+            <p class="auth-screen__headline" id="auth-type-line">PERMISSION AUTHORIZED</p>
+            <p class="auth-screen__subcopy">主节点校验完成，网络安全社纳新通道已就绪，欢迎加入我们。</p>
+          </div>
+
+          <button class="auth-screen__replay" id="replay-intro" type="button">下一步 · NEXT</button>
+        </div>
+      </section>
+
+      <section class="homepage-screen" id="homepage-screen" aria-label="Rhine Lab Homepage" aria-hidden="true">
+        <header class="brand-mark brand-mark--dark">
+          <p class="brand-mark__title">网络安全社</p>
+          <div class="brand-mark__meta-wrap">
+            <p class="brand-mark__meta">CYBER SECURITY CLUB</p>
+            <p class="brand-mark__meta">纳新开放 RECRUITING</p>
+          </div>
+        </header>
+
+        <div class="homepage-screen__content">
+          <div class="homepage-copy">
+            <p class="homepage-copy__eyebrow">HOMEPAGE</p>
+            <button class="homepage-copy__replay" id="homepage-replay" type="button">REPLAY INTRO</button>
+            <div class="homepage-copy__welcome" aria-label="WELCOME TO">
+              <span>W</span>
+              <span>E</span>
+              <span>L</span>
+              <span>C</span>
+              <span>O</span>
+              <span>M</span>
+              <span>E</span>
+              <span>T</span>
+              <span>O</span>
+            </div>
+            <h2 class="homepage-copy__title">网络安全社<span class="homepage-copy__accent">.SEC.</span></h2>
+            <div class="homepage-copy__summary">
+              <p class="homepage-copy__line">我们是学院的网络安全社团，聚集一群对攻防技术充满好奇的人。</p>
+              <p class="homepage-copy__line">研究范围覆盖 Web 安全、二进制逆向、密码学与 CTF 竞赛。</p>
+              <p class="homepage-copy__line">定期组织训练、靶场实战、CTF 周赛与安全分享会。</p>
+              <p class="homepage-copy__line">无论基础如何，只要你有兴趣，都欢迎加入我们一起成长。</p>
+              <p class="homepage-copy__line">在这里我们会给你提供优质的比赛资源。</p>
+            </div>
+
+            <div class="quick-links" aria-label="Quick links">
+              <button class="quick-links__item" data-quick-link="signup" type="button">
+                <img src="./assets/images/ui/icon/icon-blog.svg" alt="" aria-hidden="true" />
+                <span>趣味 问卷</span>
+              </button>
+              <button class="quick-links__item" data-quick-link="github" type="button">
+                <img src="./assets/images/ui/icon/icon-github.svg" alt="" aria-hidden="true" />
+                <span>社团 仓库</span>
+              </button>
+              <button class="quick-links__item" data-quick-link="email" type="button">
+                <img src="./assets/images/ui/icon/icon-email.svg" alt="" aria-hidden="true" />
+                <span>邮箱 EMAIL</span>
+              </button>
+              <button class="quick-links__item" data-quick-link="qq" type="button">
+                <img src="./assets/images/ui/icon/icon-wechat.svg" alt="" aria-hidden="true" />
+                <span>微信群</span>
+              </button>
+              <button class="quick-links__item" data-quick-link="flag" type="button">
+                <img src="./assets/images/ui/icon/icon-flag.svg" alt="" aria-hidden="true" />
+                <span>FLAG 题</span>
+              </button>
+            </div>
+
+            <button class="command-button homepage-copy__experience" id="homepage-experience" type="button">
+              ✦ 进入互动体验 EXPERIENCE
+            </button>
+          </div>
+
+          <div class="homepage-visual" aria-hidden="true">
+            <div class="homepage-visual__portal"></div>
+            <div class="homepage-visual__blocks">
+              <div class="homepage-visual__blocks-inner">
+                <span class="homepage-visual__block homepage-visual__block--r0-c0"></span>
+                <span class="homepage-visual__block homepage-visual__block--r0-c2"></span>
+                <span class="homepage-visual__block homepage-visual__block--r0-c4"></span>
+                <span class="homepage-visual__block homepage-visual__block--r1-c1"></span>
+                <span class="homepage-visual__block homepage-visual__block--r1-c2"></span>
+                <span class="homepage-visual__block homepage-visual__block--r1-c3"></span>
+                <span class="homepage-visual__block homepage-visual__block--r1-c4"></span>
+                <span class="homepage-visual__block homepage-visual__block--r2-c0"></span>
+                <span class="homepage-visual__block homepage-visual__block--r2-c1"></span>
+                <span class="homepage-visual__block homepage-visual__block--r2-c2"></span>
+                <span class="homepage-visual__block homepage-visual__block--r3-c0"></span>
+                <span class="homepage-visual__block homepage-visual__block--r3-c3"></span>
+              </div>
+            </div>
+            <span class="homepage-visual__origin"></span>
+            <svg class="homepage-visual__orange-svg" viewBox="0 0 620 760" role="presentation">
+              <path
+                class="homepage-visual__orange-path"
+                d="M310 380 L310 -260
+                   M310 380 C310 340 280 312 250 282 L-110 -90
+                   M310 380 C310 340 338 305 378 272 C440 220 500 90 555 -260
+                   M310 380 L310 1040
+                   M310 570 C310 670 336 820 400 1040"
+              />
+            </svg>
+            <svg class="homepage-visual__data-svg" viewBox="0 0 620 760" role="presentation">
+              <line class="homepage-visual__data-line homepage-visual__data-line--a" x1="280" y1="-260" x2="280" y2="1180"></line>
+              <line class="homepage-visual__data-line homepage-visual__data-line--b" x1="294" y1="-260" x2="294" y2="1180"></line>
+              <line class="homepage-visual__data-line homepage-visual__data-line--c" x1="308" y1="-260" x2="308" y2="1180"></line>
+              <line class="homepage-visual__data-line homepage-visual__data-line--d" x1="516" y1="-260" x2="516" y2="1180"></line>
+
+              <circle class="homepage-visual__data-dot homepage-visual__data-dot--1" cx="280" cy="222" r="4"></circle>
+              <circle class="homepage-visual__data-dot homepage-visual__data-dot--2" cx="294" cy="222" r="4"></circle>
+              <circle class="homepage-visual__data-dot homepage-visual__data-dot--3" cx="308" cy="222" r="4"></circle>
+              <circle class="homepage-visual__data-dot homepage-visual__data-dot--4" cx="280" cy="380" r="4"></circle>
+              <circle class="homepage-visual__data-dot homepage-visual__data-dot--5" cx="294" cy="380" r="4"></circle>
+              <circle class="homepage-visual__data-dot homepage-visual__data-dot--6" cx="308" cy="380" r="4"></circle>
+              <circle class="homepage-visual__data-dot homepage-visual__data-dot--7" cx="280" cy="634" r="4"></circle>
+              <circle class="homepage-visual__data-dot homepage-visual__data-dot--8" cx="294" cy="634" r="4"></circle>
+              <circle class="homepage-visual__data-dot homepage-visual__data-dot--9" cx="308" cy="634" r="4"></circle>
+              <circle class="homepage-visual__data-dot homepage-visual__data-dot--10" cx="516" cy="220" r="4"></circle>
+              <circle class="homepage-visual__data-dot homepage-visual__data-dot--11" cx="516" cy="472" r="4"></circle>
+            </svg>
+            <svg class="homepage-visual__svg" viewBox="0 0 620 760" role="presentation">
+              <path class="homepage-visual__orange-line homepage-visual__orange-line--main" d="M310 16 L310 742" />
+              <path
+                class="homepage-visual__orange-line homepage-visual__orange-line--right"
+                d="M310 16 L310 232 Q310 278 352 320 Q420 388 432 480"
+              />
+              <path
+                class="homepage-visual__orange-line homepage-visual__orange-line--left"
+                d="M178 150 L258 232 Q286 260 310 320"
+              />
+              <path
+                class="homepage-visual__orange-line homepage-visual__orange-line--bottom"
+                d="M310 344 Q310 412 346 444"
+              />
+              <circle class="homepage-visual__ring" cx="310" cy="352" r="16" />
+
+              <g class="homepage-visual__white-rails">
+                <line x1="286" y1="122" x2="286" y2="590" />
+                <line x1="300" y1="100" x2="300" y2="610" />
+                <line x1="320" y1="86" x2="320" y2="616" />
+                <line x1="336" y1="126" x2="336" y2="568" />
+
+                <circle cx="286" cy="208" r="4" />
+                <circle cx="286" cy="352" r="4" />
+                <circle cx="286" cy="514" r="4" />
+                <circle cx="300" cy="188" r="4" />
+                <circle cx="300" cy="352" r="4" />
+                <circle cx="320" cy="202" r="4" />
+                <circle cx="320" cy="352" r="4" />
+                <circle cx="336" cy="238" r="4" />
+                <circle cx="336" cy="352" r="4" />
+              </g>
+
+              <g class="homepage-visual__diamond-grid">
+                <rect class="homepage-visual__diamond homepage-visual__diamond--left" x="208" y="286" width="60" height="60" />
+                <rect class="homepage-visual__diamond homepage-visual__diamond--center" x="326" y="250" width="56" height="56" />
+                <rect class="homepage-visual__diamond homepage-visual__diamond--right" x="382" y="392" width="52" height="52" />
+                <rect class="homepage-visual__diamond homepage-visual__diamond--bottom" x="246" y="434" width="54" height="54" />
+              </g>
+
+              <g class="homepage-visual__extra-lines">
+                <line x1="208" y1="316" x2="268" y2="316" />
+                <line x1="382" y1="418" x2="432" y2="418" />
+                <line x1="246" y1="460" x2="300" y2="460" />
+              </g>
+            </svg>
+          </div>
+
+          <nav class="side-nav" aria-label="Section navigation">
+            <button class="side-nav__item side-nav__item--active" type="button">首页 HOMEPAGE</button>
+            <button class="side-nav__item" type="button">关于 ABOUT</button>
+            <button class="side-nav__item" type="button">纳新 JOIN</button>
+            <button class="side-nav__item" type="button">方向 TRACKS</button>
+            <button class="side-nav__item" type="button">活动 EVENTS</button>
+          </nav>
+        </div>
+
+        <footer class="screen-footer screen-footer--dark">
+          <div class="screen-footer__compliance">
+            <span class="screen-footer__report">
+              网络安全社纳新开放中 · 欢迎扫码报名
+            </span>
+          </div>
+          <div class="screen-footer__brand">
+            <span>POWERED BY CYBER SECURITY CLUB</span>
+            <span class="screen-footer__bar" aria-hidden="true"></span>
+          </div>
+        </footer>
+      </section>
+
+      <section class="headquarters-screen" id="headquarters-screen" aria-label="Rhine Lab Headquarters" aria-hidden="true">
+        <div class="headquarters-screen__bg" aria-hidden="true"></div>
+        <div class="headquarters-screen__veil" aria-hidden="true"></div>
+
+        <header class="brand-mark brand-mark--light">
+          <p class="brand-mark__title">网络安全社</p>
+          <div class="brand-mark__meta-wrap">
+            <p class="brand-mark__meta">CYBER SECURITY CLUB</p>
+            <p class="brand-mark__meta">纳新开放 RECRUITING</p>
+          </div>
+        </header>
+
+        <div class="headquarters-screen__content">
+          <div class="headquarters-copy">
+            <p class="headquarters-copy__eyebrow">关于我们 · ABOUT</p>
+            <h2 class="headquarters-copy__title">ABOUT SEC LAB</h2>
+            <p class="headquarters-copy__summary">
+              网络安全社是一个面向学院全体同学的安全技术社团。
+              我们通过训练、竞赛与实验，把安全知识变成真正可上手的能力。
+            </p>
+
+            <div class="headquarters-copy__status">
+              <span class="headquarters-copy__status-label">STATUS</span>
+              <span class="headquarters-copy__status-value">纳新通道 OPEN</span>
+            </div>
+
+            <div class="headquarters-actions">
+              <button class="command-button" id="headquarters-enter" type="button">加入我们 · JOIN US</button>
+              <a
+                class="headquarters-actions__fallback"
+                href="mailto:secclub@example.com"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Contact / 联系邮箱（18518184798@163.com）
+              </a>
+            </div>
+          </div>
+
+          <nav class="side-nav side-nav--light" aria-label="Section navigation">
+            <button class="side-nav__item" type="button">首页 HOMEPAGE</button>
+            <button class="side-nav__item side-nav__item--active" type="button">关于 ABOUT</button>
+            <button class="side-nav__item" type="button">纳新 JOIN</button>
+            <button class="side-nav__item" type="button">方向 TRACKS</button>
+            <button class="side-nav__item" type="button">活动 EVENTS</button>
+          </nav>
+        </div>
+
+        <footer class="screen-footer screen-footer--light">
+          <div class="screen-footer__compliance">
+            <span class="screen-footer__report">
+              网络安全社纳新开放中 · 欢迎扫码报名
+            </span>
+          </div>
+          <div class="screen-footer__brand">
+            <span>POWERED BY CYBER SECURITY CLUB</span>
+            <span class="screen-footer__bar" aria-hidden="true"></span>
+          </div>
+        </footer>
+      </section>
+
+      <section class="member-screen" id="member-screen" aria-label="Rhine Lab Member" aria-hidden="true">
+        <header class="brand-mark brand-mark--dark">
+          <p class="brand-mark__title">网络安全社</p>
+          <div class="brand-mark__meta-wrap">
+            <p class="brand-mark__meta">CYBER SECURITY CLUB</p>
+            <p class="brand-mark__meta">纳新开放 RECRUITING</p>
+          </div>
+        </header>
+
+        <div class="member-screen__content">
+          <div class="member-carousel">
+            <button class="member-carousel__arrow member-carousel__arrow--prev" id="member-prev" type="button" aria-label="Previous member">
+              &#8249;
+            </button>
+
+            <div class="member-carousel__stage" id="member-stage">
+              <article class="member-card" data-card>
+                <span class="member-card__badge">WEB</span>
+                <div class="member-card__art">
+                  <img src="./assets/images/cards/character/1.jpg" alt="" aria-hidden="true" />
+                </div>
+                <div class="member-card__content">
+                  <h3 class="member-card__title">WEB 安全</h3>
+                  <p class="member-card__role">PENTEST / VULN ANALYSIS</p>
+                  <p class="member-card__desc">学习常见漏洞原理与利用，搭建靶场实战，独立完成渗透测试。</p>
+                </div>
+              </article>
+
+              <article class="member-card" data-card>
+                <span class="member-card__badge">REV</span>
+                <div class="member-card__art">
+                  <img src="./assets/images/cards/character/2.jpg" alt="" aria-hidden="true" />
+                </div>
+                <div class="member-card__content">
+                  <h3 class="member-card__title">逆向 · 二进制</h3>
+                  <p class="member-card__role">REVERSE ENGINEERING</p>
+                  <p class="member-card__desc">分析可执行程序与协议，学习反汇编、脱壳与漏洞挖掘基础。</p>
+                </div>
+              </article>
+
+              <article class="member-card" data-card>
+                <span class="member-card__badge">CTF</span>
+                <div class="member-card__art">
+                  <img src="./assets/images/cards/character/3.jpg" alt="" aria-hidden="true" />
+                </div>
+                <div class="member-card__content">
+                  <h3 class="member-card__title">CTF 战队</h3>
+                  <p class="member-card__role">CAPTURE THE FLAG</p>
+                  <p class="member-card__desc">组队参加校内外 CTF，在解题中训练实战与团队协作能力。</p>
+                </div>
+              </article>
+
+              <article class="member-card" data-card>
+                <span class="member-card__badge">CRY</span>
+                <div class="member-card__art">
+                  <img src="./assets/images/cards/character/4.jpg" alt="" aria-hidden="true" />
+                </div>
+                <div class="member-card__content">
+                  <h3 class="member-card__title">密码学</h3>
+                  <p class="member-card__role">CRYPTOGRAPHY</p>
+                  <p class="member-card__desc">研究古典与现代密码、加解密原理，从数学到工程的完整链路。</p>
+                </div>
+              </article>
+
+              <article class="member-card" data-card>
+                <span class="member-card__badge">OPS</span>
+                <div class="member-card__art">
+                  <img src="./assets/images/cards/character/5.jpg" alt="" aria-hidden="true" />
+                </div>
+                <div class="member-card__content">
+                  <h3 class="member-card__title">运维 · 网络</h3>
+                  <p class="member-card__role">INFRA & NETWORK</p>
+                  <p class="member-card__desc">负责社团服务器与实验环境，学习网络基础、Linux 与系统运维。</p>
+                </div>
+              </article>
+
+              <article class="member-card" data-card>
+                <span class="member-card__badge">PR</span>
+                <div class="member-card__art">
+                  <img src="./assets/images/cards/character/6.jpg" alt="" aria-hidden="true" />
+                </div>
+                <div class="member-card__content">
+                  <h3 class="member-card__title">宣传 · 策划</h3>
+                  <p class="member-card__role">OUTREACH & DESIGN</p>
+                  <p class="member-card__desc">负责纳新宣传、活动策划与图文设计，让更多人了解网络安全。</p>
+                </div>
+              </article>
+            </div>
+
+            <button class="member-carousel__arrow member-carousel__arrow--next" id="member-next" type="button" aria-label="Next member">
+              &#8250;
+            </button>
+          </div>
+
+          <nav class="side-nav" aria-label="Section navigation">
+            <button class="side-nav__item" type="button">首页 HOMEPAGE</button>
+            <button class="side-nav__item" type="button">关于 ABOUT</button>
+            <button class="side-nav__item side-nav__item--active" type="button">纳新 JOIN</button>
+            <button class="side-nav__item" type="button">方向 TRACKS</button>
+            <button class="side-nav__item" type="button">活动 EVENTS</button>
+          </nav>
+        </div>
+
+        <footer class="screen-footer screen-footer--dark">
+          <div class="screen-footer__compliance">
+            <span class="screen-footer__report">
+              网络安全社纳新开放中 · 欢迎扫码报名
+            </span>
+          </div>
+          <div class="screen-footer__brand">
+            <span>POWERED BY CYBER SECURITY CLUB</span>
+            <span class="screen-footer__bar" aria-hidden="true"></span>
+          </div>
+        </footer>
+      </section>
+
+      <section class="department-screen" id="department-screen" aria-label="Rhine Lab Department" aria-hidden="true">
+        <header class="brand-mark brand-mark--dark">
+          <p class="brand-mark__title">网络安全社</p>
+          <div class="brand-mark__meta-wrap">
+            <p class="brand-mark__meta">CYBER SECURITY CLUB</p>
+            <p class="brand-mark__meta">纳新开放 RECRUITING</p>
+          </div>
+        </header>
+
+        <div class="department-screen__content">
+          <div class="department-cluster department-cluster--left">
+            <button
+              class="department-card department-card--outer department-card--outer-top is-skill is-link"
+              data-panel-title="COMPONENT CONTROL"
+              data-panel-subtitle="STRUCTURE / IMPLEMENTATION"
+              data-panel-copy="负责把想法变成真正可运行、可维护的系统结构。"
+            >
+              <span class="department-card__code">WEB</span>
+              <span class="department-card__desc">WEB 安全方向</span>
+            </button>
+
+            <button
+              class="department-card department-card--inner department-card--inner-top is-skill is-link"
+              data-panel-title="ORIGINIUM ART"
+              data-panel-subtitle="CREATIVE SYSTEM THINKING"
+              data-panel-copy="偏向把界面叙事、实验气质和系统表达结合起来。"
+            >
+              <span class="department-card__code">REV</span>
+              <span class="department-card__desc">逆向 · 二进制方向</span>
+            </button>
+
+            <button
+              class="department-card department-card--outer-middle is-skill is-link"
+              data-panel-title="ENERGY"
+              data-panel-subtitle="AI / TOOLCHAIN DRIVE"
+              data-panel-copy="关注 AI 应用、RAG 流程和工具链落地能力。"
+            >
+              <span class="department-card__code">PWN</span>
+              <span class="department-card__desc">漏洞利用 · 渗透方向</span>
+            </button>
+
+            <button
+              class="department-card department-card--inner department-card--inner-bottom is-skill is-link"
+              data-panel-title="SCIENTIFIC INVESTIGATION"
+              data-panel-subtitle="RESEARCH / ANALYSIS"
+              data-panel-copy="偏向从系统层面理解问题，再把复杂问题拆成可执行模块。"
+            >
+              <span class="department-card__code">CRY</span>
+              <span class="department-card__desc">密码学方向</span>
+            </button>
+
+            <button
+              class="department-card department-card--outer department-card--outer-bottom is-skill is-link"
+              data-panel-title="STRUCTURAL"
+              data-panel-subtitle="LONG-TERM SHAPE"
+              data-panel-copy="关注结构清晰度、模块边界和未来可扩展性。"
+            >
+              <span class="department-card__code">OPS</span>
+              <span class="department-card__desc">运维 · 网络方向</span>
+            </button>
+          </div>
+
+          <div class="department-panel">
+            <div class="department-panel__frame">
+              <span class="department-panel__corner department-panel__corner--tl"></span>
+              <span class="department-panel__corner department-panel__corner--tr"></span>
+              <span class="department-panel__corner department-panel__corner--bl"></span>
+              <span class="department-panel__corner department-panel__corner--br"></span>
+            </div>
+            <div class="department-panel__dots" aria-hidden="true"></div>
+            <div class="department-panel__content">
+              <p class="department-panel__eyebrow" id="department-panel-mode">CAPABILITY MATRIX</p>
+              <h2 class="department-panel__title" id="department-panel-title">DEVELOPMENT</h2>
+              <p class="department-panel__subtitle" id="department-panel-subtitle">CORE IMPLEMENTATION</p>
+              <p class="department-panel__copy" id="department-panel-copy">
+                负责把想法变成真正可运行、可维护的系统结构。
+              </p>
+              <a
+                class="department-panel__link"
+                id="department-panel-link"
+                href="#"
+                target="_blank"
+                rel="noreferrer"
+                aria-disabled="true"
+              >
+                INFORMATION ONLY
+              </a>
+            </div>
+          </div>
+
+          <div class="department-cluster department-cluster--right">
+            <button
+              class="department-card department-card--outer department-card--outer-top is-link"
+              data-panel-mode="CATEGORY ENTRY"
+              data-panel-title="CTF 靶场"
+              data-panel-subtitle="TRAIN & PRACTICE"
+              data-panel-copy="进入 OJ 靶场，在线刷题练习，在解题与对抗中持续成长。"
+              data-link="https://oj.zain-dev.top/"
+            >
+              <span class="department-card__code">CTF</span>
+              <span class="department-card__desc">CTF 靶场入口</span>
+            </button>
+
+            <button
+              class="department-card department-card--inner department-card--inner-top is-link"
+              data-panel-mode="CATEGORY ENTRY"
+              data-panel-title="靶场 · 实验"
+              data-panel-subtitle="EXPERIMENT LAB"
+              data-panel-copy="搭建与使用漏洞靶场，在受控环境中反复练习攻防技巧。"
+              data-link="#"
+            >
+              <span class="department-card__code">LAB</span>
+              <span class="department-card__desc">靶场 · 实验环境</span>
+            </button>
+
+            <button
+              class="department-card department-card--outer-middle is-link"
+              data-panel-mode="CATEGORY ENTRY"
+              data-panel-title="荣誉 · 殿堂"
+              data-panel-subtitle="GLORY & ACHIEVEMENTS"
+              data-panel-copy="记录社团光辉历程，展示各项网络安全赛事、攻防演练的获奖成果与荣誉证书。"
+              data-link="#"
+            >
+              <span class="department-card__code">GLORY</span>
+              <span class="department-card__desc">战绩 · 荣誉殿堂</span>
+            </button>
+
+            <button
+              class="department-card department-card--inner department-card--inner-bottom is-link"
+              data-panel-mode="CATEGORY ENTRY"
+              data-panel-title="学习 · 训练"
+              data-panel-subtitle="TRAINING TRACK"
+              data-panel-copy="每周训练与分享会安排，覆盖从入门到进阶的完整学习路线。"
+              data-link="#"
+            >
+              <span class="department-card__code">TRN</span>
+              <span class="department-card__desc">学习 · 训练安排</span>
+            </button>
+
+            <button
+              class="department-card department-card--outer department-card--outer-bottom is-link"
+              data-panel-mode="CATEGORY ENTRY"
+              data-panel-title="报名 · 加入"
+              data-panel-subtitle="RECRUITMENT ENTRY"
+              data-panel-copy="填写纳新报名表，加入网络安全社，和我们一起从零开始。"
+              data-link="#"
+            >
+              <span class="department-card__code">JOIN</span>
+              <span class="department-card__desc">报名 · 加入我们</span>
+            </button>
+          </div>
+
+          <nav class="side-nav" aria-label="Section navigation">
+            <button class="side-nav__item" type="button">首页 HOMEPAGE</button>
+            <button class="side-nav__item" type="button">关于 ABOUT</button>
+            <button class="side-nav__item" type="button">纳新 JOIN</button>
+            <button class="side-nav__item side-nav__item--active" type="button">方向 TRACKS</button>
+            <button class="side-nav__item" type="button">活动 EVENTS</button>
+          </nav>
+        </div>
+
+        <footer class="screen-footer screen-footer--dark">
+          <div class="screen-footer__compliance">
+            <span class="screen-footer__report">
+              网络安全社纳新开放中 · 欢迎扫码报名
+            </span>
+          </div>
+          <div class="screen-footer__brand">
+            <span>POWERED BY CYBER SECURITY CLUB</span>
+            <span class="screen-footer__bar" aria-hidden="true"></span>
+          </div>
+        </footer>
+      </section>
+
+      <section class="research-screen" id="research-screen" aria-label="Rhine Lab Research" aria-hidden="true">
+        <div class="research-screen__bg" aria-hidden="true">
+          <video
+            class="research-screen__video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+          >
+            <source src="./assets/images/ui/vedio/Video Project.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="research-screen__stars" aria-hidden="true"></div>
+
+        <header class="brand-mark brand-mark--light">
+          <p class="brand-mark__title">网络安全社</p>
+          <div class="brand-mark__meta-wrap">
+            <p class="brand-mark__meta">CYBER SECURITY CLUB</p>
+            <p class="brand-mark__meta">纳新开放 RECRUITING</p>
+          </div>
+        </header>
+
+        <div class="research-screen__content">
+          <aside class="research-panel">
+            <div class="research-panel__header">
+              <p class="research-panel__name">SecClub.</p>
+              <h2 class="research-panel__title">纳新计划</h2>
+              <p class="research-panel__subtitle">Recruitment Plan 2026</p>
+            </div>
+
+            <div class="research-progress">
+              <div class="research-progress__shell" aria-hidden="true">
+                <div class="research-progress__grid is-animating" id="research-progress-grid">
+                  <div class="research-progress__row">
+                    <span class="dot ring-2"></span>
+                    <span class="dot ring-2"></span>
+                    <span class="dot ring-2"></span>
+                  </div>
+                  <div class="research-progress__row">
+                    <span class="dot ring-2"></span>
+                    <span class="dot ring-1"></span>
+                    <span class="dot ring-1"></span>
+                    <span class="dot ring-2"></span>
+                  </div>
+                  <div class="research-progress__row">
+                    <span class="dot ring-2"></span>
+                    <span class="dot ring-1"></span>
+                    <span class="dot ring-0"></span>
+                    <span class="dot ring-1"></span>
+                    <span class="dot ring-2"></span>
+                  </div>
+                  <div class="research-progress__row">
+                    <span class="dot ring-2"></span>
+                    <span class="dot ring-1"></span>
+                    <span class="dot ring-1"></span>
+                    <span class="dot ring-2"></span>
+                  </div>
+                  <div class="research-progress__row">
+                    <span class="dot ring-2"></span>
+                    <span class="dot ring-2"></span>
+                    <span class="dot ring-2"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="research-progress__text">
+                <span class="research-progress__label">计划进度</span>
+                <strong class="research-progress__value" id="research-progress-value">0%</strong>
+              </div>
+            </div>
+
+            <blockquote class="research-panel__quote">
+              “在0和1的旷野里，所有伟大的架构都始于一次勇敢的编译。<br />星海长路，代码为证，我们愿陪你敲下第一行命令，共赴属于你的极客诗篇。”
+            </blockquote>
+
+            <button class="research-panel__button" id="research-open" type="button">查看纳新安排</button>
+          </aside>
+
+          <div class="research-info" id="research-info">
+            <div class="research-info__switcher">
+              <button class="research-info__switch is-active" data-research="0" type="button">R-1</button>
+              <button class="research-info__switch" data-research="1" type="button">R-2</button>
+              <button class="research-info__switch" data-research="2" type="button">R-3</button>
+            </div>
+
+            <p class="research-info__status" id="research-status">R-1 / PRIMARY FOCUS</p>
+            <h3 class="research-info__title" id="research-title">纳新宣讲会</h3>
+            <p class="research-info__subtitle" id="research-subtitle">RECRUITMENT TALK</p>
+            <p class="research-info__copy" id="research-copy">
+              面向全校同学举办纳新宣讲，介绍社团方向、训练体系与加入方式。
+            </p>
+            <a
+              class="research-info__link"
+              id="research-link"
+              href="#"
+              target="_blank"
+              rel="noreferrer"
+            >
+              VIEW DETAILS
+            </a>
+          </div>
+
+          <nav class="side-nav side-nav--light" aria-label="Section navigation">
+            <button class="side-nav__item" type="button">首页 HOMEPAGE</button>
+            <button class="side-nav__item" type="button">关于 ABOUT</button>
+            <button class="side-nav__item" type="button">纳新 JOIN</button>
+            <button class="side-nav__item" type="button">方向 TRACKS</button>
+            <button class="side-nav__item side-nav__item--active" type="button">活动 EVENTS</button>
+          </nav>
+        </div>
+
+        <footer class="screen-footer screen-footer--light">
+          <div class="screen-footer__compliance">
+            <span class="screen-footer__report">
+              网络安全社纳新开放中 · 欢迎扫码报名
+            </span>
+          </div>
+          <div class="screen-footer__brand">
+            <span>POWERED BY CYBER SECURITY CLUB</span>
+            <span class="screen-footer__bar" aria-hidden="true"></span>
+          </div>
+        </footer>
+      </section>
+
+      <section class="particle-screen" id="particle-screen" aria-label="Cyber Security Experience" aria-hidden="true">
+        <video class="particle-screen__video" id="particle-video" autoplay playsinline muted></video>
+        <div class="particle-screen__scene" id="particle-scene" aria-hidden="true"></div>
+
+        <header class="brand-mark brand-mark--light">
+          <p class="brand-mark__title">网络安全社</p>
+          <div class="brand-mark__meta-wrap">
+            <p class="brand-mark__meta">CYBER SECURITY CLUB</p>
+            <p class="brand-mark__meta">纳新开放 RECRUITING</p>
+          </div>
+        </header>
+
+        <div class="particle-screen__badge">SEC LAB · 手势粒子互动</div>
+        <div class="particle-screen__status" id="particle-status">正在初始化…</div>
+        <div class="particle-screen__hint" id="particle-hint">
+          左手：<span class="particle-screen__tag">1指=WELCOME</span>
+          · <span class="particle-screen__tag">2指=网络安全社</span>
+          · <span class="particle-screen__tag">3指=欢迎加入</span>
+          · <span class="particle-screen__tag">4指=CTF 等你来</span>
+          <br />
+          右手：<span class="particle-screen__tag">张开=扩散旋转</span>
+          · <span class="particle-screen__tag">1指=盾牌</span>
+          · <span class="particle-screen__tag">2指=能量爆散</span>
+          · <span class="particle-screen__tag">握拳=爱心</span>
+        </div>
+
+        <div class="particle-screen__loading" id="particle-loading">
+          <div class="particle-screen__spinner" aria-hidden="true"></div>
+          <div>正在启动摄像头并加载手势模型…</div>
+          <div class="particle-screen__err" id="particle-err"></div>
+        </div>
+
+        <nav class="side-nav side-nav--light" aria-label="Section navigation">
+          <button class="side-nav__item" type="button">首页 HOMEPAGE</button>
+          <button class="side-nav__item" type="button">关于 ABOUT</button>
+          <button class="side-nav__item" type="button">纳新 JOIN</button>
+          <button class="side-nav__item" type="button">方向 TRACKS</button>
+          <button class="side-nav__item" type="button">活动 EVENTS</button>
+          <button class="side-nav__item side-nav__item--active" type="button">互动 EXPERIENCE</button>
+        </nav>
+
+        <footer class="screen-footer screen-footer--light">
+          <div class="screen-footer__compliance">
+            <span class="screen-footer__report">
+              网络安全社纳新开放中 · 欢迎扫码报名
+            </span>
+          </div>
+          <div class="screen-footer__brand">
+            <span>POWERED BY CYBER SECURITY CLUB</span>
+            <span class="screen-footer__bar" aria-hidden="true"></span>
+          </div>
+        </footer>
+      </section>
+
+      <div class="info-modal" id="info-modal" aria-hidden="true">
+        <div class="info-modal__backdrop" data-modal-close></div>
+        <div class="info-modal__panel" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
+          <button class="info-modal__close" id="info-modal-close" type="button" aria-label="Close panel">
+            ×
+          </button>
+          <p class="info-modal__eyebrow" id="info-modal-eyebrow">CONTACT</p>
+          <h2 class="info-modal__title" id="info-modal-title">PLACEHOLDER</h2>
+          <p class="info-modal__value" id="info-modal-value">TO BE FILLED</p>
+          <div class="info-modal__actions">
+            <button class="info-modal__button" id="info-modal-copy" type="button">COPY</button>
+            <a class="info-modal__button info-modal__button--ghost" id="info-modal-open" href="#" target="_blank" rel="noreferrer">
+              OPEN
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="./src/scripts/site-copy.js"></script>
+    <script src="./src/scripts/enter.js"></script>
+    <script type="module" src="./src/scripts/particle.js"></script>
+    <script src="./src/scripts/landscape.js"></script>
+    <script src="./src/scripts/visit-tip.js"></script>
+  </body>
+</html>

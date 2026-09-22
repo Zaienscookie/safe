@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>学习 · 训练安排 · 网络安全社</title>
+    <link rel="stylesheet" href="./src/styles/base.css" />
+    <link rel="stylesheet" href="./src/styles/direction.css" />
+    <style>
+      /* 正文段落：标题下方逐段展示，风格与深色卡片一致 */
+      .honor-body {
+        margin-top: 1.4rem;
+      }
+
+      .honor-body p {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 2;
+        text-align: justify;
+        color: rgba(246, 244, 239, 0.85);
+      }
+
+      /* 每个培养阶段的区块：小标题（橙色）+ 段落 */
+      .honor-section {
+        margin-bottom: 1.6rem;
+        padding-left: 0.9rem;
+        border-left: 2px solid rgba(255, 140, 0, 0.38);
+      }
+
+      .honor-section:last-child {
+        margin-bottom: 0;
+      }
+
+      .honor-section__title {
+        margin: 0 0 0.55rem;
+        font-size: 0.98rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        color: #ffb14d;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="direction-shell">
+      <!-- 品牌标记：左上角，风格与主站一致 -->
+      <header class="brand-mark">
+        <p class="brand-mark__title">网络安全社</p>
+        <div class="brand-mark__meta-wrap">
+          <p class="brand-mark__meta">CYBER SECURITY CLUB</p>
+          <p class="brand-mark__meta">学习训练 TRAINING</p>
+        </div>
+      </header>
+
+      <!-- 学习训练卡片：复用方向详情页的视觉风格 -->
+      <section class="direction-card">
+        <div class="direction-card__frame" aria-hidden="true">
+          <span class="direction-card__corner direction-card__corner--tl"></span>
+          <span class="direction-card__corner direction-card__corner--tr"></span>
+          <span class="direction-card__corner direction-card__corner--bl"></span>
+          <span class="direction-card__corner direction-card__corner--br"></span>
+        </div>
+
+        <div class="direction-card__content">
+          <p class="direction-card__eyebrow">TRAINING TRACK · 培养体系</p>
+          <h1 class="direction-card__title">学习 · 训练</h1>
+
+          <div class="honor-body">
+            <div class="honor-section">
+              <h3 class="honor-section__title">体系构建 · 阶梯培养</h3>
+              <p>
+                以赛促学，以战代练。社团建立了完善的阶梯式人才培养体系，广泛涵盖计算机技术的各个领域，
+                无论是底层架构还是上层应用开发，都能在此找到适合生长的土壤。入门阶段，我们提供精炼的基础授课，
+                带你快速跨越技术门槛，搭建起扎实稳固的知识框架；基础扎实后，则全面引导成员开启自我驱动式学习，
+                鼓励大家深度钻研、独立思考，培养真正解决问题的能力。
+              </p>
+            </div>
+            <div class="honor-section">
+              <h3 class="honor-section__title">实战淬炼 · 赛事拉练</h3>
+              <p>
+                无论是网络安全、软件开发，还是系统底层与算法探索，我们都鼓励大家在项目实战与赛事拉练中深度交融理论与实践。
+                用代码去解决真实问题，在高压对抗中不断突破技术极限，让每一次实战演练都成为技术跃迁的垫脚石。
+              </p>
+            </div>
+            <div class="honor-section">
+              <h3 class="honor-section__title">蜕变之旅 · 未来可期</h3>
+              <p>
+                无论起点如何、兴趣何方，每一位成员都能在这里找到专属的成长路径，结识志同道合的伙伴。
+                在不断的淬炼中完成从入门到精通的蜕变，为未来的技术生涯积蓄力量，最终成长为具备核心竞争力的计算机技术人才。
+              </p>
+            </div>
+          </div>
+
+          <a class="direction-card__back" href="./index.html">返回主站 ← BACK</a>
+        </div>
+      </section>
+    </main>
+    <script>
+      /* 返回主站：若带 from 参数，回到进入前所在的栏目，否则回首页 */
+      (function () {
+        var btn = document.querySelector(".direction-card__back");
+        if (!btn) return;
+        var from = new URLSearchParams(window.location.search).get("from");
+        if (from) btn.href = "index.html?from=" + encodeURIComponent(from);
+      })();
+    </script>
+    <script src="./src/scripts/landscape.js"></script>
+  </body>
+</html>

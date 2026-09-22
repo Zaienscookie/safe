@@ -1,0 +1,329 @@
+/* =========================================================================
+ * direction.css —— 方向详情页样式
+ * -------------------------------------------------------------------------
+ * 与主站风格保持一致：深色背景 + 橙色强调 + 科幻边框角标。
+ * 被 direction.html 使用（每个方向一个独立页面，?d=web/rev/pwn/cry/ops）。
+ * ========================================================================= */
+
+:root {
+  --color-accent: #ff8c00;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --font-display: "Bahnschrift", "Segoe UI", sans-serif;
+  --font-body: "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+/* —— 页面整体：统一深色背景，上下一致，仅保留中央一圈淡橙色光晕 —— */
+html {
+  background: #0b0b10;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(255, 140, 0, 0.06), transparent 45%),
+    #0b0b10;
+  color: #f6f4ef;
+  font-family: var(--font-body);
+}
+
+.direction-shell {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* —— 品牌标记（左上角）：标题在上，副标题两行垂直排列在下方；fixed 保证页面滚动时固定 —— */
+.brand-mark {
+  position: fixed;
+  top: 3.8rem;
+  left: 3.8rem;
+  z-index: 5;
+  animation: brandFadeIn 0.5s var(--ease-standard) both;
+}
+
+@keyframes brandFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.brand-mark__title {
+  display: block;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 2.7vw, 3rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.brand-mark__meta-wrap {
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.brand-mark__meta {
+  display: block;
+  margin: 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  line-height: 1.5;
+  color: rgba(246, 244, 239, 0.6);
+  white-space: nowrap;
+}
+
+.brand-mark__meta + .brand-mark__meta {
+  margin-top: 0.3rem;
+}
+
+/* —— 顶部方向切换导航（右上角）—— */
+.direction-nav {
+  position: fixed;
+  top: 3.8rem;
+  right: 3.8rem;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  max-width: 42vw;
+  animation: directionNavIn 0.45s 0.08s var(--ease-standard) both;
+}
+
+@keyframes directionNavIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.direction-nav a {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(18, 18, 24, 0.5);
+  color: rgba(246, 244, 239, 0.78);
+  text-decoration: none;
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  transition:
+    border-color 0.35s var(--ease-standard),
+    color 0.35s var(--ease-standard),
+    background 0.35s var(--ease-standard);
+}
+
+.direction-nav a:hover,
+.direction-nav a:focus-visible {
+  color: #ff8c00;
+  border-color: rgba(255, 140, 0, 0.5);
+}
+
+.direction-nav a.is-active {
+  color: #101010;
+  background: linear-gradient(90deg, rgba(255, 140, 0, 0.96), rgba(255, 166, 44, 0.96));
+  border-color: transparent;
+  font-weight: 700;
+}
+
+/* —— 主内容卡片（中央）—— */
+.direction-card {
+  position: relative;
+  margin: 9rem auto 3rem;
+  width: min(44rem, 92vw);
+  padding: 3rem 3.2rem;
+  background: linear-gradient(180deg, rgba(12, 12, 16, 0.97), rgba(20, 20, 26, 0.96));
+  color: #f6f4ef;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 40px rgba(255, 140, 0, 0.1);
+  animation: directionCardIn 0.45s var(--ease-standard) both; /* 进入页面时淡入 */
+}
+
+/* 进入页面时的淡入动画（从主站点进详情页时平滑出现） */
+@keyframes directionCardIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.direction-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 140, 0, 0.26);
+  pointer-events: none;
+}
+
+/* 四角装饰 */
+.direction-card__frame {
+  position: absolute;
+  inset: 1rem;
+  pointer-events: none;
+}
+
+.direction-card__corner {
+  position: absolute;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-color: rgba(255, 255, 255, 0.85);
+  border-style: solid;
+}
+
+.direction-card__corner--tl { top: 0; left: 0; border-width: 2px 0 0 2px; }
+.direction-card__corner--tr { top: 0; right: 0; border-width: 2px 2px 0 0; }
+.direction-card__corner--bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
+.direction-card__corner--br { right: 0; bottom: 0; border-width: 0 2px 2px 0; }
+
+/* —— 内容排版 —— */
+.direction-card__content {
+  position: relative;
+  z-index: 1;
+}
+
+.direction-card__eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.direction-card__title {
+  margin: 1rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  line-height: 0.94;
+  letter-spacing: 0.04em;
+}
+
+.direction-card__subtitle {
+  margin: 0.6rem 0 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.24em;
+  color: #ffb14d;
+}
+
+.direction-card__slogan {
+  max-width: 36rem;
+  margin: 1.2rem 0 0;
+  padding-left: 0.9rem;
+  border-left: 2px solid rgba(255, 140, 0, 0.45);
+  font-size: 1rem;
+  line-height: 1.9;
+  font-style: italic;
+  color: #ffb14d;
+}
+
+.direction-card__block {
+  margin: 1.6rem 0 0;
+}
+
+.direction-card__label {
+  margin: 0 0 0.55rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* 学习路线列表 */
+.direction-card__roadmap {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.direction-card__roadmap li {
+  position: relative;
+  padding-left: 1.2rem;
+  margin: 0.4rem 0;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: rgba(246, 244, 239, 0.86);
+}
+
+.direction-card__roadmap li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: #ff8c00;
+}
+
+/* 技能标签 */
+.direction-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.direction-card__tag {
+  padding: 0.35rem 0.85rem;
+  border: 1px solid rgba(255, 140, 0, 0.38);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  color: #ffc98a;
+  background: rgba(255, 140, 0, 0.08);
+}
+
+/* 招新话术 */
+.direction-card__quote {
+  max-width: 36rem;
+  margin: 1.6rem 0 0;
+  padding-left: 0.9rem;
+  border-left: 2px solid rgba(255, 140, 0, 0.45);
+  font-size: 0.92rem;
+  line-height: 1.85;
+  color: rgba(246, 244, 239, 0.78);
+}
+
+/* 返回主站按钮 */
+/* 切换方向时的内容过渡动画（轻位移 + 淡入） */
+.direction-card.is-switching .direction-card__content {
+  animation: directionSwap 0.35s var(--ease-standard);
+}
+
+@keyframes directionSwap {
+  0% {
+    opacity: 0.35;
+    transform: translateY(12px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.direction-card__back {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 1.8rem;
+  padding: 0.85rem 1.6rem;
+  border: 1px solid rgba(255, 140, 0, 0.4);
+  background: linear-gradient(90deg, rgba(255, 140, 0, 0.96), rgba(255, 166, 44, 0.96));
+  color: #101010;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-decoration: none;
+  transition:
+    transform 0.4s var(--ease-standard),
+    box-shadow 0.4s var(--ease-standard);
+}
+
+.direction-card__back:hover,
+.direction-card__back:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35), 0 0 26px rgba(255, 140, 0, 0.24);
+}
+
+@media (max-width: 980px) {
+  .brand-mark { top: 2rem; left: 1.5rem; right: 1.5rem; gap: 0.75rem; }
+  .direction-nav { top: 2rem; right: 1.5rem; max-width: 55vw; }
+  .direction-card { padding: 2.2rem 1.8rem; }
+  .direction-card__title { font-size: 2rem; }
+}
+
+@media (max-width: 640px) {
+  .direction-nav { position: static; justify-content: center; margin: 1rem auto 0; max-width: 92vw; }
+  .brand-mark { position: static; margin: 1.4rem 1.4rem 0; }
+  .direction-card { margin: 1.6rem 1.4rem 2.5rem; width: auto; }
+  .direction-card__title { font-size: 1.8rem; margin-top: 0.8rem; }
+  .direction-card__slogan,
+  .direction-card__quote { padding-left: 0.7rem; }
+}

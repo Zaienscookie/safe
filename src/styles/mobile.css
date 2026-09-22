@@ -1,0 +1,118 @@
+/* =========================================================================
+ * mobile.css —— 手机端全局适配（在 index.html 中最后引入，起兜底作用）
+ * -------------------------------------------------------------------------
+ * 窄屏下统一处理：
+ *   1. 各栏目内容区可纵向滚动，避免内容被固定屏幕裁剪，滚动条隐藏保持干净；
+ *   2. 研究栏目等的侧边导航改为水平排布，贴近触屏操作习惯；
+ *   3. 微调字号、间距、装饰元素，保证小屏下的阅读与点按体验。
+ * ========================================================================= */
+
+/* —— 平板及以下：宽屏布局收敛为可滚动内容 —— */
+@media (max-width: 820px) {
+  .homepage-screen__content,
+  .headquarters-screen__content,
+  .member-screen__content,
+  .department-screen__content,
+  .research-screen__content {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding-bottom: 6.5rem; /* 预留底部页脚空间，避免内容被页脚遮挡 */
+  }
+
+  .homepage-screen__content::-webkit-scrollbar,
+  .headquarters-screen__content::-webkit-scrollbar,
+  .member-screen__content::-webkit-scrollbar,
+  .department-screen__content::-webkit-scrollbar,
+  .research-screen__content::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* 研究栏目侧边导航：竖向改横向，位于内容底部 */
+  .research-screen .side-nav--light {
+    position: static;
+    transform: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.55rem 1rem;
+    border: 0;
+    background: rgba(18, 24, 30, 0.45);
+    margin-top: 2rem;
+  }
+
+  .research-screen .side-nav--light .side-nav__item {
+    text-align: center;
+  }
+}
+
+/* —— 手机小屏：进一步收紧 —— */
+@media (max-width: 560px) {
+  /* 品牌标记更紧凑，避免挤压 */
+  .enter-screen .brand-mark,
+  .homepage-screen .brand-mark,
+  .headquarters-screen .brand-mark,
+  .member-screen .brand-mark,
+  .department-screen .brand-mark,
+  .research-screen .brand-mark,
+  .particle-screen .brand-mark {
+    top: 1.2rem;
+    left: 1.2rem;
+    right: 1.2rem;
+  }
+
+  .brand-mark__title {
+    font-size: 1.7rem;
+  }
+
+  .brand-mark__meta {
+    font-size: 0.72rem;
+  }
+
+  /* 首页简介与标题字号微调 */
+  .homepage-copy__title {
+    font-size: 2.4rem;
+  }
+
+  .homepage-copy__line {
+    font-size: 0.92rem;
+  }
+
+  /* 授权过场字体 */
+  .auth-screen__headline {
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+  }
+
+  /* 进入页标题 */
+  .enter-panel__title {
+    font-size: 1.9rem;
+  }
+
+  /* 方向面板标题 */
+  .department-panel__title {
+    font-size: 1.8rem;
+  }
+
+  /* 研究面板标题 */
+  .research-panel__title {
+    font-size: 1.7rem;
+  }
+
+  /* 互动（粒子）页：小屏时隐藏右上角装饰徽标，避免与状态栏/品牌重叠 */
+  .particle-screen__badge {
+    display: none;
+  }
+
+  .particle-screen__status {
+    top: 0.9rem;
+    font-size: 11px;
+    padding: 6px 12px;
+    max-width: 56vw;
+    text-align: center;
+  }
+
+  .particle-screen__hint {
+    font-size: 11px;
+  }
+}

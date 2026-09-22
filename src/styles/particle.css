@@ -1,0 +1,234 @@
+.particle-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  overflow: hidden;
+  background: #05050c;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.9s var(--ease-standard);
+}
+
+.particle-screen.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.particle-screen__video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+  filter: brightness(0.82) saturate(1.1) contrast(1.02);
+}
+
+.particle-screen__scene {
+  position: absolute;
+  inset: 0;
+}
+
+.particle-screen__scene canvas {
+  display: block;
+}
+
+.particle-screen .brand-mark--light {
+  color: #f6f4ef;
+}
+
+.particle-screen .brand-mark--light .brand-mark__meta {
+  color: rgba(246, 244, 239, 0.6);
+}
+
+.particle-screen__badge,
+.particle-screen__status,
+.particle-screen__hint {
+  position: absolute;
+  z-index: 3;
+  background: rgba(8, 6, 16, 0.55);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 22px;
+  padding: 8px 20px;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.35);
+  text-align: center;
+  pointer-events: none;
+  line-height: 1.55;
+}
+
+.particle-screen__badge {
+  top: 3.8rem;
+  right: 3.8rem;
+  font-size: 12px;
+  padding: 6px 14px;
+  opacity: 0.9;
+}
+
+.particle-screen__status {
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  max-width: 90vw;
+}
+
+.particle-screen__hint {
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12.5px;
+  max-width: 92vw;
+}
+
+.particle-screen__tag {
+  color: #ffb3d9;
+}
+
+.particle-screen__loading {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #fff;
+  background: rgba(5, 5, 12, 0.72);
+  backdrop-filter: blur(4px);
+  font-size: 15px;
+  letter-spacing: 1px;
+  transition: opacity 0.6s;
+}
+
+.particle-screen__loading.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.particle-screen__spinner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 158, 207, 0.25);
+  border-top-color: #ff9ecf;
+  animation: particleSpin 1s linear infinite;
+}
+
+@keyframes particleSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.particle-screen__err {
+  color: #ff7b9c;
+  font-size: 13px;
+  letter-spacing: 0;
+  text-align: center;
+  max-width: 80vw;
+}
+
+.particle-screen .side-nav--light {
+  position: absolute;
+  right: 5rem;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  padding: 1.25rem 1.15rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.1rem;
+  background: rgba(18, 24, 30, 0.24);
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  opacity: 0;
+  transform: translateY(-50%) translateX(24px);
+}
+
+.particle-screen.is-visible .side-nav--light {
+  animation: particleNavIn 0.75s 0.34s var(--ease-standard) forwards;
+}
+
+.particle-screen .side-nav--light .side-nav__item {
+  text-align: right;
+  color: rgba(246, 244, 239, 0.78);
+}
+
+.particle-screen .side-nav--light .side-nav__item:hover,
+.particle-screen .side-nav--light .side-nav__item:focus-visible {
+  color: #fff;
+}
+
+.particle-screen .side-nav--light .side-nav__item--active {
+  color: #ff8c00;
+}
+
+.particle-screen .screen-footer {
+  display: none;
+}
+
+@keyframes particleNavIn {
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+@media (max-width: 1100px) {
+  .particle-screen__badge {
+    top: 2rem;
+    right: 1.5rem;
+  }
+
+  .particle-screen .side-nav--light {
+    right: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .particle-screen .side-nav--light {
+    top: auto;
+    bottom: 4.2rem;
+    transform: translateY(0) translateX(24px);
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1rem;
+  }
+
+  .particle-screen.is-visible .side-nav--light {
+    animation: particleNavInMobile 0.75s 0.34s var(--ease-standard) forwards;
+  }
+
+  .particle-screen .side-nav--light .side-nav__item {
+    text-align: center;
+  }
+
+  .particle-screen__hint {
+    bottom: 0.6rem;
+  }
+
+  .particle-screen__status {
+    white-space: normal;
+    line-height: 1.5;
+  }
+}
+
+@keyframes particleNavInMobile {
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+  }
+}

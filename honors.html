@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>战绩 · 荣誉殿堂 · 网络安全社</title>
+    <link rel="stylesheet" href="./src/styles/base.css" />
+    <link rel="stylesheet" href="./src/styles/direction.css" />
+    <style>
+      /* 荣誉正文段落：标题下方逐段展示，风格与深色卡片一致 */
+      .honor-body {
+        margin-top: 1.4rem;
+      }
+
+      .honor-body p {
+        margin: 0 0 1.1rem;
+        font-size: 1rem;
+        line-height: 2;
+        text-align: justify;
+        color: rgba(246, 244, 239, 0.85);
+      }
+
+      .honor-body p:last-child {
+        margin-bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="direction-shell">
+      <!-- 品牌标记：左上角，风格与主站一致 -->
+      <header class="brand-mark">
+        <p class="brand-mark__title">网络安全社</p>
+        <div class="brand-mark__meta-wrap">
+          <p class="brand-mark__meta">CYBER SECURITY CLUB</p>
+          <p class="brand-mark__meta">荣誉殿堂 HONORS</p>
+        </div>
+      </header>
+
+      <!-- 荣誉殿堂卡片：复用方向详情页的视觉风格 -->
+      <section class="direction-card">
+        <div class="direction-card__frame" aria-hidden="true">
+          <span class="direction-card__corner direction-card__corner--tl"></span>
+          <span class="direction-card__corner direction-card__corner--tr"></span>
+          <span class="direction-card__corner direction-card__corner--bl"></span>
+          <span class="direction-card__corner direction-card__corner--br"></span>
+        </div>
+
+        <div class="direction-card__content">
+          <p class="direction-card__eyebrow">GLORY &amp; ACHIEVEMENTS</p>
+          <h1 class="direction-card__title">战绩 · 荣誉殿堂</h1>
+
+          <div class="honor-body">
+            <p>
+              以赛促学，以战代练。社团成员常年征战于国家级、省级及校级专业技能竞赛，
+              披荆斩棘，载誉而归。
+            </p>
+            <p>
+              迄今为止，团队累计斩获数十项重量级赛事荣誉，奖项覆盖一等奖、二等奖、
+              三等奖及优秀奖全梯队，充分彰显团队扎实的综合实力与充足的人才储备。
+            </p>
+            <p>
+              我们立足前沿科技布局竞赛版图，赛道涵盖工业互联网、网络安全、操作系统等核心领域。
+              从 CTF 夺旗赛场的题目攻坚，到安全靶场的实操研习，处处留下我们奋进的足迹。
+              更有多名核心队员奋勇争先，拿下多项国家级、省级个人赛事奖项。
+            </p>
+            <p>
+              每一次出征，淬炼技术本领；每一座奖杯，印证硬核实力；每一份证书，见证日夜耕耘。
+              以战绩为证，以实力前行！
+            </p>
+          </div>
+
+          <a class="direction-card__back" href="./index.html">返回主站 ← BACK</a>
+        </div>
+      </section>
+    </main>
+    <script>
+      /* 返回主站：若带 from 参数，回到进入前所在的栏目，否则回首页 */
+      (function () {
+        var btn = document.querySelector(".direction-card__back");
+        if (!btn) return;
+        var from = new URLSearchParams(window.location.search).get("from");
+        if (from) btn.href = "index.html?from=" + encodeURIComponent(from);
+      })();
+    </script>
+    <script src="./src/scripts/landscape.js"></script>
+  </body>
+</html>

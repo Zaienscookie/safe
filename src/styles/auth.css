@@ -1,0 +1,205 @@
+.auth-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 12;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background:
+    radial-gradient(circle at 50% 44%, rgba(255, 255, 255, 0.55), transparent 18%),
+    linear-gradient(180deg, rgba(239, 239, 235, 0.98) 0%, rgba(228, 228, 223, 0.98) 100%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.8s var(--ease-standard);
+}
+
+.auth-screen.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.auth-screen__inner {
+  display: grid;
+  justify-items: center;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.auth-screen__status {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.34em;
+  color: var(--color-muted);
+}
+
+.orbit-system {
+  position: relative;
+  width: min(19rem, 62vw);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  transform: scale(0.8);
+  opacity: 0;
+}
+
+.auth-screen.is-visible .orbit-system {
+  animation: orbitIntro 0.9s 0.12s var(--ease-standard) forwards;
+}
+
+.orbit,
+.orbit-trace,
+.orbit-center {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.orbit {
+  inset: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(17, 17, 17, 0.18);
+}
+
+.orbit--outer {
+  width: 100%;
+  height: 100%;
+  border-width: 2px;
+  animation: rotateClockwise 12s linear infinite;
+}
+
+.orbit--middle {
+  width: 72%;
+  height: 72%;
+  border-color: rgba(17, 17, 17, 0.28);
+  animation: rotateCounter 8s linear infinite;
+}
+
+.orbit--inner {
+  width: 44%;
+  height: 44%;
+  border-style: dashed;
+  border-color: rgba(17, 17, 17, 0.34);
+  animation: rotateClockwise 5.5s linear infinite;
+}
+
+.orbit-trace {
+  top: 50%;
+  left: 50%;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin: -0.35rem;
+  background: var(--color-accent);
+  box-shadow: 0 0 18px rgba(255, 140, 0, 0.38);
+}
+
+.orbit-trace--one {
+  animation: orbitDotOuter 4.4s linear infinite;
+}
+
+.orbit-trace--two {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: -0.25rem;
+  animation: orbitDotInner 3.4s linear infinite;
+}
+
+.orbit-center {
+  width: 0.85rem;
+  height: 0.85rem;
+  background: #111111;
+  box-shadow: 0 0 0 10px rgba(17, 17, 17, 0.05);
+}
+
+.auth-screen__copy {
+  max-width: 28rem;
+}
+
+.auth-screen__headline {
+  min-height: 1.6em;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.3vw, 2rem);
+  letter-spacing: 0.18em;
+}
+
+.auth-screen__subcopy {
+  margin: 0.8rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: var(--color-muted);
+}
+
+.auth-screen__replay {
+  margin-top: 1rem;
+  padding: 1rem 2.2rem;
+  border: 1px solid rgba(255, 140, 0, 0.32);
+  background: linear-gradient(90deg, rgba(255, 140, 0, 0.96), rgba(255, 166, 44, 0.96));
+  color: #101010;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  cursor: pointer;
+  transition:
+    border-color 0.4s var(--ease-standard),
+    box-shadow 0.4s var(--ease-standard),
+    transform 0.4s var(--ease-standard),
+    filter 0.4s var(--ease-standard);
+}
+
+.auth-screen__replay:hover,
+.auth-screen__replay:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18), 0 0 26px rgba(255, 140, 0, 0.24);
+  filter: saturate(1.06);
+}
+
+@keyframes orbitIntro {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes rotateClockwise {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes rotateCounter {
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+@keyframes orbitDotOuter {
+  from {
+    transform: rotate(0deg) translateX(9.5rem) rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg) translateX(9.5rem) rotate(-360deg);
+  }
+}
+
+@keyframes orbitDotInner {
+  from {
+    transform: rotate(0deg) translateX(4.2rem) rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg) translateX(4.2rem) rotate(360deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .auth-screen__inner {
+    gap: 1.1rem;
+  }
+
+  .orbit-system {
+    width: min(15rem, 72vw);
+  }
+}

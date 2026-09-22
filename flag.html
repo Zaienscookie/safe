@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLAG 挑战 · 网络安全社</title>
+<link rel="stylesheet" href="./src/styles/base.css" />
+<link rel="stylesheet" href="./src/styles/direction.css" />
+<style>
+  /* —— FLAG 表单与结果样式 —— */
+  .flag-form {
+    display: flex;
+    gap: 0.7rem;
+    margin-top: 1.6rem;
+    flex-wrap: wrap;
+  }
+
+  .flag-form__input {
+    flex: 1 1 18rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #e8e6df;
+    font-family: Consolas, "Microsoft YaHei", monospace;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    transition: border-color 0.3s;
+  }
+  .flag-form__input:focus {
+    outline: none;
+    border-color: rgba(255, 140, 0, 0.6);
+  }
+
+  .flag-form__btn {
+    padding: 0.85rem 1.8rem;
+    border: 1px solid rgba(255, 140, 0, 0.45);
+    border-radius: 8px;
+    background: linear-gradient(90deg, rgba(255, 140, 0, 0.95), rgba(255, 166, 44, 0.95));
+    color: #101010;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .flag-form__btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 24px rgba(255, 140, 0, 0.25);
+  }
+
+  .flag-result {
+    margin-top: 1.3rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    min-height: 1.6em;
+  }
+  .flag-result.is-ok   { color: #4ade80; }
+  .flag-result.is-fail { color: #f87171; }
+</style>
+</head>
+<body>
+<main class="direction-shell">
+  <!-- 品牌标记：WELCOME TO JOIN CYBERSECURITY CLUB -->
+  <header class="brand-mark">
+    <p class="brand-mark__title">网络安全社</p>
+    <div class="brand-mark__meta-wrap">
+      <p class="brand-mark__meta">FLAG CHALLENGE · 挑战</p>
+    </div>
+  </header>
+
+  <section class="direction-card">
+    <div class="direction-card__frame" aria-hidden="true">
+      <span class="direction-card__corner direction-card__corner--tl"></span>
+      <span class="direction-card__corner direction-card__corner--tr"></span>
+      <span class="direction-card__corner direction-card__corner--bl"></span>
+      <span class="direction-card__corner direction-card__corner--br"></span>
+    </div>
+
+    <div class="direction-card__content">
+      <p class="direction-card__eyebrow">CTF · WEB</p>
+      <h1 class="direction-card__title">FLAG 挑战</h1>
+
+      <p class="direction-card__slogan">一个 flag 就藏在本页的源代码里，找到它并提交。</p>
+
+      <div class="honor-body" style="margin-top:1.2rem;">
+        <p style="margin:0;">
+          小提示：在页面空白处右键查看网页源代码，翻翻注释；flag 通常形如
+          <code style="color:#ffc98a;">flag{...}</code>，内容与该页主题相关。
+          找到后输入下方输入框并提交。
+        </p>
+      </div>
+
+      <!-- 提交区 -->
+      <div class="flag-form">
+        <input class="flag-form__input" id="flag-input" type="text" placeholder="在这里输入 flag{...}" autocomplete="off">
+        <button class="flag-form__btn" id="flag-submit" type="button">提交 SUBMIT</button>
+      </div>
+      <p class="flag-result" id="flag-result" aria-live="polite"></p>
+
+      <a class="direction-card__back" href="./index.html" id="back-btn">返回主站 ← BACK</a>
+    </div>
+  </section>
+</main>
+
+<!-- ============================================================
+     ★ 关卡旗标（FLAG）
+     flag{WELCOME_TO_JOIN_THE_CYBERSECURITY_CLUB}
+     说明：意为“欢迎加入网络安全社”。请勿移除本注释，否则题目失分。
+     ============================================================ -->
+
+<script>
+  /* FLAG 校验（纯前端、无存储）：英文“欢迎加入网络安全社” */
+  (function () {
+    var FLAG = "flag{welcome_to_join_the_cybersecurity_club}";
+    var input = document.getElementById("flag-input");
+    var submit = document.getElementById("flag-submit");
+    var result = document.getElementById("flag-result");
+
+    function check() {
+      var val = (input.value || "").trim().toLowerCase();
+      result.classList.remove("is-ok", "is-fail");
+      if (val === FLAG) {
+        result.classList.add("is-ok");
+        result.textContent = "恭喜，回答正确！";
+      } else {
+        result.classList.add("is-fail");
+        result.textContent = "回答错误，再想想看。";
+      }
+    }
+    submit.addEventListener("click", check);
+    input.addEventListener("keydown", function (e) { if (e.key === "Enter") check(); });
+  })();
+
+  /* 返回主站：若带 from 参数，回到进入前所在的栏目 */
+  (function () {
+    var from = new URLSearchParams(window.location.search).get("from");
+    if (from) document.getElementById("back-btn").href = "index.html?from=" + encodeURIComponent(from);
+  })();
+</script>
+<script src="./src/scripts/landscape.js"></script>
+</body>
+</html>

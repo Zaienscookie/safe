@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>加入我们 · 网络安全社</title>
+    <link rel="stylesheet" href="./src/styles/base.css" />
+    <link rel="stylesheet" href="./src/styles/direction.css" />
+    <style>
+      /* 正文段落：风格与深色卡片一致 */
+      .honor-body {
+        margin-top: 1.4rem;
+      }
+
+      .honor-body p {
+        margin: 0 0 1.1rem;
+        font-size: 1rem;
+        line-height: 2;
+        text-align: justify;
+        color: rgba(246, 244, 239, 0.85);
+      }
+
+      .honor-body p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* 最上方的手机号信息：醒目强调 */
+      .join-phone {
+        margin-top: 1.6rem;
+        padding: 1rem 1.2rem;
+        border: 1px dashed rgba(255, 140, 0, 0.55);
+        border-radius: 12px;
+        font-family: var(--font-display);
+        font-size: 1.7rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: #ffb14d;
+        background: rgba(255, 140, 0, 0.07);
+      }
+
+      .join-phone .join-phone__label {
+        display: block;
+        margin-bottom: 0.4rem;
+        font-family: var(--font-body);
+        font-size: 0.78rem;
+        font-weight: 400;
+        letter-spacing: 0.24em;
+        color: rgba(255, 255, 255, 0.55);
+      }
+
+      /* 招新微信群二维码 */
+      .join-qr {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+        margin-top: 1.6rem;
+      }
+
+      .join-qr img {
+        width: 232px;
+        height: 232px;
+        object-fit: contain;
+        padding: 0.6rem;
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      }
+
+      .join-qr__label {
+        margin: 0;
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        color: rgba(255, 255, 255, 0.6);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="direction-shell">
+      <!-- 品牌标记：左上角，风格与主站一致 -->
+      <header class="brand-mark">
+        <p class="brand-mark__title">网络安全社</p>
+        <div class="brand-mark__meta-wrap">
+          <p class="brand-mark__meta">CYBER SECURITY CLUB</p>
+          <p class="brand-mark__meta">加入我们 JOIN US</p>
+        </div>
+      </header>
+
+      <!-- 加入页面：复用方向详情页的视觉风格 -->
+      <section class="direction-card">
+        <div class="direction-card__frame" aria-hidden="true">
+          <span class="direction-card__corner direction-card__corner--tl"></span>
+          <span class="direction-card__corner direction-card__corner--tr"></span>
+          <span class="direction-card__corner direction-card__corner--bl"></span>
+          <span class="direction-card__corner direction-card__corner--br"></span>
+        </div>
+
+        <div class="direction-card__content">
+          <p class="direction-card__eyebrow">JOIN US · 加入我们</p>
+          <h1 class="direction-card__title">加入我们</h1>
+
+          <!-- 最上方联系方式：手机号 -->
+          <div class="join-phone">
+            <span class="join-phone__label">CONTACT · 联系电话</span>
+            手机号：18518184798
+          </div>
+
+          <!-- 招新微信群二维码 -->
+          <div class="join-qr">
+            <img src="./assets/images/qrcode.jpg" alt="招新微信群二维码" />
+            <p class="join-qr__label">扫码加入招新微信群</p>
+          </div>
+
+          <div class="honor-body">
+            <p>
+              心动不如行动。如果你对网络安全与技术充满好奇，欢迎拨打电话或扫码加入我们。
+              无论起点如何，只要你愿意，都能在这里找到属于自己的成长路径。
+            </p>
+            <p>
+              加入后，你将参与系统训练、项目实战与赛事拉练，结识志同道合的伙伴，
+              一起在攻防对抗与技术探索中不断突破，共同成长为具备核心竞争力的技术人才。
+            </p>
+          </div>
+
+          <a class="direction-card__back" href="./index.html">返回主站 ← BACK</a>
+        </div>
+      </section>
+    </main>
+    <script>
+      /* 返回主站：若带 from 参数，回到进入前所在的栏目，否则回首页 */
+      (function () {
+        var btn = document.querySelector(".direction-card__back");
+        if (!btn) return;
+        var from = new URLSearchParams(window.location.search).get("from");
+        if (from) btn.href = "index.html?from=" + encodeURIComponent(from);
+      })();
+    </script>
+    <script src="./src/scripts/landscape.js"></script>
+  </body>
+</html>

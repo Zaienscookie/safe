@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极客技术人格测试 · 网络安全社</title>
+<!-- =========================================================================
+  单文件问卷页（quiz.html）
+  - 纯前端、零依赖、无后端请求、不使用 localStorage / cookie。
+  - 页面刷新即销毁全部状态，作答过程完全不采集任何个人信息。
+  - 双击该文件即可在浏览器中直接运行。
+  ========================================================================= -->
+<style>
+  /* —— 全局：黑灰暗色 · 极客终端风 —— */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0b0b10;
+    --bg-soft: #12121a;
+    --panel: rgba(18, 18, 26, 0.86);
+    --line: rgba(255, 255, 255, 0.1);
+    --accent: #ff8c00;
+    --accent-soft: rgba(255, 140, 0, 0.14);
+    --text: #e8e6df;
+    --muted: #8f8d97;
+    --mono: "Consolas", "Menlo", "SFMono-Regular", monospace;
+  }
+
+  html, body {
+    min-height: 100%;
+    background:
+      radial-gradient(circle at 50% 30%, rgba(255, 140, 0, 0.06), transparent 46%),
+      var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .shell {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.2rem;
+  }
+
+  .screen {
+    width: min(44rem, 100%);
+    padding: 2.6rem 2.6rem 2.2rem;
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 34px rgba(255, 140, 0, 0.07);
+    backdrop-filter: blur(10px);
+  }
+
+  .screen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(255, 140, 0, 0.24);
+    pointer-events: none;
+  }
+
+  /* 四角装饰 */
+  .screen .corner {
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+  }
+  .corner--tl { top: .7rem; left: .7rem; border-width: 2px 0 0 2px; }
+  .corner--tr { top: .7rem; right: .7rem; border-width: 2px 2px 0 0; }
+  .corner--bl { bottom: .7rem; left: .7rem; border-width: 0 0 2px 2px; }
+  .corner--br { right: .7rem; bottom: .7rem; border-width: 0 2px 2px 0; }
+
+  .hidden { display: none; }
+
+  .kicker {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  h1, h2 { font-weight: 700; letter-spacing: 0.03em; }
+  h1 { font-size: clamp(1.8rem, 4.5vw, 2.6rem); margin-top: 0.7rem; }
+  h2 { font-size: clamp(1.2rem, 3vw, 1.6rem); margin-top: 1.2rem; line-height: 1.5; }
+
+  .privacy {
+    margin-top: 1.3rem;
+    padding: 0.9rem 1rem;
+    border: 1px dashed rgba(255, 140, 0, 0.4);
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: #ffc98a;
+    font-size: 0.82rem;
+    line-height: 1.8;
+  }
+
+  .desc {
+    margin-top: 1.3rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.9;
+  }
+
+  /* —— 按钮 —— */
+  .btn {
+    display: inline-block;
+    margin-top: 1.8rem;
+    padding: 0.9rem 2rem;
+    border: 1px solid rgba(255, 140, 0, 0.45);
+    background: linear-gradient(90deg, rgba(255, 140, 0, 0.95), rgba(255, 166, 44, 0.95));
+    color: #101010;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .btn:hover, .btn:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.3), 0 0 24px rgba(255, 140, 0, 0.22);
+  }
+  .btn--ghost {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--line);
+  }
+  .btn--ghost:hover { color: var(--accent); border-color: rgba(255, 140, 0, 0.4); }
+
+  /* —— 进度 —— */
+  .progress {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress__bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ff8c00, #ffb14d);
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+
+  .q-count {
+    margin-top: 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.26em;
+    color: var(--muted);
+  }
+
+  /* —— 选项 —— */
+  .options { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.4rem; }
+  .opt {
+    text-align: left;
+    padding: 1rem 1.1rem;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    cursor: pointer;
+    transition: border-color 0.25s, background 0.25s, transform 0.25s;
+  }
+  .opt:hover, .opt:focus-visible { border-color: rgba(255, 140, 0, 0.55); background: var(--accent-soft); transform: translateX(4px); }
+  .opt.is-selected { border-color: var(--accent); background: var(--accent-soft); }
+
+  .opt .opt__type {
+    display: inline-block;
+    margin-right: 0.7rem;
+    padding: 0.1rem 0.45rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    border: 1px solid rgba(255, 140, 0, 0.45);
+    border-radius: 4px;
+    color: #ffc98a;
+    vertical-align: middle;
+  }
+
+  .opt__type.is-lock { display: none; }
+
+  /* —— 结果 —— */
+  .result-type {
+    margin-top: 1.4rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+  }
+  .result-text {
+    margin-top: 1.2rem;
+    font-size: 0.95rem;
+    line-height: 2;
+    color: rgba(232, 230, 223, 0.92);
+    text-align: justify;
+  }
+  .result-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;  /* 「再测一次」靠左，「返回主站」靠右 */
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-top: 1.8rem;
+  }
+  .result-actions .btn { margin-top: 0; }
+
+  @media (max-width: 640px) {
+    .screen { padding: 1.8rem 1.3rem 1.5rem; }
+    .opt { font-size: 0.85rem; }
+  }
+</style>
+</head>
+<body>
+  <div class="shell">
+
+    <!-- ============ 欢迎屏 ============ -->
+    <section class="screen" id="screen-welcome">
+      <span class="corner corner--tl"></span><span class="corner corner--tr"></span>
+      <span class="corner corner--bl"></span><span class="corner corner--br"></span>
+      <p class="kicker">GEEK PERSONALITY QUIZ</p>
+      <h1>极客技术人格测试</h1>
+      <div class="privacy">
+        ▸ 本问卷为纯前端单文件，全程不联网、不收集、不存储任何个人信息；<br>
+        ▸ 不使用 Cookie、不使用本地存储，页面刷新即彻底销毁所有作答数据；<br>
+        ▸ 请放心、匿名地选择你的直觉答案。
+      </div>
+      <p class="desc">
+        四道题，四份心情。不用思考太久——第一感觉往往最像你。
+        做完之后，看看系统会把你认成哪一种技术人格。
+      </p>
+      <button class="btn" id="btn-start">开始测试 →</button>
+    </section>
+
+    <!-- ============ 答题屏 ============ -->
+    <section class="screen hidden" id="screen-quiz">
+      <span class="corner corner--tl"></span><span class="corner corner--tr"></span>
+      <span class="corner corner--bl"></span><span class="corner corner--br"></span>
+      <div class="progress"><div class="progress__bar" id="progress-bar"></div></div>
+      <p class="q-count" id="q-count">QUESTION 1 / 4</p>
+      <h2 id="q-title"></h2>
+      <div class="options" id="options"></div>
+    </section>
+
+    <!-- ============ 结果屏 ============ -->
+    <section class="screen hidden" id="screen-result">
+      <span class="corner corner--tl"></span><span class="corner corner--tr"></span>
+      <span class="corner corner--bl"></span><span class="corner corner--br"></span>
+      <p class="kicker">YOUR TECH PERSONA</p>
+      <h1 id="result-title"></h1>
+      <p class="result-type" id="result-type"></p>
+      <p class="result-text" id="result-text"></p>
+      <div class="result-actions">
+        <button class="btn" id="btn-retest">再测一次 ↺</button>
+        <a class="btn btn--ghost" href="index.html" id="quiz-back">返回主站 ←</a>
+      </div>
+    </section>
+
+  </div>
+
+<script>
+/* =========================================================================
+ * 极客技术人格测试 —— 交互逻辑
+ * 纯内存运行：所有状态仅存在 JS 变量里，刷新页面即全部销毁。
+ * ========================================================================= */
+
+/* —— 题目：每题四个选项，分别对应四种技术人格（SEC / DEV / REV / CRY） —— */
+const QUESTIONS = [
+  {
+    title: "深夜收到一封来路不明的加密文件，你的第一反应是？",
+    options: [
+      { label: "先分析它的格式，试试有没有弱加密或注入点", type: "SEC" },
+      { label: "写个脚本批量解析，自动化处理一下",          type: "DEV" },
+      { label: "用调试器跟进去，看它运行时到底怎么解密",    type: "REV" },
+      { label: "推演一下加密方案，猜猜用的是哪种算法",      type: "CRY" },
+    ],
+  },
+  {
+    title: "想给社团做个小工具，你最想做哪种？",
+    options: [
+      { label: "能自动扫端口、挖漏洞的渗透小助手", type: "SEC" },
+      { label: "一键部署、界面清爽的自动化构建器", type: "DEV" },
+      { label: "能脱壳、分析 App 的逆向利器",      type: "REV" },
+      { label: "各种加解密算法一把梭的工具箱",      type: "CRY" },
+    ],
+  },
+  {
+    title: "打开一个开源项目，你最想先看哪部分？",
+    options: [
+      { label: "有没有危险的输入点、注入和越权",    type: "SEC" },
+      { label: "架构怎么分层，代码组织得清不清晰",  type: "DEV" },
+      { label: "编译产物与底层实现，能不能反编译",  type: "REV" },
+      { label: "核心算法与数学逻辑，推演一下复杂度", type: "CRY" },
+    ],
+  },
+  {
+    title: "周末社团打 CTF，你最想坐哪一题？",
+    options: [
+      { label: "Web / 渗透题，找漏洞拿 flag",  type: "SEC" },
+      { label: "Misc / 编程题，写脚本跑出答案", type: "DEV" },
+      { label: "逆向题，对着二进制死磕到底",    type: "REV" },
+      { label: "密码学题，解数学谜题",          type: "CRY" },
+    ],
+  },
+];
+
+/* —— 四种技术人格画像文案（自然段，无列表符号，200~300 字） —— */
+const PERSONAS = {
+  SEC: {
+    title: "安全 · 渗透",
+    type: "SEC · PENTESTER",
+    text:
+      "你骨子里装着一台永不停歇的雷达。面对任何系统，你总忍不住琢磨它的边界在哪、哪道防线背后藏着没人发现的裂缝。你享受在密密麻麻的请求与响应里突然揪出一丝异常的爽感，像深夜的猎人，听见林间最细微的响动。放心，这份问卷纯匿名、不存不留，刷新即销毁，像一次从未发生过的握手。沿着好奇心继续走吧：从第一个注入点，到属于你自己的第一份渗透笔记，每一次踩坑都在替你的直觉校准准星。攻防是技术，更是耐心、好奇心与想象力的合谋。愿你永远保留那股把不可能翻过来看看的劲头，在0和1的旷野里，做最先听见信号的那个人。",
+  },
+  DEV: {
+    title: "开发 · 自动化",
+    type: "DEV · BUILDER",
+    text:
+      "你是那种能把一堆零散需求编译成优雅工程的人。别人看见乱糟糟的代码，你看到的是可以拆分、组合、再自动化的流水线。你享受按下运行键、看着一切丝滑跑通的瞬间，也享受把重复劳动丢给脚本的偷懒智慧，毕竟懒是程序员的第一生产力。放心，这份问卷跑完即焚，不留任何记录，像一段用完就删的临时变量。继续打磨这身手艺吧，架构、工具链、可维护性，是让你从能跑走向跑得漂亮的分水岭。所有伟大的架构，都始于一次勇敢的编译。愿你写下的每一行都有人读懂，也都各有存在的意义，最终汇成属于你自己的星海长路。",
+  },
+  REV: {
+    title: "底层 · 逆向",
+    type: "REV · REVERSE ENGINEER",
+    text:
+      "你是那种面对黑盒从不满足于能用就行的家伙。你总想掀开盖子，看看里面究竟怎么转。别人看到一堆乱码，你看到的是堆栈、寄存器，和一段段被刻意藏起来的真实意图。你享受从晦涩的字节流里还原真相、让哑巴程序开口说话的瞬间，像程序世界里的法医。放心，这份问卷完全匿名、刷新即销毁，不会留下你的一字节。继续往下走：从第一条反汇编指令，到亲手脱下第一个壳，你在无数个夜里攒下的耐心，终会让你看见别人看不见的风景。程序没有秘密，只有还没被读懂的故事。愿你保持拆解的勇气与还原的敏锐，在0和1的深海里，捞起属于你的宝藏。",
+  },
+  CRY: {
+    title: "算法 · 密码",
+    type: "CRY · MATHEMATICIAN",
+    text:
+      "你是那个看见数学公式会眼睛发亮的人。别人眼中枯燥的符号，是你手里解锁世界的钥匙。你享受破解降临的瞬间，当无序的密文在你推演的规律下轰然倒塌，露出原本的面目，那种感觉就像亲手驯服了一头野兽。别担心，这页问卷不会收集任何东西，它像一张一次性的便签，看完就被撕得粉碎。请继续钻研你的数论与算法，从一次同余运算，到真正的格密码，每一个看似无解的谜题，都在悄悄喂大你的能力。密码学的浪漫在于，你算得越深，离真相越近。愿你在数字的迷宫里乐此不疲，用数学的利刃斩开一扇扇紧闭的门，抵达只属于你的那片星光。",
+  },
+};
+
+/* —— 运行状态（仅内存，刷新即销毁） —— */
+let current = 0;
+const scores = { SEC: 0, DEV: 0, REV: 0, CRY: 0 };
+
+const el = {
+  welcome: document.getElementById("screen-welcome"),
+  quiz: document.getElementById("screen-quiz"),
+  result: document.getElementById("screen-result"),
+  bar: document.getElementById("progress-bar"),
+  count: document.getElementById("q-count"),
+  qTitle: document.getElementById("q-title"),
+  options: document.getElementById("options"),
+  rTitle: document.getElementById("result-title"),
+  rType: document.getElementById("result-type"),
+  rText: document.getElementById("result-text"),
+};
+
+/* —— 屏幕切换 —— */
+function show(screen) {
+  el.welcome.classList.toggle("hidden", screen !== "welcome");
+  el.quiz.classList.toggle("hidden", screen !== "quiz");
+  el.result.classList.toggle("hidden", screen !== "result");
+}
+
+/* —— 渲染当前题 —— */
+function renderQuestion() {
+  const q = QUESTIONS[current];
+  el.count.textContent = "QUESTION " + (current + 1) + " / " + QUESTIONS.length;
+  el.bar.style.width = ((current / QUESTIONS.length) * 100) + "%";
+  el.qTitle.textContent = q.title;
+  el.options.innerHTML = "";
+
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "opt";
+    btn.innerHTML = '<span class="opt__type">' + opt.type + "</span>" + opt.label;
+    btn.addEventListener("click", () => {
+      // 记录选择（只存内存，刷新即销毁）
+      scores[opt.type] += 1;
+      btn.classList.add("is-selected");
+      btn.disabled = true;
+      // 极客反馈：短暂停顿后进入下一题
+      setTimeout(() => {
+        current += 1;
+        if (current < QUESTIONS.length) {
+          renderQuestion();
+        } else {
+          showResult();
+        }
+      }, 320);
+    });
+    el.options.appendChild(btn);
+  });
+}
+
+/* —— 结果：统计最高分的画像 —— */
+function showResult() {
+  const order = ["SEC", "DEV", "REV", "CRY"];
+  let best = order[0];
+  for (const key of order) {
+    if (scores[key] > scores[best]) best = key;
+  }
+  const p = PERSONAS[best];
+  el.bar.style.width = "100%";
+  el.rTitle.textContent = p.title;
+  el.rType.textContent = p.type;
+  el.rText.textContent = p.text;
+  show("result");
+}
+
+/* —— 事件绑定 —— */
+document.getElementById("btn-start").addEventListener("click", () => {
+  current = 0;
+  scores.SEC = scores.DEV = scores.REV = scores.CRY = 0;
+  renderQuestion();
+  show("quiz");
+});
+
+document.getElementById("btn-retest").addEventListener("click", () => {
+  current = 0;
+  scores.SEC = scores.DEV = scores.REV = scores.CRY = 0;
+  renderQuestion();
+  show("quiz");
+});
+
+/* 返回主站：带 from 参数时回到进入前所在的栏目（如首页），否则回 index.html */
+(function () {
+  var btn = document.getElementById("quiz-back");
+  if (!btn) return;
+  var from = new URLSearchParams(window.location.search).get("from");
+  if (from) btn.href = "index.html?from=" + encodeURIComponent(from);
+})();
+</script>
+<script src="./src/scripts/landscape.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>访问提示 · 网络安全社</title>
+    <link rel="stylesheet" href="./src/styles/base.css" />
+    <link rel="stylesheet" href="./src/styles/direction.css" />
+  </head>
+  <body>
+    <main class="direction-shell">
+      <!-- 品牌标记：左上角，风格与主站一致 -->
+      <header class="brand-mark">
+        <p class="brand-mark__title">网络安全社</p>
+        <div class="brand-mark__meta-wrap">
+          <p class="brand-mark__meta">CYBER SECURITY CLUB</p>
+          <p class="brand-mark__meta">访问提示 NOTICE</p>
+        </div>
+      </header>
+
+      <!-- 提示卡片：复用方向详情页的视觉风格 -->
+      <section class="direction-card">
+        <div class="direction-card__frame" aria-hidden="true">
+          <span class="direction-card__corner direction-card__corner--tl"></span>
+          <span class="direction-card__corner direction-card__corner--tr"></span>
+          <span class="direction-card__corner direction-card__corner--bl"></span>
+          <span class="direction-card__corner direction-card__corner--br"></span>
+        </div>
+
+        <div class="direction-card__content">
+          <p class="direction-card__eyebrow">EXTERNAL ACCESS · 外部访问</p>
+          <h1 class="direction-card__title">提示</h1>
+          <p class="direction-card__quote">
+            很抱歉，该功能仅能在社团内部使用，不支持外部访问。
+          </p>
+          <a class="direction-card__back" href="./index.html">返回主站 ← BACK</a>
+        </div>
+      </section>
+    </main>
+    <script>
+      /* 返回主站：若带 from 参数，回到进入前所在的栏目，否则回首页 */
+      (function () {
+        var btn = document.querySelector(".direction-card__back");
+        if (!btn) return;
+        var from = new URLSearchParams(window.location.search).get("from");
+        if (from) btn.href = "index.html?from=" + encodeURIComponent(from);
+      })();
+    </script>
+    <script src="./src/scripts/landscape.js"></script>
+  </body>
+</html>

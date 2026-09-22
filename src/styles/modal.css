@@ -1,0 +1,105 @@
+.info-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.45s var(--ease-standard);
+}
+
+.info-modal.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.info-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.22);
+  backdrop-filter: blur(8px);
+}
+
+.info-modal__panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(24rem, calc(100vw - 2rem));
+  padding: 1.6rem 1.5rem 1.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.1rem;
+  background: rgba(18, 24, 30, 0.3);
+  color: #f7f5ef;
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+  transform: translate(-50%, -50%) translateY(16px);
+  transition: transform 0.45s var(--ease-standard);
+}
+
+.info-modal.is-visible .info-modal__panel {
+  transform: translate(-50%, -50%) translateY(0);
+}
+
+.info-modal__close {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  border: 0;
+  background: none;
+  color: rgba(247, 245, 239, 0.72);
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.info-modal__eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.26em;
+  color: rgba(247, 245, 239, 0.58);
+}
+
+.info-modal__title {
+  margin: 0.9rem 0 0;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.info-modal__value {
+  margin: 0.8rem 0 0;
+  font-size: 0.98rem;
+  line-height: 1.8;
+  color: rgba(247, 245, 239, 0.82);
+}
+
+.info-modal__actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.info-modal__button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 7.5rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(255, 140, 0, 0.3);
+  background: linear-gradient(90deg, rgba(255, 140, 0, 0.96), rgba(255, 166, 44, 0.96));
+  color: #101010;
+  font-size: 0.76rem;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.info-modal__button--ghost {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #f7f5ef;
+}
