@@ -226,6 +226,11 @@
     margin-top: 1.2rem;
   }
 
+  /* 首页右侧装饰图形在横屏手机上会撑高约 500px，纯装饰（aria-hidden）故隐藏 */
+  .homepage-visual {
+    display: none;
+  }
+
   /* —— 关于：简介与按钮收紧 —— */
   .headquarters-copy__title {
     font-size: clamp(1.9rem, 7.4vh, 2.7rem);
@@ -262,23 +267,87 @@
     height: min(31rem, 74vh);
   }
 
-  /* —— 方向：面板与卡片顶部留白收紧 —— */
-  .department-panel {
-    margin-top: 4.6rem;
-    min-height: 0;
-    padding: 1.8rem 1.5rem;
+  /* —— 方向：左列卡片、右列信息面板，充分利用横向空间、减少滚动 —— */
+  .department-screen__content {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-content: start;
+    align-items: center;
+    column-gap: 1.2rem;
+    row-gap: 0.7rem;
   }
 
   .department-cluster {
-    margin: 0.6rem 0;
-    gap: 0.7rem;
+    position: static;
+    width: auto;
+    height: auto;
+    transform: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+    margin: 0;
+  }
+
+  .department-cluster--left {
+    grid-column: 1;
+    grid-row: 1;
+    left: auto;
+  }
+
+  .department-cluster--right {
+    grid-column: 1;
+    grid-row: 2;
+    right: auto;
+  }
+
+  .department-panel {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    width: auto;
+    max-width: none;
+    min-height: 0;
+    margin: 0;
+    padding: 1.6rem 1.4rem;
+    transform: none;
   }
 
   .department-card {
-    min-height: 6.6rem;
+    position: static;
+    transform: none !important;
+    width: auto;
+    height: auto;
+    min-height: 4.8rem;
+    padding: 0.6rem 0.7rem;
   }
 
-  /* —— 活动：进度环与面板留白收紧 —— */
+  .department-card__code {
+    font-size: 1.5rem;
+  }
+
+  .department-card__desc {
+    padding-top: 0.6rem;
+  }
+
+  .department-panel__title {
+    margin-top: 0.5rem;
+    font-size: 1.7rem;
+  }
+
+  /* —— 活动：左列计划面板、右列信息卡，竖向空间减半 —— */
+  .research-screen__content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-content: start;
+    align-items: start;
+    column-gap: 1.2rem;
+  }
+
+  .research-screen .side-nav--light {
+    grid-column: 1 / -1;
+  }
+
   .research-panel__title {
     font-size: clamp(1.5rem, 5.6vh, 2rem);
   }
@@ -309,7 +378,7 @@
   }
 
   .research-info {
-    margin-top: 1.4rem;
+    margin-top: 0;
   }
 
   /* —— 侧边导航：更紧凑，避免占据过多高度 —— */
