@@ -417,13 +417,24 @@
     gap: 1rem;
   }
 
+  /* 点阵的尺寸由 --circle-size/--gap 决定，必须一起缩小，
+   * 否则 5×5 点阵（176px）会超出圆壳、盖住右侧「计划进度」文字 */
+  .research-progress__grid {
+    --circle-size: 21px;
+    --gap: 3px;
+  }
+
   .research-progress__shell {
-    width: 142px;
-    height: 142px;
+    width: 128px;
+    height: 128px;
+  }
+
+  .research-progress__label {
+    font-size: 0.74rem;
   }
 
   .research-progress__value {
-    font-size: 2.1rem;
+    font-size: 1.9rem;
   }
 
   .research-panel__quote {
