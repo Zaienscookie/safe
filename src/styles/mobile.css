@@ -114,3 +114,216 @@
     font-size: 11px;
   }
 }
+
+/* =========================================================================
+ * 手机横屏（矮屏）：排版优化
+ * -------------------------------------------------------------------------
+ * 手机被 landscape.js 强制横屏后高度通常只有 320~420px。此时若沿用桌面
+ * 的大留白（顶部 8~9rem）与大标题，会显得空旷、需要不停滚动。这里仅对
+ * 「视口高度 ≤ 560px 的设备」收紧留白、字号与装饰；桌面窗口高度普遍更大，
+ * 不受影响。
+ * ========================================================================= */
+@media (max-height: 560px) {
+  /* —— 各栏目内容：收紧上下留白 —— */
+  .enter-screen__content,
+  .homepage-screen__content,
+  .headquarters-screen__content,
+  .member-screen__content,
+  .department-screen__content,
+  .research-screen__content {
+    padding-top: 4.6rem;
+    padding-bottom: 3.4rem;
+  }
+
+  /* —— 品牌标识更紧凑（用屏幕前缀提高优先级，覆盖各栏目自带的定位）—— */
+  .enter-screen .brand-mark,
+  .homepage-screen .brand-mark,
+  .headquarters-screen .brand-mark,
+  .member-screen .brand-mark,
+  .department-screen .brand-mark,
+  .research-screen .brand-mark,
+  .particle-screen .brand-mark {
+    top: 1.1rem;
+    left: 1.4rem;
+    right: 1.4rem;
+  }
+
+  .brand-mark__title {
+    font-size: 1.5rem;
+  }
+
+  .brand-mark__meta {
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+  }
+
+  /* —— 进入页：横屏（宽而矮）改为左右两栏，让「进入」按钮一屏可见 —— */
+  .enter-screen__content {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+    justify-items: stretch;
+    gap: 1.4rem;
+    padding-top: 4.2rem;
+    padding-bottom: 1.6rem;
+  }
+
+  .logo-stage {
+    min-height: 0;
+  }
+
+  .logo-stage__image {
+    width: min(16rem, 44vh);
+  }
+
+  .enter-panel {
+    justify-self: start;
+    width: auto;
+    max-width: 24rem;
+    padding: 0;
+    text-align: left;
+  }
+
+  .enter-panel__copy {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .enter-panel__title {
+    font-size: clamp(1.7rem, 6.4vh, 2.3rem);
+  }
+
+  .enter-panel__copy {
+    margin-top: 0.8rem;
+    font-size: 0.86rem;
+    line-height: 1.7;
+  }
+
+  .enter-button {
+    margin-top: 1.6rem;
+  }
+
+  .enter-button__core {
+    width: 4.4rem;
+    height: 4.4rem;
+  }
+
+  /* —— 首页：标题与快捷入口收紧 —— */
+  .homepage-screen__content {
+    gap: 1.2rem;
+  }
+
+  .homepage-copy__title {
+    font-size: clamp(1.9rem, 7.4vh, 2.7rem);
+  }
+
+  .homepage-copy__line {
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  .homepage-copy__experience,
+  .quick-links {
+    margin-top: 1.2rem;
+  }
+
+  /* —— 关于：简介与按钮收紧 —— */
+  .headquarters-copy__title {
+    font-size: clamp(1.9rem, 7.4vh, 2.7rem);
+  }
+
+  .headquarters-copy__summary {
+    margin-top: 0.9rem;
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .headquarters-copy__status {
+    margin-top: 1.1rem;
+    padding: 0.7rem 0.8rem;
+  }
+
+  .headquarters-actions {
+    margin-top: 1.3rem;
+    gap: 0.7rem;
+  }
+
+  .command-button {
+    min-width: 0;
+    padding: 0.8rem 1.3rem;
+  }
+
+  /* —— 纳新：卡片贴合屏幕高度，减少整屏滚动 —— */
+  .member-carousel {
+    min-height: 0;
+  }
+
+  .member-carousel__stage {
+    width: min(22rem, 58vh);
+    height: min(31rem, 74vh);
+  }
+
+  /* —— 方向：面板与卡片顶部留白收紧 —— */
+  .department-panel {
+    margin-top: 4.6rem;
+    min-height: 0;
+    padding: 1.8rem 1.5rem;
+  }
+
+  .department-cluster {
+    margin: 0.6rem 0;
+    gap: 0.7rem;
+  }
+
+  .department-card {
+    min-height: 6.6rem;
+  }
+
+  /* —— 活动：进度环与面板留白收紧 —— */
+  .research-panel__title {
+    font-size: clamp(1.5rem, 5.6vh, 2rem);
+  }
+
+  .research-progress {
+    margin-top: 1.2rem;
+    gap: 1rem;
+  }
+
+  .research-progress__shell {
+    width: 142px;
+    height: 142px;
+  }
+
+  .research-progress__value {
+    font-size: 2.1rem;
+  }
+
+  .research-panel__quote {
+    margin-top: 1.2rem;
+    font-size: 0.88rem;
+    line-height: 1.75;
+  }
+
+  .research-panel__button {
+    margin-top: 1.2rem;
+    padding: 0.8rem 1.1rem;
+  }
+
+  .research-info {
+    margin-top: 1.4rem;
+  }
+
+  /* —— 侧边导航：更紧凑，避免占据过多高度 —— */
+  .side-nav {
+    gap: 0.9rem 1.4rem;
+  }
+
+  .side-nav__item {
+    font-size: 0.82rem;
+  }
+
+  /* —— 页脚：更贴底、更小 —— */
+  .screen-footer {
+    bottom: 0.9rem;
+    font-size: 0.72rem;
+  }
+}
