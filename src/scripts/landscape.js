@@ -7,9 +7,10 @@
  *   - 仅对触屏移动设备生效（桌面端不受影响）；
  *   - 竖屏时动态注入一个全屏遮罩，覆盖所有内容并拦截点击；
  *   - 遮罩内提供「自动横屏」按钮：先进入全屏再锁定横屏方向（方向锁几乎都
- *     要求全屏，否则无法自动旋转）。为防 QQ/UC/百度等 X5 内核把页面内的
- *     <video> 提升为原生全屏播放器，全屏前会先暂停并隐藏视频，退出遮罩时
- *     恢复；若浏览器不支持方向锁（如 iOS Safari），按钮改为提示「请手动旋转手机」；
+ *     要求全屏，否则无法自动旋转）。为避免 QQ/UC/百度等 X5 内核把页面内的
+ *     <video> 劫持为原生全屏播放器，X5 内核直接跳过全屏、仅提示手动旋转；
+ *     其它内核全屏前会先暂停并隐藏视频，退出遮罩时恢复；
+ *     若浏览器不支持方向锁（如 iOS Safari），按钮改为提示「请手动旋转手机」；
  *   - 横屏时遮罩自动移除，恢复正常使用；
  *   - 监听 resize 与 orientationchange，即时响应方向变化。
  *   - 对外暴露 window.SecRequestLandscape()，供「进入」等用户手势调用。
@@ -102,6 +103,10 @@
   // 方向锁（screen.orientation.lock）几乎都要求页面处于全屏，因此必须请求全屏，
   // 否则按钮无效。返回 Promise<boolean>：true 表示已成功锁定横屏。
   function requestLandscape() {
+    // X5 内核（QQ/UC/百度/夸克/微信等）：只要页面存在 <video>，一请求全屏就会
+    // 被其原生播放器劫持（自动弹出活动视频并全屏）。这类内核对页面级方向锁支持
+    // 也不完整，故直接跳过全屏，返回 false 由调用方引导手动旋转，杜绝劫持。
+    if (isX5Kernel()) return Promise.resolve(false);
     hideVideos();
     return enterFullscreen().then(function (fs) {
       if (!fs) return false;
