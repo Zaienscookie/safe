@@ -217,8 +217,19 @@
   }
   .result-actions .btn { margin-top: 0; }
 
-  @media (max-width: 640px) {
-    .screen { padding: 1.8rem 1.3rem 1.5rem; }
+  @media (max-height: 560px) {
+    .screen { padding: 1.3rem 1.5rem; }
+    h1 { font-size: 1.5rem; margin-top: 0.3rem; }
+    h2 { font-size: 1.05rem; margin-top: 0.6rem; line-height: 1.4; }
+    .privacy { margin-top: 0.7rem; padding: 0.55rem 0.8rem; font-size: 0.74rem; line-height: 1.6; }
+    .desc { margin-top: 0.8rem; font-size: 0.82rem; line-height: 1.6; }
+    .options { gap: 0.5rem; margin-top: 0.9rem; }
+    .opt { padding: 0.6rem 0.8rem; font-size: 0.82rem; }
+    .result-text { margin-top: 0.9rem; font-size: 0.85rem; line-height: 1.75; }
+    .result-type { margin-top: 0.8rem; }
+  }
+
+  @media (max-width: 640px) {    .screen { padding: 1.8rem 1.3rem 1.5rem; }
     .opt { font-size: 0.85rem; }
   }
 </style>
