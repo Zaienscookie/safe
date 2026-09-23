@@ -38,3 +38,6 @@
 - 活动视频：`.research-screen__bg` 增加封面图 CSS 兜底，自动播放失败时不再黑屏。
 - 活动视频：补充 `x5-*`（QQ/UC/部分百度内核）内联播放属性与 `disablepictureinpicture`；`canplay`/`loadeddata` 重试 + 标签页重新可见时续播。
 - 手势粒子摄像头视频：未进入该栏目时 `display:none`，避免个别浏览器（如百度）隐藏视频穿透遮挡页面。
+
+## 部署（2026-09-23）
+- 最新构建已发布至 Cloudflare Pages 项目 `safe`（生产域名 `safe-1r9.pages.dev` 与自定义域名 `safe.zain-dev.top`）。
