@@ -552,6 +552,15 @@ function playBgVideo() {
   if (!researchVideo) {
     return;
   }
+  // 移动端（含 QQ/UC/百度等 X5 内核）无法把 <video> 当作背景内联播放，
+  // 会强制弹出其原生全屏播放器且需手动退出。故移动端一律改用封面图，
+  // 完全不加载、不播放该视频。
+  if (isMobileDevice()) {
+    researchScreen.classList.add("is-poster-only");
+    researchVideo.pause();
+    researchVideo.removeAttribute("autoplay");
+    return;
+  }
   // 移动端兼容：静音 + 内联 + autoplay 属性，尽量触发自动播放（poster 兜底显示封面）
   researchVideo.muted = true;
   researchVideo.setAttribute("playsinline", "");
@@ -601,11 +610,20 @@ function pauseBgVideo() {
 // 兜底：任何情况下（含被国产内核强行提升播放）只要不在活动栏目，立即停播。
 if (researchVideo) {
   researchVideo.addEventListener("play", () => {
+    if (researchScreen && researchScreen.classList.contains("is-poster-only")) {
+      researchVideo.pause();
+      researchVideo.removeAttribute("autoplay");
+      return;
+    }
     if (!researchScreen || !researchScreen.classList.contains("is-visible")) {
       researchVideo.pause();
       researchVideo.removeAttribute("autoplay");
     }
   });
+}
+// 移动端从一开始就标记为「仅封面」，视频元素彻底不参与渲染与播放。
+if (researchScreen && isMobileDevice()) {
+  researchScreen.classList.add("is-poster-only");
 }
 function hideParticle() {
   pauseBgVideo();

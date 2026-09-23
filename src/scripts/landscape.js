@@ -36,37 +36,21 @@
     return /MQQBrowser|QQBrowser|UCBrowser|UCWEB|Quark|baidubrowser|baiduboxapp|BIDUBrowser|MicroMessenger|XWEB|; wv\)/i.test(ua);
   }
 
-  // —— 请求全屏并锁定横屏（尽量；不支持时静默失败）——
-  // 返回 true 表示已尝试全屏；返回 false 表示因内核限制主动放弃。
+  // —— 尝试锁定横屏方向 ——
+  // 说明：方向锁（screen.orientation.lock）通常要求页面处于全屏，而请求全屏
+  // 会让 QQ/UC/百度等内核把页面中的 <video> 提升为原生全屏播放器并需手动
+  // 退出。为避免该副作用，这里**永不请求全屏**，仅尝试方向锁（多半会被浏览器
+  // 拒绝，属正常）；返回 false 表示未能自动旋转，调用方可引导用户手动旋转。
   function requestLandscape() {
-    if (isX5Kernel()) {
-      return false;
-    }
-    var el = document.documentElement;
-    var lock = function () {
-      try {
-        if (window.screen && screen.orientation && typeof screen.orientation.lock === "function") {
-          var p = screen.orientation.lock("landscape");
-          if (p && typeof p.catch === "function") p.catch(function () {});
-        }
-      } catch (e) {
-        /* 浏览器不支持方向锁，忽略 */
-      }
-    };
     try {
-      if (el.requestFullscreen) {
-        el.requestFullscreen().then(lock, lock);
-      } else if (el.webkitRequestFullscreen) {
-        el.webkitRequestFullscreen();
-        lock();
-      } else {
-        lock();
+      if (window.screen && screen.orientation && typeof screen.orientation.lock === "function") {
+        var p = screen.orientation.lock("landscape");
+        if (p && typeof p.catch === "function") p.catch(function () {});
       }
-      return true;
     } catch (e) {
-      lock();
-      return true;
+      /* 浏览器不支持方向锁，忽略 */
     }
+    return false;
   }
 
   // 暴露给其它脚本（如「进入」按钮）在用户手势中调用

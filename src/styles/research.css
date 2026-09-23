@@ -49,6 +49,12 @@
   display: none;
 }
 
+/* 移动端「仅封面」模式：这些内核无法内联播放 <video>，会弹出原生全屏
+   播放器。直接不渲染该视频，只显示封面背景图。 */
+.research-screen.is-poster-only .research-screen__video {
+  display: none !important;
+}
+
 .research-screen__stars {
   background-image:
     radial-gradient(2px 2px at 8% 20%, rgba(255, 255, 255, 0.7), transparent),
