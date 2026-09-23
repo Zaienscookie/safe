@@ -23,9 +23,7 @@
 }
 
 .headquarters-screen__bg {
-  background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.06) 42%, rgba(0, 0, 0, 0.22) 100%),
-    url("../../assets/images/backgrounds/headquarters_bg.jpg") center / cover no-repeat;
+  background: #14141a center / cover no-repeat; /* 背景图改为进入「关于」栏目时由 JS 加载，避免首屏下载 948KB */
   transform: scale(1);
   transition: transform 1.2s var(--ease-standard);
 }

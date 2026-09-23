@@ -413,6 +413,7 @@ function showHeadquarters() {
   }
 
   currentSection = "headquarters";
+  loadHqBg();
   setThemeColor("#e8e8e8");
   hideParticle();
 
@@ -535,6 +536,13 @@ function showResearch() {
  */
 /* 活动栏目的背景视频（约 17MB）：延迟到进入「活动」栏目时才播放，
  * 配合 HTML 的 preload="none"，避免首屏就下载大视频。 */
+function loadHqBg() {
+  const bg = document.querySelector(".headquarters-screen__bg");
+  if (bg && !bg.dataset.bgLoaded) {
+    bg.style.backgroundImage = "linear-gradient(90deg, rgba(0,0,0,0.34), rgba(0,0,0,0.06) 42%, rgba(0,0,0,0.22) 100%), url('./assets/images/backgrounds/headquarters_bg.jpg')";
+    bg.dataset.bgLoaded = "1";
+  }
+}
 function setThemeColor(c) {
   const m = document.querySelector('meta[name="theme-color"]');
   if (m) m.setAttribute("content", c);
