@@ -74,5 +74,20 @@
       })();
     </script>
     <script src="./src/scripts/landscape.js"></script>
+    <script>
+      /* 回到顶部按钮（滚动一定距离后出现） */
+      (function () {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "back-to-top";
+        btn.setAttribute("aria-label", "回到顶部");
+        btn.textContent = "↑";
+        document.body.appendChild(btn);
+        btn.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+        function upd() { btn.classList.toggle("is-show", window.scrollY > 400); }
+        window.addEventListener("scroll", upd, { passive: true });
+        upd();
+      })();
+    </script>
   </body>
 </html>
