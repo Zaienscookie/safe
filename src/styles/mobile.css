@@ -634,3 +634,17 @@
     width: min(18rem, 74vw);
   }
 }
+/* 触屏：按下时的即时反馈（提升手感） */
+@media (hover: none) {
+  .quick-links__item:active,
+  .command-button:active,
+  .homepage-copy__experience:active,
+  .side-nav__item:active,
+  .opt:active,
+  .flag-form__btn:active,
+  .direction-card__back:active,
+  .member-carousel__arrow:active {
+    transform: scale(0.96);
+    opacity: 0.88;
+  }
+}
