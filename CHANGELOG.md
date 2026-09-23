@@ -42,3 +42,8 @@
 ## 部署（2026-09-23）
 - 最新构建已发布至 Cloudflare Pages 项目 `safe`（生产域名 `safe-1r9.pages.dev` 与自定义域名 `safe.zain-dev.top`）。
 - 修复 GitHub 仓库与 Cloudflare Pages 的自动部署授权，push 到 `main` 即自动构建发布。
+
+## 移动端问题修复（2026-09-23）
+- 初始界面 Logo 丢失：`.logo-stage` 子元素全为绝对定位，在手机单栏（竖屏）与矮横屏布局下塌缩为 0，导致 Lottie 标志不可见。为手机各断点显式设定 Logo 容器尺寸（竖屏 `min(22rem,88vw)`、横屏 `min(16rem,44vh)`）。
+- 活动栏目「查看纳新安排」在手机上只播动画、无内容：移动端浏览器拦截 `window.open` 弹窗。改为新标签失败时回退当前页跳转 `training.html?from=research`。
+- 手机端自动横屏：横屏遮罩新增「自动横屏」按钮，并在「进入」按钮点击手势中调用全屏 + `screen.orientation.lock('landscape')`（Android Chrome 生效；iOS 不支持时仍提示手动旋转）。

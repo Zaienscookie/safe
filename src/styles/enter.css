@@ -399,6 +399,14 @@
     padding-top: 10rem;
   }
 
+  /* 单栏布局下 .logo-stage 的子元素全是绝对定位，会塌缩成 0 宽，
+     导致 Logo（Lottie/回退图）不可见，这里显式给定尺寸。 */
+  .logo-stage {
+    width: min(34rem, 74vw);
+    height: min(34rem, 74vw);
+    min-height: 0;
+  }
+
   .brand-mark {
     top: 2rem;
     left: 1.5rem;
@@ -440,6 +448,11 @@
 }
 
 @media (max-width: 640px) {
+  .logo-stage {
+    width: min(22rem, 88vw);
+    height: min(22rem, 88vw);
+  }
+
   .logo-stage__image {
     width: min(22rem, 88vw);
   }

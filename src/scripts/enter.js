@@ -948,6 +948,10 @@ function resetIntro() {
 // 点击后按钮高亮 + 进入页淡出，520ms 后显示授权过场
 if (enterButton && enterScreen) {
   enterButton.addEventListener("click", () => {
+    // 移动端：借这次用户手势尽量自动全屏并锁定横屏（不支持则静默回退到横屏遮罩）
+    if (typeof window.SecRequestLandscape === "function") {
+      window.SecRequestLandscape();
+    }
     enterButton.classList.add("is-activated");
     enterScreen.classList.add("is-transitioning");
 
@@ -1278,7 +1282,13 @@ updateResearch(0);
 if (researchOpen) {
   researchOpen.addEventListener("click", () => {
     // 「查看纳新安排」→ 打开培养体系页 training.html（含三段小标题文案）
-    window.open(withFrom(siteConfig.links.training), "_blank", "noopener,noreferrer");
+    // 移动端浏览器常拦截 window.open：新标签失败时回退为当前页跳转，
+    // 保证任何设备都能真正打开页面（training.html 通过 ?from= 支持返回本栏目）。
+    const url = withFrom(siteConfig.links.training);
+    const opened = window.open(url, "_blank", "noopener,noreferrer");
+    if (!opened) {
+      window.location.href = url;
+    }
   });
 }
 

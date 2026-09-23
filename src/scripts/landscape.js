@@ -1,12 +1,17 @@
 /* =========================================================================
- * landscape.js —— 移动端横屏守卫
+ * landscape.js —— 移动端横屏守卫 + 自动横屏
  * -------------------------------------------------------------------------
- * 需求：移动端（手机/平板）竖屏时不允许使用本站，提示用户横屏观看。
+ * 需求：移动端（手机/平板）竖屏时不允许使用本站，提示用户横屏观看；
+ *       并尽量自动把设备旋转/锁定为横屏。
  * 实现：
  *   - 仅对触屏移动设备生效（桌面端不受影响）；
  *   - 竖屏时动态注入一个全屏遮罩，覆盖所有内容并拦截点击；
+ *   - 遮罩内提供「自动横屏」按钮：请求全屏并锁定横屏方向
+ *     （Android Chrome 支持；iOS Safari 不支持元素级全屏/方向锁，
+ *      此时按钮无效，仍提示用户手动旋转）；
  *   - 横屏时遮罩自动移除，恢复正常使用；
  *   - 监听 resize 与 orientationchange，即时响应方向变化。
+ *   - 对外暴露 window.SecRequestLandscape()，供「进入」等用户手势调用。
  * 遮罩样式随脚本内部注入，无需额外 CSS 文件，保持纯前端、零依赖。
  * ========================================================================= */
 (function () {
@@ -22,6 +27,36 @@
     return window.innerHeight > window.innerWidth;
   }
 
+  // —— 请求全屏并锁定横屏（尽量；不支持时静默失败）——
+  function requestLandscape() {
+    var el = document.documentElement;
+    var lock = function () {
+      try {
+        if (window.screen && screen.orientation && typeof screen.orientation.lock === "function") {
+          var p = screen.orientation.lock("landscape");
+          if (p && typeof p.catch === "function") p.catch(function () {});
+        }
+      } catch (e) {
+        /* 浏览器不支持方向锁，忽略 */
+      }
+    };
+    try {
+      if (el.requestFullscreen) {
+        el.requestFullscreen().then(lock, lock);
+      } else if (el.webkitRequestFullscreen) {
+        el.webkitRequestFullscreen();
+        lock();
+      } else {
+        lock();
+      }
+    } catch (e) {
+      lock();
+    }
+  }
+
+  // 暴露给其它脚本（如「进入」按钮）在用户手势中调用
+  window.SecRequestLandscape = requestLandscape;
+
   var overlay = null;
 
   // 注入遮罩（含样式）
@@ -35,6 +70,7 @@
       '<div class="lg-box">' +
         '<div class="lg-icon">&#10227;</div>' +
         '<p class="lg-text">请将手机横屏观看，<br>以获得最佳体验</p>' +
+        '<button class="lg-btn" type="button">自动横屏</button>' +
       '</div>';
 
     // 内联样式，保证任何页面下表现一致
@@ -56,11 +92,24 @@
       "#landscape-guard .lg-text{margin-top:1rem;font-size:1.05rem;line-height:1.9;" +
         "letter-spacing:0.12em;color:#ffc98a;" +
       "}" +
+      "#landscape-guard .lg-btn{margin-top:1.4rem;min-height:2.75rem;padding:0.65rem 1.6rem;" +
+        "font-family:inherit;font-size:0.95rem;letter-spacing:0.14em;cursor:pointer;" +
+        "color:#0b0b10;background:linear-gradient(135deg,#ff8c00,#ffc98a);" +
+        "border:0;border-radius:999px;box-shadow:0 0 22px rgba(255,140,0,0.35);" +
+      "}" +
+      "#landscape-guard .lg-btn:active{transform:scale(0.97)}" +
       "@keyframes lgSpin{to{transform:rotate(360deg)}}";
 
     document.head.appendChild(style);
     document.body.appendChild(overlay);
     document.documentElement.style.overflow = "hidden"; // 竖屏时禁止滚动
+
+    var btn = overlay.querySelector(".lg-btn");
+    if (btn) {
+      btn.addEventListener("click", function () {
+        requestLandscape();
+      });
+    }
   }
 
   function hideOverlay() {

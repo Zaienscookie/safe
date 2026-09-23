@@ -186,6 +186,8 @@
   }
 
   .logo-stage {
+    width: min(16rem, 44vh);
+    height: min(16rem, 44vh);
     min-height: 0;
   }
 
