@@ -618,3 +618,13 @@
     justify-content: center;
   }
 }
+/* 横屏矮屏：首页进一步紧凑，尽量让快捷入口进入首屏 */
+@media (max-height: 560px) {
+  .homepage-copy__welcome { margin-bottom: 0.4rem; }
+  .homepage-copy__summary { margin-top: 0.7rem; }
+  .homepage-copy__line { margin: 0.12rem 0; line-height: 1.55; }
+  .quick-links { gap: 0.5rem; margin-top: 1rem; }
+  .quick-links__item { padding: 0.55rem 0.8rem; }
+  .homepage-copy__experience { margin-top: 1rem; }
+  .homepage-copy__experience.command-button { padding: 0.8rem 1.2rem; }
+}
