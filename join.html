@@ -92,6 +92,13 @@
       .faq__item p { margin: 0; padding: 0 1rem 0.9rem; font-size: 0.88rem; line-height: 1.8; color: rgba(246,244,239,0.82); }
       .join-phone__call { display: inline-block; margin-left: 0.8rem; padding: 0.3rem 0.8rem; border: 1px solid rgba(255,140,0,0.45); border-radius: 999px; color: #ffc98a; text-decoration: none; font-size: 0.78rem; letter-spacing: 0.08em; }
       .join-phone__call:hover { background: rgba(255,140,0,0.12); }
+      /* 入社流程 */
+      .steps { margin-top: 1.6rem; display: grid; gap: 0.7rem; }
+      .steps__title { margin: 0 0 0.2rem; font-size: 0.78rem; letter-spacing: 0.22em; color: rgba(255,255,255,0.55); }
+      .step { display: flex; gap: 0.8rem; align-items: flex-start; padding: 0.8rem 1rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; background: rgba(255,255,255,0.03); }
+      .step__no { flex: 0 0 auto; width: 1.7rem; height: 1.7rem; display: grid; place-items: center; border-radius: 50%; background: rgba(255,140,0,0.16); color: #ff8c00; font-weight: 700; font-size: 0.9rem; }
+      .step__t { font-size: 0.9rem; color: #e8e6df; }
+      .step__d { margin: 0.2rem 0 0; font-size: 0.82rem; line-height: 1.7; color: rgba(246,244,239,0.78); }
     </style>
   </head>
   <body>
@@ -142,6 +149,12 @@
             </p>
           </div>
 
+          <div class="steps">
+            <p class="steps__title">入社流程 · PROCESS</p>
+            <div class="step"><span class="step__no">1</span><div><div class="step__t">扫码入群 / 来电</span></div><p class="step__d">拨打电话 18518184798，或扫描上方微信群二维码加入纳新群。</p></div></div>
+            <div class="step"><span class="step__no">2</span><div><div class="step__t">填写报名信息</div><p class="step__d">在群内填写报名表，选择你感兴趣的技术方向。</p></div></div>
+            <div class="step"><span class="step__no">3</span><div><div class="step__t">参加见面会并开始训练</div><p class="step__d">参加纳新见面会，随后按方向加入每周训练与实战。</p></div></div>
+          </div>
           <div class="faq">
             <p class="faq__title">常见问题 · FAQ</p>
             <details class="faq__item">
