@@ -24,9 +24,16 @@
 
 .research-screen__bg {
   overflow: hidden;
-  background-image: url("../../assets/images/backgrounds/research_poster.jpg");
+  background-image: url("../../assets/images/backgrounds/research_poster.jpg?v=20260923d");
   background-size: cover;
   background-position: center;
+}
+
+/* 竖屏（手机未旋转时）用专门的竖版裁切，让行星居中而非被横版封面裁掉 */
+@media (orientation: portrait) {
+  .research-screen__bg {
+    background-image: url("../../assets/images/backgrounds/research_poster_mobile.jpg?v=20260923d");
+  }
 }
 
 .research-screen__bg::after {
