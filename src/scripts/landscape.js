@@ -7,9 +7,9 @@
  *   - 仅对触屏移动设备生效（桌面端不受影响）；
  *   - 竖屏时动态注入一个全屏遮罩，覆盖所有内容并拦截点击；
  *   - 遮罩内提供「自动横屏」按钮：先进入全屏再锁定横屏方向（方向锁几乎都
- *     要求全屏，否则无法自动旋转）。为避免 QQ/UC/百度等 X5 内核把页面内的
- *     <video> 劫持为原生全屏播放器，X5 内核直接跳过全屏、仅提示手动旋转；
- *     其它内核全屏前会先暂停并隐藏视频，退出遮罩时恢复；
+ *     要求全屏，否则无法自动旋转）。为避免 QQ/UC/百度及各厂商自带浏览器等
+ *     X5 系内核把页面内的 <video> 劫持为原生全屏播放器，全屏前会把所有
+ *     <video> 整个移出 DOM，退出遮罩时按原位置放回；
  *     若浏览器不支持方向锁（如 iOS Safari），按钮改为提示「请手动旋转手机」；
  *   - 横屏时遮罩自动移除，恢复正常使用；
  *   - 监听 resize 与 orientationchange，即时响应方向变化。
@@ -38,29 +38,38 @@
     return /MQQBrowser|QQBrowser|UCBrowser|UCWEB|Quark|baidubrowser|baiduboxapp|BIDUBrowser|MicroMessenger|XWEB|; wv\)/i.test(ua);
   }
 
-  // —— 临时隐藏所有 <video> ——
-  // 请求全屏时，部分 X5 内核会把页面中的 <video> 提升为自家原生全屏播放器，
-  // 从而劫持页面。全屏前先暂停并隐藏视频，可显著降低该风险；隐藏状态在退出
-  // 横屏守卫时恢复。
-  var hiddenVideos = [];
+  // —— 临时把 <video> 从 DOM 中移除 ——
+  // 请求全屏时，部分 X5 内核（含小米/OPPO/vivo/华为等自带浏览器）只要检测到
+  // 页面存在 <video>，就会把它提升为自家原生全屏播放器并劫持页面。仅隐藏
+  // （display:none）挡不住，必须把元素整个移出 DOM。移动端活动视频本就只显示
+  // 封面、不播放，移除零副作用；退出横屏守卫时按原位置放回。
+  var detachedVideos = [];
 
   function hideVideos() {
-    if (hiddenVideos.length) return;
+    if (detachedVideos.length) return;
     var vids = document.querySelectorAll("video");
     for (var i = 0; i < vids.length; i++) {
       var v = vids[i];
       try { v.pause(); } catch (e) {}
-      hiddenVideos.push({ el: v, display: v.style.display });
-      v.style.display = "none";
-      v.removeAttribute("autoplay");
+      detachedVideos.push({ el: v, parent: v.parentNode, next: v.nextSibling });
+      if (v.parentNode) v.parentNode.removeChild(v);
     }
   }
 
   function restoreVideos() {
-    for (var i = 0; i < hiddenVideos.length; i++) {
-      try { hiddenVideos[i].el.style.display = hiddenVideos[i].display || ""; } catch (e) {}
+    for (var i = 0; i < detachedVideos.length; i++) {
+      var item = detachedVideos[i];
+      try {
+        if (item.parent) {
+          if (item.next && item.next.parentNode === item.parent) {
+            item.parent.insertBefore(item.el, item.next);
+          } else {
+            item.parent.appendChild(item.el);
+          }
+        }
+      } catch (e) {}
     }
-    hiddenVideos = [];
+    detachedVideos = [];
   }
 
   // —— 进入全屏（兼容各内核前缀）——
@@ -103,10 +112,9 @@
   // 方向锁（screen.orientation.lock）几乎都要求页面处于全屏，因此必须请求全屏，
   // 否则按钮无效。返回 Promise<boolean>：true 表示已成功锁定横屏。
   function requestLandscape() {
-    // X5 内核（QQ/UC/百度/夸克/微信等）：只要页面存在 <video>，一请求全屏就会
-    // 被其原生播放器劫持（自动弹出活动视频并全屏）。这类内核对页面级方向锁支持
-    // 也不完整，故直接跳过全屏，返回 false 由调用方引导手动旋转，杜绝劫持。
-    if (isX5Kernel()) return Promise.resolve(false);
+    // 全屏前先把所有 <video> 移出 DOM，避免 X5 系内核（含各厂商自带浏览器）
+    // 把视频劫持为原生全屏播放器；全屏 + 方向锁成功后遮罩会随方向变化移除，
+    // 并在 hideOverlay() 中把视频放回。
     hideVideos();
     return enterFullscreen().then(function (fs) {
       if (!fs) return false;
