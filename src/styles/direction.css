@@ -327,3 +327,56 @@ body {
   .direction-card__slogan,
   .direction-card__quote { padding-left: 0.7rem; }
 }
+
+/* =========================================================================
+ * 子页面横屏矮屏（手机横屏）：收紧留白与字号，减少滚动
+ * ========================================================================= */
+@media (max-height: 560px) {
+  .brand-mark {
+    position: static;
+    margin: 1rem 1.4rem 0;
+  }
+
+  .direction-nav {
+    top: 1rem;
+    right: 1.4rem;
+    max-width: 62vw;
+  }
+
+  .direction-card {
+    margin: 1.4rem 1.4rem 2rem;
+    padding: 1.5rem 1.6rem;
+  }
+
+  .direction-card__title {
+    margin-top: 0.5rem;
+    font-size: clamp(1.6rem, 6vh, 2.1rem);
+  }
+
+  .direction-card__slogan {
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .direction-card__block {
+    margin-top: 1rem;
+  }
+
+  .direction-card__roadmap li {
+    margin: 0.24rem 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .direction-card__quote {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .direction-card__back {
+    margin-top: 1.2rem;
+    padding: 0.7rem 1.3rem;
+  }
+}
