@@ -41,3 +41,4 @@
 
 ## 部署（2026-09-23）
 - 最新构建已发布至 Cloudflare Pages 项目 `safe`（生产域名 `safe-1r9.pages.dev` 与自定义域名 `safe.zain-dev.top`）。
+- 修复 GitHub 仓库与 Cloudflare Pages 的自动部署授权，push 到 `main` 即自动构建发布。
