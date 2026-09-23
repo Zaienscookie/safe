@@ -144,5 +144,23 @@
       })();
     </script>
     <script src="./src/scripts/landscape.js"></script>
+    <script>
+      /* 点击手机号复制到剪贴板 */
+      (function () {
+        var num = document.getElementById("join-phone-num");
+        if (!num) return;
+        num.title = "点击复制手机号";
+        num.addEventListener("click", function () {
+          var text = num.textContent.trim();
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(function () {
+              var old = num.textContent;
+              num.textContent = "已复制 ✓";
+              setTimeout(function () { num.textContent = old; }, 1200);
+            }).catch(function () {});
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
