@@ -6,10 +6,10 @@
  * 实现：
  *   - 仅对触屏移动设备生效（桌面端不受影响）；
  *   - 竖屏时动态注入一个全屏遮罩，覆盖所有内容并拦截点击；
- *   - 遮罩内提供「自动横屏」按钮：仅尝试锁定横屏方向，**绝不请求全屏**
- *     （请求全屏会导致 QQ/UC/百度等 X5 内核把页面内的 <video> 提升为
- *      原生全屏播放器且需手动退出）。方向锁通常要求全屏，故多数浏览器
- *      会失败，此时按钮改为提示「请手动旋转手机」；
+ *   - 遮罩内提供「自动横屏」按钮：先进入全屏再锁定横屏方向（方向锁几乎都
+ *     要求全屏，否则无法自动旋转）。为防 QQ/UC/百度等 X5 内核把页面内的
+ *     <video> 提升为原生全屏播放器，全屏前会先暂停并隐藏视频，退出遮罩时
+ *     恢复；若浏览器不支持方向锁（如 iOS Safari），按钮改为提示「请手动旋转手机」；
  *   - 横屏时遮罩自动移除，恢复正常使用；
  *   - 监听 resize 与 orientationchange，即时响应方向变化。
  *   - 对外暴露 window.SecRequestLandscape()，供「进入」等用户手势调用。
@@ -37,21 +37,76 @@
     return /MQQBrowser|QQBrowser|UCBrowser|UCWEB|Quark|baidubrowser|baiduboxapp|BIDUBrowser|MicroMessenger|XWEB|; wv\)/i.test(ua);
   }
 
-  // —— 尝试锁定横屏方向 ——
-  // 说明：方向锁（screen.orientation.lock）通常要求页面处于全屏，而请求全屏
-  // 会让 QQ/UC/百度等内核把页面中的 <video> 提升为原生全屏播放器并需手动
-  // 退出。为避免该副作用，这里**永不请求全屏**，仅尝试方向锁（多半会被浏览器
-  // 拒绝，属正常）；返回 false 表示未能自动旋转，调用方可引导用户手动旋转。
-  function requestLandscape() {
+  // —— 临时隐藏所有 <video> ——
+  // 请求全屏时，部分 X5 内核会把页面中的 <video> 提升为自家原生全屏播放器，
+  // 从而劫持页面。全屏前先暂停并隐藏视频，可显著降低该风险；隐藏状态在退出
+  // 横屏守卫时恢复。
+  var hiddenVideos = [];
+
+  function hideVideos() {
+    if (hiddenVideos.length) return;
+    var vids = document.querySelectorAll("video");
+    for (var i = 0; i < vids.length; i++) {
+      var v = vids[i];
+      try { v.pause(); } catch (e) {}
+      hiddenVideos.push({ el: v, display: v.style.display });
+      v.style.display = "none";
+      v.removeAttribute("autoplay");
+    }
+  }
+
+  function restoreVideos() {
+    for (var i = 0; i < hiddenVideos.length; i++) {
+      try { hiddenVideos[i].el.style.display = hiddenVideos[i].display || ""; } catch (e) {}
+    }
+    hiddenVideos = [];
+  }
+
+  // —— 进入全屏（兼容各内核前缀）——
+  function fullscreenElement() {
+    return document.fullscreenElement || document.webkitFullscreenElement ||
+      document.mozFullScreenElement || document.msFullscreenElement || null;
+  }
+
+  function enterFullscreen() {
+    if (fullscreenElement()) return Promise.resolve(true);
+    var el = document.documentElement;
+    var req = el.requestFullscreen || el.webkitRequestFullscreen ||
+      el.mozRequestFullScreen || el.msRequestFullscreen;
+    if (!req) return Promise.resolve(false);
+    try {
+      var r = req.call(el);
+      if (r && typeof r.then === "function") {
+        return r.then(function () { return true; }).catch(function () { return false; });
+      }
+      return Promise.resolve(true);
+    } catch (e) {
+      return Promise.resolve(false);
+    }
+  }
+
+  function lockLandscape() {
     try {
       if (window.screen && screen.orientation && typeof screen.orientation.lock === "function") {
         var p = screen.orientation.lock("landscape");
-        if (p && typeof p.catch === "function") p.catch(function () {});
+        if (p && typeof p.then === "function") {
+          return p.then(function () { return true; }).catch(function () { return false; });
+        }
+        return Promise.resolve(true);
       }
-    } catch (e) {
-      /* 浏览器不支持方向锁，忽略 */
-    }
-    return false;
+    } catch (e) {}
+    return Promise.resolve(false);
+  }
+
+  // —— 自动横屏：先全屏，再锁方向 ——
+  // 方向锁（screen.orientation.lock）几乎都要求页面处于全屏，因此必须请求全屏，
+  // 否则按钮无效。返回 Promise<boolean>：true 表示已成功锁定横屏。
+  function requestLandscape() {
+    hideVideos();
+    return enterFullscreen().then(function (fs) {
+      if (!fs) return false;
+      return lockLandscape();
+    });
   }
 
   // 暴露给其它脚本（如「进入」按钮）在用户手势中调用
@@ -107,12 +162,19 @@
     var btn = overlay.querySelector(".lg-btn");
     if (btn) {
       btn.addEventListener("click", function () {
-        if (!requestLandscape()) {
-          // X5 内核：无法自动全屏旋转，退化为引导手动旋转
-          btn.textContent = "请手动旋转手机";
-          btn.disabled = true;
-          btn.style.cursor = "default";
-        }
+        btn.textContent = "正在尝试…";
+        Promise.resolve(requestLandscape()).then(function (ok) {
+          if (!ok) {
+            // iOS 等不支持方向锁：退化为引导手动旋转
+            btn.textContent = "请手动旋转手机";
+            btn.disabled = true;
+            btn.style.cursor = "default";
+            restoreVideos();
+          } else {
+            // 锁定成功：等方向变化后遮罩会自行移除
+            btn.textContent = "已横屏";
+          }
+        });
       });
     }
   }
@@ -123,6 +185,7 @@
       overlay = null;
       document.documentElement.style.overflow = "";
     }
+    restoreVideos();
   }
 
   function check() {
