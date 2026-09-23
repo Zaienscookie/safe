@@ -39,3 +39,18 @@ button {
 .app-shell {
   min-height: 100vh;
 }
+
+/* =========================================================================
+ * 无障碍：尊重系统「减少动画」偏好（prefers-reduced-motion）
+ * 对晕动症/敏感用户，尽量关闭过渡与动画。
+ * ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
