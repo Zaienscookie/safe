@@ -628,3 +628,9 @@
   .homepage-copy__experience { margin-top: 1rem; }
   .homepage-copy__experience.command-button { padding: 0.8rem 1.2rem; }
 }
+/* 竖屏小屏：首页装饰适当缩小，让文字与入口更突出 */
+@media (max-width: 560px) {
+  .homepage-visual {
+    width: min(18rem, 74vw);
+  }
+}
