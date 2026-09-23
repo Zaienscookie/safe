@@ -253,3 +253,19 @@
     min-width: 100%;
   }
 }
+
+/* 关于页：社团亮点标签 */
+.hq-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+}
+.hq-highlights__item {
+  padding: 0.35rem 0.85rem;
+  border: 1px solid rgba(255, 140, 0, 0.42);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: #ffc98a;
+  background: rgba(255, 140, 0, 0.1);
+}
