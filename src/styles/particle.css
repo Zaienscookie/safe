@@ -28,6 +28,10 @@
   filter: brightness(0.82) saturate(1.1) contrast(1.02);
 }
 
+.particle-screen:not(.is-visible) .particle-screen__video {
+  display: none;
+}
+
 .particle-screen__scene {
   position: absolute;
   inset: 0;

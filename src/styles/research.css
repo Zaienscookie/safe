@@ -24,6 +24,9 @@
 
 .research-screen__bg {
   overflow: hidden;
+  background-image: url("../../assets/images/backgrounds/research_poster.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 .research-screen__bg::after {

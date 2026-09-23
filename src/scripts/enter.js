@@ -557,14 +557,35 @@ function playBgVideo() {
   researchVideo.setAttribute("playsinline", "");
   researchVideo.setAttribute("webkit-playsinline", "");
   researchVideo.setAttribute("autoplay", "");
-  const p = researchVideo.play();
-  if (p && p.catch) {
-    p.catch(() => {});
+
+  const attempt = () => {
+    const p = researchVideo.play();
+    if (p && p.catch) {
+      p.catch(() => {});
+    }
+  };
+
+  if (researchVideo.readyState < 2) {
+    researchVideo.addEventListener("canplay", attempt, { once: true });
+    researchVideo.addEventListener("loadeddata", attempt, { once: true });
+    if (researchVideo.readyState === 0) {
+      try {
+        researchVideo.load();
+      } catch (e) {
+        /* 忽略 */
+      }
+    }
   }
+  attempt();
 }
 /* 若自动播放被浏览器拦截：用户首次触摸/点击活动栏目时再尝试播放 */
 document.addEventListener("pointerdown", () => {
   if (researchVideo && researchVideo.paused && researchScreen && researchScreen.classList.contains("is-visible")) {
+    researchVideo.play().catch(() => {});
+  }
+});
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden && researchVideo && researchVideo.paused && researchScreen && researchScreen.classList.contains("is-visible")) {
     researchVideo.play().catch(() => {});
   }
 });

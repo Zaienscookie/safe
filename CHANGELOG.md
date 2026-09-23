@@ -33,3 +33,8 @@
 - 活动视频：新增封面 poster、增强移动端自动播放兼容、点击兜底播放、隐藏时 `display:none` 避免个别浏览器穿透。
 - SEO/PWA：各页 Open Graph 分享卡片与封面图、JSON-LD 结构化数据、`.nojekyll`、根 favicon。
 - 子页面：新增“回到顶部”按钮。
+
+## 追加（视频播放兼容性加强）
+- 活动视频：`.research-screen__bg` 增加封面图 CSS 兜底，自动播放失败时不再黑屏。
+- 活动视频：补充 `x5-*`（QQ/UC/部分百度内核）内联播放属性与 `disablepictureinpicture`；`canplay`/`loadeddata` 重试 + 标签页重新可见时续播。
+- 手势粒子摄像头视频：未进入该栏目时 `display:none`，避免个别浏览器（如百度）隐藏视频穿透遮挡页面。
