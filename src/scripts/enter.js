@@ -562,6 +562,13 @@ function playBgVideo() {
     p.catch(() => {});
   }
 }
+/* 若自动播放被浏览器拦截：用户首次触摸/点击活动栏目时再尝试播放 */
+document.addEventListener("pointerdown", () => {
+  if (researchVideo && researchVideo.paused && researchScreen && researchScreen.classList.contains("is-visible")) {
+    researchVideo.play().catch(() => {});
+  }
+});
+
 function pauseBgVideo() {
   if (researchVideo) {
     researchVideo.pause();
