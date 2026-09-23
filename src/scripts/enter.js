@@ -521,12 +521,27 @@ function showResearch() {
   researchScreen.classList.add("is-visible");
   researchScreen.setAttribute("aria-hidden", "false");
   restartResearchProgress();
+  playBgVideo();
 }
 
 /* 隐藏互动屏幕并停止手势粒子（stop 摄像头+渲染）。
  * window.SecParticles 由 particle.js 模块提供；未加载时静默跳过。
  */
+/* 活动栏目的背景视频（约 17MB）：延迟到进入「活动」栏目时才播放，
+ * 配合 HTML 的 preload="none"，避免首屏就下载大视频。 */
+const researchVideo = document.querySelector(".research-screen__video");
+function playBgVideo() {
+  if (researchVideo) {
+    researchVideo.play().catch(() => {});
+  }
+}
+function pauseBgVideo() {
+  if (researchVideo) {
+    researchVideo.pause();
+  }
+}
 function hideParticle() {
+  pauseBgVideo();
   if (!particleScreen) {
     return;
   }
