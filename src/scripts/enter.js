@@ -103,7 +103,8 @@ let modalValue = "";
 let activeResearchIndex = 0;
 let logoAnimation;
 let researchProgressFrame;
-let currentSection = "homepage"; // 记录当前所在的栏目，供外部页面“返回原栏目”使用
+let currentSection = "homepage";
+  setThemeColor("#e8e8e8"); // 记录当前所在的栏目，供外部页面“返回原栏目”使用
 
 /* ========================= 全站链接与联系方式 =========================
  * ★ 这里是发布前需要替换的核心配置 ★
@@ -391,6 +392,7 @@ function showHomepage() {
   }
 
   currentSection = "homepage";
+  setThemeColor("#e8e8e8");
   authScreen.classList.remove("is-visible");
   authScreen.setAttribute("aria-hidden", "true");
   hideParticle();
@@ -411,6 +413,7 @@ function showHeadquarters() {
   }
 
   currentSection = "headquarters";
+  setThemeColor("#e8e8e8");
   hideParticle();
 
   if (homepageScreen) {
@@ -439,6 +442,7 @@ function showMember() {
   }
 
   currentSection = "member";
+  setThemeColor("#e8e8e8");
   hideParticle();
 
   if (homepageScreen) {
@@ -468,6 +472,7 @@ function showDepartment() {
   }
 
   currentSection = "department";
+  setThemeColor("#e8e8e8");
   hideParticle();
 
   if (homepageScreen) {
@@ -496,6 +501,7 @@ function showResearch() {
   }
 
   currentSection = "research";
+  setThemeColor("#0b0b10");
   hideParticle();
 
   if (homepageScreen) {
@@ -529,6 +535,10 @@ function showResearch() {
  */
 /* 活动栏目的背景视频（约 17MB）：延迟到进入「活动」栏目时才播放，
  * 配合 HTML 的 preload="none"，避免首屏就下载大视频。 */
+function setThemeColor(c) {
+  const m = document.querySelector('meta[name="theme-color"]');
+  if (m) m.setAttribute("content", c);
+}
 const researchVideo = document.querySelector(".research-screen__video");
 function playBgVideo() {
   if (researchVideo) {
@@ -598,6 +608,7 @@ function showParticle() {
   }
 
   currentSection = "particle";
+  setThemeColor("#0b0b10");
 
   if (homepageScreen) {
     homepageScreen.classList.remove("is-visible");
