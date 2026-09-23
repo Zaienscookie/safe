@@ -81,6 +81,15 @@
         letter-spacing: 0.2em;
         color: rgba(255, 255, 255, 0.6);
       }
+      /* FAQ 折叠问答 */
+      .faq { margin-top: 1.8rem; }
+      .faq__title { margin: 0 0 0.8rem; font-size: 0.78rem; letter-spacing: 0.22em; color: rgba(255,255,255,0.55); }
+      .faq__item { margin-bottom: 0.6rem; border: 1px solid rgba(255,140,0,0.22); border-radius: 10px; background: rgba(255,255,255,0.03); overflow: hidden; }
+      .faq__item summary { padding: 0.85rem 1rem; cursor: pointer; font-size: 0.92rem; color: #ffc98a; list-style: none; }
+      .faq__item summary::-webkit-details-marker { display: none; }
+      .faq__item summary::before { content: "＋ "; color: #ff8c00; }
+      .faq__item[open] summary::before { content: "－ "; }
+      .faq__item p { margin: 0; padding: 0 1rem 0.9rem; font-size: 0.88rem; line-height: 1.8; color: rgba(246,244,239,0.82); }
     </style>
   </head>
   <body>
@@ -130,6 +139,25 @@
             </p>
           </div>
 
+          <div class="faq">
+            <p class="faq__title">常见问题 · FAQ</p>
+            <details class="faq__item">
+              <summary>零基础可以加入吗？</summary>
+              <p>当然可以。我们有入门阶段的系统培训，从基础讲起，带你一步步上手。</p>
+            </details>
+            <details class="faq__item">
+              <summary>需要自备电脑吗？</summary>
+              <p>建议自带笔记本电脑，方便动手实践；社团也会提供实验环境与靶场。</p>
+            </details>
+            <details class="faq__item">
+              <summary>平时活动多吗？</summary>
+              <p>每周固定训练，另有竞赛、分享会与赛事拉练，自愿参加、按兴趣投入。</p>
+            </details>
+            <details class="faq__item">
+              <summary>怎么报名？</summary>
+              <p>拨打上方手机号，或扫描微信群二维码入群，学长学姐会带你完成报名。</p>
+            </details>
+          </div>
           <a class="direction-card__back" href="./index.html">返回主站 ← BACK</a>
         </div>
       </section>
