@@ -84,7 +84,7 @@
         btn.textContent = "↑";
         document.body.appendChild(btn);
         btn.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
-        function upd() { btn.classList.toggle("is-show", window.scrollY > 400); }
+        function upd() { btn.classList.toggle("is-show", window.scrollY > 300); }
         window.addEventListener("scroll", upd, { passive: true });
         upd();
       })();
