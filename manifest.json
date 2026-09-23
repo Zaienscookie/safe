@@ -4,6 +4,8 @@
   "description": "网络安全社 2026 纳新官网",
   "start_url": "./index.html",
   "display": "standalone",
+  "lang": "zh-CN",
+  "scope": "./",
   "background_color": "#0b0b10",
   "theme_color": "#e8e8e8",
   "icons": [
