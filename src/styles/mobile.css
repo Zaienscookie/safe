@@ -790,22 +790,10 @@
  * 竖屏与横屏手机都生效；桌面端不受影响。
  * ========================================================================= */
 @media (max-width: 820px), (max-height: 560px) {
+  /* 手机端直接移除首页这组复杂动画图形：
+   * 它内部是固定尺寸块阵 + 128vh 线条，在小屏上必定错位/溢出，
+   * 保留反而更乱，这里整体隐藏；桌面端不受影响。 */
   .homepage-visual {
-    width: min(20rem, 78vw);
-    max-width: 100%;
-    overflow: hidden;
-  }
-
-  .homepage-visual__blocks-inner {
-    --cell: 34px;
-    --gap: 4px;
-  }
-
-  .homepage-visual__orange-svg,
-  .homepage-visual__data-svg {
-    width: 140%;
-    height: 140%;
-    left: 50%;
-    top: 50%;
+    display: none !important;
   }
 }
