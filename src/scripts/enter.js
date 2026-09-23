@@ -598,6 +598,15 @@ function pauseBgVideo() {
     researchVideo.removeAttribute("autoplay");
   }
 }
+// 兜底：任何情况下（含被国产内核强行提升播放）只要不在活动栏目，立即停播。
+if (researchVideo) {
+  researchVideo.addEventListener("play", () => {
+    if (!researchScreen || !researchScreen.classList.contains("is-visible")) {
+      researchVideo.pause();
+      researchVideo.removeAttribute("autoplay");
+    }
+  });
+}
 function hideParticle() {
   pauseBgVideo();
   if (!particleScreen) {
