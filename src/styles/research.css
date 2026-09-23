@@ -42,6 +42,13 @@
   object-fit: cover;
 }
 
+/* 未进入活动栏目时彻底移出渲染：部分国产内核（QQ/UC/百度 X5）会忽略
+   visibility 而把隐藏的 <video> 提升为全屏播放器，导致「点进入」时
+   活动视频被劫持弹出。 */
+.research-screen:not(.is-visible) .research-screen__video {
+  display: none;
+}
+
 .research-screen__stars {
   background-image:
     radial-gradient(2px 2px at 8% 20%, rgba(255, 255, 255, 0.7), transparent),

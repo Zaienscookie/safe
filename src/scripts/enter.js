@@ -593,6 +593,9 @@ document.addEventListener("visibilitychange", () => {
 function pauseBgVideo() {
   if (researchVideo) {
     researchVideo.pause();
+    // 移除 autoplay 标记：离开活动栏目后不再具备自动播放能力，
+    // 避免部分内核（X5）在其它界面把它提升为全屏播放器。
+    researchVideo.removeAttribute("autoplay");
   }
 }
 function hideParticle() {
@@ -948,10 +951,6 @@ function resetIntro() {
 // 点击后按钮高亮 + 进入页淡出，520ms 后显示授权过场
 if (enterButton && enterScreen) {
   enterButton.addEventListener("click", () => {
-    // 移动端：借这次用户手势尽量自动全屏并锁定横屏（不支持则静默回退到横屏遮罩）
-    if (typeof window.SecRequestLandscape === "function") {
-      window.SecRequestLandscape();
-    }
     enterButton.classList.add("is-activated");
     enterScreen.classList.add("is-transitioning");
 

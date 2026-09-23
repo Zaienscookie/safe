@@ -27,8 +27,21 @@
     return window.innerHeight > window.innerWidth;
   }
 
+  // —— 国产 X5 内核（QQ/UC/百度/夸克/微信等）——
+  // 这些内核对页面级全屏支持不完整，且会把隐藏的 <video> 提升为自家的
+  // 全屏播放器：一旦请求全屏，活动视频可能被劫持弹出。故直接跳过全屏。
+  function isX5Kernel() {
+    if (typeof navigator === "undefined") return false;
+    var ua = navigator.userAgent || "";
+    return /MQQBrowser|QQBrowser|UCBrowser|UCWEB|Quark|baidubrowser|baiduboxapp|BIDUBrowser|MicroMessenger|XWEB|; wv\)/i.test(ua);
+  }
+
   // —— 请求全屏并锁定横屏（尽量；不支持时静默失败）——
+  // 返回 true 表示已尝试全屏；返回 false 表示因内核限制主动放弃。
   function requestLandscape() {
+    if (isX5Kernel()) {
+      return false;
+    }
     var el = document.documentElement;
     var lock = function () {
       try {
@@ -49,8 +62,10 @@
       } else {
         lock();
       }
+      return true;
     } catch (e) {
       lock();
+      return true;
     }
   }
 
@@ -107,7 +122,12 @@
     var btn = overlay.querySelector(".lg-btn");
     if (btn) {
       btn.addEventListener("click", function () {
-        requestLandscape();
+        if (!requestLandscape()) {
+          // X5 内核：无法自动全屏旋转，退化为引导手动旋转
+          btn.textContent = "请手动旋转手机";
+          btn.disabled = true;
+          btn.style.cursor = "default";
+        }
       });
     }
   }

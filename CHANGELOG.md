@@ -46,4 +46,5 @@
 ## 移动端问题修复（2026-09-23）
 - 初始界面 Logo 丢失：`.logo-stage` 子元素全为绝对定位，在手机单栏（竖屏）与矮横屏布局下塌缩为 0，导致 Lottie 标志不可见。为手机各断点显式设定 Logo 容器尺寸（竖屏 `min(22rem,88vw)`、横屏 `min(16rem,44vh)`）。
 - 活动栏目「查看纳新安排」在手机上只播动画、无内容：移动端浏览器拦截 `window.open` 弹窗。改为新标签失败时回退当前页跳转 `training.html?from=research`。
-- 手机端自动横屏：横屏遮罩新增「自动横屏」按钮，并在「进入」按钮点击手势中调用全屏 + `screen.orientation.lock('landscape')`（Android Chrome 生效；iOS 不支持时仍提示手动旋转）。
+- 手机端自动横屏：横屏遮罩新增「自动横屏」按钮，调用全屏 + `screen.orientation.lock('landscape')`（Android Chrome 生效；iOS 不支持时仍提示手动旋转）。
+- 修复 X5 内核（QQ/UC/百度/微信）在点「进入」时把活动视频（木星）劫持为全屏播放：不再在「进入」手势中自动请求全屏；活动视频离开栏目后移除 `autoplay` 并在未进入活动栏目时 `display:none`；X5 内核下自动横屏退化为手动旋转提示。
