@@ -549,8 +549,17 @@ function setThemeColor(c) {
 }
 const researchVideo = document.querySelector(".research-screen__video");
 function playBgVideo() {
-  if (researchVideo) {
-    researchVideo.play().catch(() => {});
+  if (!researchVideo) {
+    return;
+  }
+  // 移动端兼容：静音 + 内联 + autoplay 属性，尽量触发自动播放（poster 兜底显示封面）
+  researchVideo.muted = true;
+  researchVideo.setAttribute("playsinline", "");
+  researchVideo.setAttribute("webkit-playsinline", "");
+  researchVideo.setAttribute("autoplay", "");
+  const p = researchVideo.play();
+  if (p && p.catch) {
+    p.catch(() => {});
   }
 }
 function pauseBgVideo() {
