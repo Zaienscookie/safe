@@ -425,3 +425,10 @@
     text-align: center;
   }
 }
+
+/* 活动屏隐藏时彻底不渲染背景视频：
+ * 部分浏览器对 visibility:hidden 的 <video> 处理不佳，可能在隐藏时仍显示视频；
+ * 用 display:none 确保只有在活动栏目可见时才渲染。 */
+.research-screen:not(.is-visible) .research-screen__video {
+  display: none;
+}
