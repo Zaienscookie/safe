@@ -527,7 +527,7 @@
   justify-self: end;
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  gap: 1.9rem;
   opacity: 0;
   transform: translateX(28px);
 }
@@ -541,8 +541,8 @@
   padding: 0;
   background: none;
   color: rgba(17, 17, 17, 0.64);
-  font-size: 0.9rem;
-  letter-spacing: 0.16em;
+  font-size: 1.05rem;
+  letter-spacing: 0.18em;
   text-align: right;
   cursor: pointer;
   transition:

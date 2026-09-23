@@ -386,6 +386,22 @@ function showAuthScreen() {
 /* 显示首页：移除授权过场的可见态，显示首页。
  * 同时调用 hideParticle() 兜底，确保任何入口进来时互动摄像头处于停止状态。
  */
+/* 切换屏幕前先把「所有其它」屏幕的可见态清掉。
+ * 屏幕切换用的是 0.9s 透明度淡入，若上一次访问过的「活动」屏仍带着
+ * is-visible 残留在底层，淡入期间它就会露出来，表现为“先跳到活动再跳回来”的闪烁。 */
+function hideAllScreens(keep) {
+  [homepageScreen, headquartersScreen, memberScreen, departmentScreen, researchScreen, particleScreen].forEach((screen) => {
+    if (screen && screen !== keep) {
+      screen.classList.remove("is-visible", "is-transitioning");
+      screen.setAttribute("aria-hidden", "true");
+    }
+  });
+
+  if (keep !== researchScreen) {
+    pauseBgVideo();
+  }
+}
+
 function showHomepage() {
   if (!homepageScreen || !authScreen) {
     return;
@@ -393,6 +409,7 @@ function showHomepage() {
 
   currentSection = "homepage";
   setThemeColor("#e8e8e8");
+  hideAllScreens(homepageScreen);
   authScreen.classList.remove("is-visible");
   authScreen.setAttribute("aria-hidden", "true");
   hideParticle();
@@ -416,6 +433,7 @@ function showHeadquarters() {
   loadHqBg();
   setThemeColor("#e8e8e8");
   hideParticle();
+  hideAllScreens(headquartersScreen);
 
   if (homepageScreen) {
     homepageScreen.classList.remove("is-visible");
@@ -445,6 +463,7 @@ function showMember() {
   currentSection = "member";
   setThemeColor("#e8e8e8");
   hideParticle();
+  hideAllScreens(memberScreen);
 
   if (homepageScreen) {
     homepageScreen.classList.remove("is-visible");
@@ -475,6 +494,7 @@ function showDepartment() {
   currentSection = "department";
   setThemeColor("#e8e8e8");
   hideParticle();
+  hideAllScreens(departmentScreen);
 
   if (homepageScreen) {
     homepageScreen.classList.remove("is-visible");
@@ -504,6 +524,7 @@ function showResearch() {
   currentSection = "research";
   setThemeColor("#0b0b10");
   hideParticle();
+  hideAllScreens(researchScreen);
 
   if (homepageScreen) {
     homepageScreen.classList.remove("is-visible");
@@ -684,6 +705,7 @@ function showParticle() {
 
   currentSection = "particle";
   setThemeColor("#0b0b10");
+  hideAllScreens(particleScreen);
 
   if (homepageScreen) {
     homepageScreen.classList.remove("is-visible");

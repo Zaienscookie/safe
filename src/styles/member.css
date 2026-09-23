@@ -221,7 +221,7 @@
   align-self: center;
   display: flex;
   flex-direction: column;
-  gap: 1.4rem;
+  gap: 1.75rem;
   opacity: 0;
   transform: translateX(24px);
 }
