@@ -938,3 +938,37 @@
     margin-top: 1.2rem;
   }
 }
+
+/* =========================================================================
+ * 小屏机型：按比例缩小「图形装饰」元素（首页装饰区、进入页 Logo、授权轨道）
+ * -------------------------------------------------------------------------
+ * 正文与按钮不缩放；只把抽象装饰按比例调小，避免小屏上装饰过大、挤压内容、
+ * 产生多余滚动。用 zoom 以便连同其内部绝对定位的射线/方块一起缩放。
+ * ========================================================================= */
+@media (max-width: 760px) {
+  .homepage-screen__content > .homepage-visual {
+    zoom: 0.8;
+  }
+
+  .logo-stage {
+    zoom: 0.9;
+  }
+
+  .orbit-system {
+    --orbit-size: min(11rem, 38vh);
+  }
+}
+
+@media (max-width: 620px) {
+  .homepage-screen__content > .homepage-visual {
+    zoom: 0.68;
+  }
+
+  .logo-stage {
+    zoom: 0.8;
+  }
+
+  .orbit-system {
+    --orbit-size: min(9.5rem, 32vh);
+  }
+}
