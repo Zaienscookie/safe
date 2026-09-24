@@ -36,7 +36,8 @@
 /* —— 移动端通用修复（窄屏或矮屏横屏手机）——
  * 1. 页脚是绝对定位在「首屏底部」的，滚动内容会与文字重叠，移动端直接隐藏；
  * 2. 关于页背景用绝对定位只铺满一屏，滚动后下半页没有背景，改为固定铺满视口；
- * 3. 纳新轮播的非当前卡片用 3D 叠放，小屏会互相压住、图片盖住文字，仅保留当前卡。 */
+ * 3. 纳新轮播的非当前卡片保留半透明 3D 侧影（切换时带滑动/淡出动画），仅关闭其点按。
+ */
 @media (max-width: 820px), (max-height: 560px) {
   .screen-footer {
     display: none;
@@ -47,10 +48,15 @@
     position: fixed;
   }
 
+  /* 3. 纳新轮播：保留相邻卡片的半透明侧影与切换滑动，仅禁止非当前卡片被点中，
+   *    不要再整块 opacity/visibility 隐藏，否则切换时没有滑动/淡出过程。 */
   .member-card:not(.is-active) {
-    opacity: 0;
-    visibility: hidden;
     pointer-events: none;
+  }
+
+  .member-card.is-far-prev,
+  .member-card.is-far-next {
+    opacity: 0;
   }
 
   .homepage-screen__content,

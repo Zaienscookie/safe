@@ -193,6 +193,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  z-index: 20;
   border: 0;
   background: none;
   color: rgba(17, 17, 17, 0.34);
@@ -269,10 +270,15 @@
 }
 
 @media (max-width: 640px) {
-  .member-card.is-prev,
+  /* 窄屏：相邻卡片改为半透明侧影，切换时仍有滑动/淡出过渡 */
+  .member-card.is-prev {
+    transform: translateX(-38%) translateZ(-100px) scale(0.86) rotateY(8deg);
+    opacity: 0.34;
+  }
+
   .member-card.is-next {
-    transform: translateX(0) scale(0.92);
-    opacity: 0;
+    transform: translateX(38%) translateZ(-100px) scale(0.86) rotateY(-8deg);
+    opacity: 0.34;
   }
 
   .member-card.is-far-prev,
