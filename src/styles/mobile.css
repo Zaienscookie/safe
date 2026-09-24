@@ -276,12 +276,6 @@
     overflow: visible;
   }
 
-  /* 装饰方块阵随装饰区一起缩小，否则 5×4 旋转方块会远超这一列、盖住文案 */
-  .homepage-visual__blocks-inner {
-    --cell: 34px;
-    --gap: 3px;
-  }
-
   /* 首页欢迎字母在矮屏再收小，压缩首屏高度 */
   .homepage-copy__welcome span {
     font-size: clamp(1.3rem, 5.4vh, 1.9rem);
@@ -736,29 +730,13 @@
     letter-spacing: 0.06em;
   }
 
-  /* 底部导航占位，避免遮挡内容（连同安全区一起预留） */
+  /* 导航已移到右侧竖排，无需再为底部横条预留空间，恢复常规底部留白 */
   .homepage-screen__content,
   .headquarters-screen__content,
   .member-screen__content,
   .department-screen__content,
   .research-screen__content {
-    padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
-  }
-}
-
-/* =========================================================================
- * 装饰与溢出兜底（适配不同屏幕比例）
- * -------------------------------------------------------------------------
- * 首页装饰区的橙色射线 / 数据线原本用 128vh 向视口外延伸，在窄屏、矮屏、
- * 近方形平板上会溢出、撑大滚动区，甚至盖到文案（“乱飞”）。受限视口下把
- * 它们收进装饰区矩形内即可；旋转方块已随列宽缩小，不会被裁。
- * ========================================================================= */
-@media (max-width: 1100px), (max-height: 720px), (max-aspect-ratio: 3/2) {
-  .homepage-visual__orange-svg,
-  .homepage-visual__data-svg {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+    padding-bottom: 3.4rem;
   }
 }
 
@@ -771,13 +749,14 @@
 }
 
 /* =========================================================================
- * 矮屏桌面 / 中等高度：首页改为「文案 + 装饰」两栏紧凑版，并允许纵向滚动
+ * 矮屏桌面 / 中等高度：首页改为「文案 + 装饰」两栏，并允许纵向滚动
  * -------------------------------------------------------------------------
  * 桌面三栏版在 1366×768、1536×864 等常见笔记本高度下，内容（尤其底部
- * 「进入互动体验」按钮）会超出视口且无法滚动。高度不足时切换为更紧凑的
- * 两栏布局并允许滚动兜底，确保所有文字与按钮可见、可达。
+ * 「进入互动体验」按钮）会超出视口且无法滚动。高度不足时改为两栏：装饰区
+ * 保持原尺寸（min(36rem,48vw)），文案列占剩余空间，并允许滚动兜底。
+ * 仅作用于桌面/平板宽度（≥1101px）；手机宽度继续用上面的紧凑两栏规则。
  * ========================================================================= */
-@media (max-height: 950px) {
+@media (max-height: 950px) and (min-width: 1101px) {
   .homepage-screen {
     overflow-y: auto;
     overflow-x: hidden;
@@ -786,7 +765,7 @@
   }
 
   .homepage-screen__content {
-    grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, min(36rem, 48vw));
     align-items: start;
     column-gap: 1.4rem;
   }
@@ -805,36 +784,86 @@
     margin-top: 1.2rem;
   }
 
-  .homepage-visual {
-    width: min(20rem, 40vw);
-  }
-
-  /* 射线/数据线收进装饰区，避免撑大滚动区、产生多余滚动 */
-  .homepage-visual__orange-svg,
-  .homepage-visual__data-svg {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .homepage-visual__blocks-inner {
-    --cell: 34px;
-    --gap: 3px;
-  }
-
   .homepage-copy__welcome span {
     font-size: clamp(1.3rem, 5.4vh, 1.9rem);
   }
+}
 
-  .homepage-screen .side-nav {
-    grid-column: 1 / -1;
-    flex-direction: row;
-    flex-wrap: wrap;
+/* =========================================================================
+ * 侧边栏目导航：统一放到屏幕右侧、竖排
+ * -------------------------------------------------------------------------
+ * 取代此前在窄屏 / 矮屏 / 平板上把导航改成「底部横条」或「中间横排」的做法
+ * ——那些布局会占掉纵向空间、把内容挤下去。这里固定到右侧竖排，始终可点。
+ * ========================================================================= */
+@media (max-width: 1600px), (max-height: 950px), (max-aspect-ratio: 3/2) {
+  .homepage-screen .side-nav,
+  .headquarters-screen .side-nav--light,
+  .member-screen .side-nav,
+  .department-screen .side-nav,
+  .research-screen .side-nav--light,
+  .particle-screen .side-nav--light {
+    position: fixed;
+    top: calc(50% + 1rem);
+    right: max(0.5rem, env(safe-area-inset-right));
+    left: auto;
+    bottom: auto;
+    transform: translateY(-50%);
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-end;
     justify-content: center;
-    gap: 0.9rem 1.4rem;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0.7rem 0.85rem;
+    min-width: 0;
+    opacity: 1;
+    animation: none !important;
+    z-index: 12;
   }
 
-  .homepage-screen .side-nav__item {
-    text-align: center;
+  .homepage-screen .side-nav,
+  .member-screen .side-nav,
+  .department-screen .side-nav {
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    border-radius: 1rem;
+    background: rgba(246, 246, 241, 0.8);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .headquarters-screen .side-nav--light,
+  .research-screen .side-nav--light,
+  .particle-screen .side-nav--light {
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 1rem;
+    background: rgba(18, 24, 30, 0.4);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+
+  .side-nav .side-nav__item,
+  .side-nav--light .side-nav__item {
+    text-align: right;
+    white-space: nowrap;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    min-height: 0;
+    padding: 0.2rem 0;
+  }
+
+  /* 给右侧竖排导航让出空间，避免盖住成员卡 / 方向面板 / 活动信息 / 关于文案 */
+  .member-screen__content,
+  .department-screen__content,
+  .research-screen__content,
+  .headquarters-screen__content {
+    padding-right: 9rem;
+  }
+}
+
+/* 单栏首页（平板 / 窄桌面）也给右侧导航让位，避免标题/文案顶到导航 */
+@media (max-width: 1100px) and (min-height: 561px) {
+  .homepage-screen__content {
+    padding-right: 9rem;
   }
 }

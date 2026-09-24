@@ -242,8 +242,6 @@
   position: relative;
   justify-self: center;
   width: min(36rem, 48vw);
-  /* 不允许超出所在网格列，否则在中等宽度（1280/1180 等）会压到左侧文案 */
-  max-width: 100%;
   aspect-ratio: 620 / 760;
   opacity: 0;
   transform: scale(0.92);
