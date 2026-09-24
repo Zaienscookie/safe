@@ -391,7 +391,9 @@
     transform: translateY(0);
   }
 }
-@media (max-width: 980px) {
+/* 宽度不足以并排放下 Logo 与文案时改单栏（抬高到 1100，避免 1024 等平板
+ * 宽度下 Logo 超出左列、压到右侧文案） */
+@media (max-width: 1100px) {
   .enter-screen__content {
     grid-template-columns: 1fr;
     justify-items: center;

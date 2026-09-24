@@ -358,7 +358,16 @@
   }
 }
 
-@media (max-width: 760px), (max-height: 560px) {
+/* 受限视口（窄屏 / 矮屏 / 近方形平板）：取消绝对定位，改为可滚动的流式布局，
+ * 否则平板上（如 1024×768、4:3）卡片与面板会互相压住、超出部分被裁无法滚动。 */
+@media (max-width: 1600px), (max-height: 720px), (max-aspect-ratio: 3/2) {
+  .department-screen {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
   .department-panel {
     position: relative;
     left: auto;

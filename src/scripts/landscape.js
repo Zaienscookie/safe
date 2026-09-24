@@ -19,29 +19,50 @@
   // 已经处于被强制横屏的 iframe 内部：直接放行，避免无限嵌套
   if (window.self !== window.top) return;
 
-  // —— 是否移动设备（仅按 UA 判断，桌面触屏笔记本不会被误判）——
+  // —— 是否移动设备（按 UA 判断；再补一条「小屏 + 多点触控」启发式，
+  //      覆盖部分平板/折叠屏 UA 不含 Mobi/Tablet 的情况。桌面触屏笔记本
+  //      屏幕足够大，不会被误判）——
   function isMobileDevice() {
     var ua = navigator.userAgent || "";
-    return /Mobi|Android|iPhone|iPad|iPod|Mobile|Tablet|HarmonyOS/i.test(ua);
+    if (/Mobi|Android|iPhone|iPad|iPod|Mobile|Tablet|HarmonyOS|Windows Phone|BlackBerry|Kindle|Silk/i.test(ua)) {
+      return true;
+    }
+    var touch = navigator.maxTouchPoints || navigator.msMaxTouchPoints || 0;
+    var shortSide = Math.min(screen.width || 0, screen.height || 0);
+    if (touch > 1 && shortSide > 0 && shortSide <= 900) return true;
+    return false;
+  }
+
+  // —— 取当前视口尺寸（多来源兜底，避免某些内核 window.inner* 为 0）——
+  function viewportSize() {
+    var vv = window.visualViewport;
+    var w = window.innerWidth || document.documentElement.clientWidth || (vv && vv.width) || 0;
+    var h = window.innerHeight || document.documentElement.clientHeight || (vv && vv.height) || 0;
+    return { w: w, h: h };
   }
 
   // —— 当前物理视口是否为竖屏 ——
   function isPortrait() {
-    return window.innerHeight > window.innerWidth;
+    var s = viewportSize();
+    return s.h >= s.w;
   }
 
   var frame = null;
+  var lastW = 0;
+  var lastH = 0;
 
   function build() {
-    var vw = window.innerWidth;
-    var vh = window.innerHeight;
+    var s = viewportSize();
+    var vw = Math.round(s.w);
+    var vh = Math.round(s.h);
     if (!vw || !vh) return; // 视口尺寸尚未就绪，等下次 resize 再建
 
     if (!frame) {
       frame = document.createElement("iframe");
       frame.id = "force-landscape-frame";
       frame.title = "网络安全社";
-      frame.setAttribute("scrolling", "no");
+      // 注意：不要设置 scrolling="no"，否则横屏后子页面（方向/报名/FLAG 等）
+      // 将无法滚动、长内容底部文字点不到。让内部文档自行滚动即可。
       frame.setAttribute("allowfullscreen", "");
       frame.setAttribute(
         "allow",
@@ -50,7 +71,14 @@
       frame.setAttribute("src", window.location.href);
       (document.body || document.documentElement).appendChild(frame);
       document.documentElement.classList.add("is-force-landscape");
+      lastW = 0;
+      lastH = 0;
     }
+
+    // 尺寸未变化时不重复写样式，避免 URL 栏收放等引发的无谓重排/跳动
+    if (vw === lastW && vh === lastH) return;
+    lastW = vw;
+    lastH = vh;
 
     // iframe 内部 = 横屏尺寸（长边作为宽度、短边作为高度），
     // 再整体顺时针旋转 90° 并右移短边宽度，正好铺满整块屏幕。
@@ -73,6 +101,8 @@
       if (frame.parentNode) frame.parentNode.removeChild(frame);
       frame = null;
     }
+    lastW = 0;
+    lastH = 0;
     document.documentElement.classList.remove("is-force-landscape");
   }
 
@@ -85,9 +115,22 @@
     }
   }
 
+  // —— resize 防抖到下一帧，避免地址栏收放时高频重建造成的抖动 ——
+  var rafId = 0;
+  function schedule() {
+    if (rafId) return;
+    rafId = window.requestAnimationFrame(function () {
+      rafId = 0;
+      sync();
+    });
+  }
+
   sync();
-  window.addEventListener("resize", sync);
+  window.addEventListener("resize", schedule, { passive: true });
   window.addEventListener("orientationchange", function () {
     setTimeout(sync, 200);
   });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", schedule, { passive: true });
+  }
 })();
