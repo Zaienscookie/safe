@@ -255,7 +255,9 @@
 
   .homepage-visual {
     width: min(20rem, 40vw);
-    overflow: hidden; /* 裁剪旋转方块装饰，避免矮屏横向溢出 */
+    /* 不再 overflow:hidden，避免把旋转方块/射线在矩形边界处裁掉；
+       横向溢出由 .homepage-screen 的 overflow-x:hidden 兜底。 */
+    overflow: visible;
   }
 
   /* 首页欢迎字母在矮屏再收小，压缩首屏高度 */
@@ -656,7 +658,8 @@
   .headquarters-screen .side-nav,
   .member-screen .side-nav,
   .department-screen .side-nav,
-  .research-screen .side-nav--light {
+  .research-screen .side-nav--light,
+  .particle-screen .side-nav--light {
     position: fixed;
     top: auto;
     bottom: 0;
@@ -676,6 +679,19 @@
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 0;
     z-index: 9;
+  }
+
+  /* 互动页导航是玻璃面板 + 入场动画，这里解除动画对定位/透明度的干扰 */
+  .particle-screen .side-nav--light {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1;
+    min-width: 0;
+  }
+
+  /* 互动页底部提示上移，避免被底部导航遮挡 */
+  .particle-screen__hint {
+    bottom: 3.4rem;
   }
 
   .homepage-screen .side-nav__item,

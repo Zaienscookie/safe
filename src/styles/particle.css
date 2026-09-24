@@ -205,8 +205,11 @@
 @media (max-width: 640px) {
   .particle-screen .side-nav--light {
     top: auto;
+    left: 0;
+    right: 0;
     bottom: 4.2rem;
-    transform: translateY(0) translateX(24px);
+    min-width: 0;
+    transform: translateY(24px) translateX(0);
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;

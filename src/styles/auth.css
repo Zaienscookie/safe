@@ -42,8 +42,9 @@
 }
 
 .orbit-system {
+  --orbit-size: min(19rem, 62vw); /* 外圈直径，半径 = calc(var(--orbit-size) / 2) */
   position: relative;
-  width: min(19rem, 62vw);
+  width: var(--orbit-size);
   aspect-ratio: 1 / 1;
   display: grid;
   place-items: center;
@@ -182,21 +183,21 @@
 
 @keyframes orbitDotOuter {
   from {
-    transform: rotate(0deg) translateX(9.5rem) rotate(0deg);
+    transform: rotate(0deg) translateX(calc(var(--orbit-size) / 2)) rotate(0deg);
   }
 
   to {
-    transform: rotate(360deg) translateX(9.5rem) rotate(-360deg);
+    transform: rotate(360deg) translateX(calc(var(--orbit-size) / 2)) rotate(-360deg);
   }
 }
 
 @keyframes orbitDotInner {
   from {
-    transform: rotate(0deg) translateX(4.2rem) rotate(0deg);
+    transform: rotate(0deg) translateX(calc(var(--orbit-size) * 0.22)) rotate(0deg);
   }
 
   to {
-    transform: rotate(-360deg) translateX(4.2rem) rotate(360deg);
+    transform: rotate(-360deg) translateX(calc(var(--orbit-size) * 0.22)) rotate(360deg);
   }
 }
 
@@ -206,7 +207,8 @@
   }
 
   .orbit-system {
-    width: min(15rem, 72vw);
+    --orbit-size: min(15rem, 72vw);
+    width: var(--orbit-size);
   }
 }
 
@@ -221,7 +223,8 @@
   }
 
   .orbit-system {
-    width: min(12rem, 40vh);
+    --orbit-size: min(12rem, 40vh);
+    width: var(--orbit-size);
   }
 
   .auth-screen__subcopy {
