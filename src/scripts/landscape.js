@@ -1,91 +1,93 @@
 /* =========================================================================
- * landscape.js —— 移动端横屏提示
+ * landscape.js —— 移动端「强制横屏」渲染
  * -------------------------------------------------------------------------
- * 需求：移动端（手机/平板）竖屏时提示用户横屏观看；横屏时自动放行。
- * 实现：
- *   - 仅对触屏移动设备生效（桌面端不受影响）；
- *   - 竖屏时动态注入一个全屏遮罩，覆盖所有内容并拦截点击，仅作提示，
- *     不再请求全屏/锁定方向（各厂商浏览器会自动横屏失败并劫持视频）；
- *   - 横屏时遮罩自动移除，恢复正常使用；
- *   - 监听 resize 与 orientationchange，即时响应方向变化。
- * 遮罩样式随脚本内部注入，无需额外 CSS 文件，保持纯前端、零依赖。
+ * 需求：手机/平板竖屏握持时，页面也直接以「电脑那样的横屏」呈现，自动铺满
+ *       整屏、不做任何缩放提示、也不弹「请横屏」遮罩。
+ *
+ * 原理：
+ *   1. 检测到移动设备且当前为竖屏时，创建一个覆盖整屏的 <iframe>，其内部视口
+ *      尺寸设为「物理长边 × 物理短边」，即真正的横屏尺寸——因此 iframe 内部的
+ *      CSS 媒体查询、vw/vh 单位、布局都与横屏手机完全一致（与电脑一致）；
+ *   2. 再把这个 iframe 旋转 90° 铺满屏幕，于是用户竖着拿手机也能看到横屏内容；
+ *   3. iframe 载入的是同一页面（带 recursion 守卫，内部不会再套一层）；
+ *   4. 设备真正转到横屏时自动移除 iframe，回到原生横屏页面。
+ *
+ * 说明：桌面端不做任何处理；本脚本需放在 <body> 开头执行，以便在页面绘制前
+ *       就盖好横屏容器，避免先闪一下竖屏排版。
  * ========================================================================= */
 (function () {
-  // —— 判断是否为移动设备（仅按 UA 判断，触屏笔记本不会被误判）——
+  // 已经处于被强制横屏的 iframe 内部：直接放行，避免无限嵌套
+  if (window.self !== window.top) return;
+
+  // —— 是否移动设备（仅按 UA 判断，桌面触屏笔记本不会被误判）——
   function isMobileDevice() {
-    if (typeof navigator === "undefined") return false;
     var ua = navigator.userAgent || "";
-    return /Mobi|Android|iPhone|iPad|iPod|Mobile|Tablet/i.test(ua);
+    return /Mobi|Android|iPhone|iPad|iPod|Mobile|Tablet|HarmonyOS/i.test(ua);
   }
 
-  // —— 当前是否为竖屏 ——
+  // —— 当前物理视口是否为竖屏 ——
   function isPortrait() {
     return window.innerHeight > window.innerWidth;
   }
 
-  var overlay = null;
+  var frame = null;
 
-  // 注入遮罩（含样式）
-  function showOverlay() {
-    if (overlay) return;
+  function build() {
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+    if (!vw || !vh) return; // 视口尺寸尚未就绪，等下次 resize 再建
 
-    overlay = document.createElement("div");
-    overlay.id = "landscape-guard";
-    overlay.setAttribute("role", "alert");
-    overlay.innerHTML =
-      '<div class="lg-box">' +
-        '<div class="lg-icon">&#10227;</div>' +
-        '<p class="lg-text">请将手机横屏观看，<br>以获得最佳体验</p>' +
-      '</div>';
+    if (!frame) {
+      frame = document.createElement("iframe");
+      frame.id = "force-landscape-frame";
+      frame.title = "网络安全社";
+      frame.setAttribute("scrolling", "no");
+      frame.setAttribute("allowfullscreen", "");
+      frame.setAttribute(
+        "allow",
+        "camera; microphone; autoplay; fullscreen; accelerometer; gyroscope; clipboard-write; encrypted-media"
+      );
+      frame.setAttribute("src", window.location.href);
+      (document.body || document.documentElement).appendChild(frame);
+      document.documentElement.classList.add("is-force-landscape");
+    }
 
-    // 内联样式，保证任何页面下表现一致
-    var style = document.createElement("style");
-    style.textContent =
-      "#landscape-guard{" +
-        "position:fixed;inset:0;z-index:99999;display:flex;" +
-        "align-items:center;justify-content:center;" +
-        "background:radial-gradient(circle at 50% 40%,rgba(255,140,0,0.08),transparent 46%),#0b0b10;" +
-        "color:#e8e6df;font-family:Consolas,'Microsoft YaHei',monospace;" +
-      "}" +
-      "#landscape-guard .lg-box{text-align:center;padding:2.2rem 2.6rem;" +
-        "border:1px solid rgba(255,140,0,0.3);border-radius:14px;" +
-        "background:rgba(18,18,26,0.9);box-shadow:0 0 40px rgba(255,140,0,0.12);" +
-      "}" +
-      "#landscape-guard .lg-icon{font-size:3rem;color:#ff8c00;display:inline-block;" +
-        "animation:lgSpin 1.6s linear infinite;" +
-      "}" +
-      "#landscape-guard .lg-text{margin-top:1rem;font-size:1.05rem;line-height:1.9;" +
-        "letter-spacing:0.12em;color:#ffc98a;" +
-      "}" +
-      "@keyframes lgSpin{to{transform:rotate(360deg)}}";
-
-    document.head.appendChild(style);
-    document.body.appendChild(overlay);
-    document.documentElement.style.overflow = "hidden"; // 竖屏时禁止滚动
+    // iframe 内部 = 横屏尺寸（长边作为宽度、短边作为高度），
+    // 再整体顺时针旋转 90° 并右移短边宽度，正好铺满整块屏幕。
+    frame.style.position = "fixed";
+    frame.style.top = "0";
+    frame.style.left = "0";
+    frame.style.width = vh + "px";
+    frame.style.height = vw + "px";
+    frame.style.border = "0";
+    frame.style.margin = "0";
+    frame.style.padding = "0";
+    frame.style.background = "#e8e8e8";
+    frame.style.zIndex = "2147483647";
+    frame.style.transformOrigin = "0 0";
+    frame.style.transform = "translateX(" + vw + "px) rotate(90deg)";
   }
 
-  function hideOverlay() {
-    if (overlay) {
-      overlay.remove();
-      overlay = null;
-      document.documentElement.style.overflow = "";
+  function destroy() {
+    if (frame) {
+      if (frame.parentNode) frame.parentNode.removeChild(frame);
+      frame = null;
+    }
+    document.documentElement.classList.remove("is-force-landscape");
+  }
+
+  function sync() {
+    if (!isMobileDevice()) return; // 桌面端不处理
+    if (isPortrait()) {
+      build();
+    } else {
+      destroy();
     }
   }
 
-  function check() {
-    if (isMobileDevice()) {
-      if (isPortrait()) {
-        showOverlay();
-      } else {
-        hideOverlay();
-      }
-    }
-  }
-
-  // 初始化 + 监听方向变化（resize 作为 orientationchange 的兜底，兼容性最好）
-  check();
-  window.addEventListener("resize", check);
+  sync();
+  window.addEventListener("resize", sync);
   window.addEventListener("orientationchange", function () {
-    setTimeout(check, 180);
+    setTimeout(sync, 200);
   });
 })();

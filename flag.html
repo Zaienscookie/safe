@@ -68,9 +68,70 @@
   }
   .flag-result.is-ok   { color: #4ade80; }
   .flag-result.is-fail { color: #f87171; }
+
+  /* —— 查看网页源码（手机端没有 F12 / 查看源代码，用它补足） —— */
+  .flag-src-btn {
+    margin-top: 0.9rem;
+    padding: 0.45rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 6px;
+    background: transparent;
+    color: #cfcdc6;
+    font-family: inherit;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    cursor: pointer;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .flag-src-btn:hover { color: #ff8c00; border-color: rgba(255, 140, 0, 0.5); }
+
+  .flag-src {
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+    display: flex;
+    flex-direction: column;
+    background: rgba(8, 8, 12, 0.97);
+  }
+  .flag-src[hidden] { display: none; }
+  .flag-src__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: #ff8c00;
+  }
+  .flag-src__close {
+    padding: 0.35rem 0.9rem;
+    border: 1px solid rgba(255, 140, 0, 0.5);
+    border-radius: 6px;
+    background: transparent;
+    color: #ffc98a;
+    font-family: inherit;
+    font-size: 0.72rem;
+    cursor: pointer;
+  }
+  .flag-src__code {
+    flex: 1;
+    margin: 0;
+    padding: 1rem;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    font-family: Consolas, Menlo, monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    color: #cfcdc6;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
 </style>
 </head>
 <body>
+<script src="./src/scripts/landscape.js?v=20260924a"></script>
 <main class="direction-shell">
   <!-- 品牌标记：WELCOME TO JOIN CYBERSECURITY CLUB -->
   <header class="brand-mark">
@@ -102,6 +163,8 @@
         </p>
       </div>
 
+      <button class="flag-src-btn" id="flag-src-btn" type="button">查看源码 · VIEW SOURCE</button>
+
       <!-- 提交区 -->
       <div class="flag-form">
         <input class="flag-form__input" id="flag-input" type="text" placeholder="在这里输入 flag{...}" autocomplete="off" aria-label="FLAG 输入框">
@@ -113,6 +176,15 @@
     </div>
   </section>
 </main>
+
+<!-- 网页源码查看层：手机端替代 F12 / 查看源代码 -->
+<div class="flag-src" id="flag-src" hidden>
+  <div class="flag-src__bar">
+    <span>PAGE SOURCE · 网页源码</span>
+    <button class="flag-src__close" id="flag-src-close" type="button">关闭 ×</button>
+  </div>
+  <pre class="flag-src__code" id="flag-src-code"></pre>
+</div>
 
 <!-- ============================================================
      ★ 关卡旗标（FLAG）
@@ -149,6 +221,39 @@
     if (from) document.getElementById("back-btn").href = "index.html?from=" + encodeURIComponent(from);
   })();
 </script>
-<script src="./src/scripts/landscape.js?v=20260923c"></script>
+
+<script>
+  /* 查看网页源码：手机端大多没有 F12 / 查看源代码，用这个按钮补足 */
+  (function () {
+    var btn = document.getElementById("flag-src-btn");
+    var box = document.getElementById("flag-src");
+    var code = document.getElementById("flag-src-code");
+    var closeBtn = document.getElementById("flag-src-close");
+    if (!btn || !box || !code) return;
+
+    function open() {
+      box.hidden = false;
+      if (code.dataset.loaded === "1") return;
+      code.textContent = "加载中…";
+      // 优先抓取原始 HTML（保证注释/flag 原样呈现）；失败时回退到当前 DOM 序列化
+      fetch(window.location.href, { cache: "no-store" })
+        .then(function (r) { if (!r.ok) throw new Error("bad"); return r.text(); })
+        .then(function (text) { code.textContent = text; code.dataset.loaded = "1"; })
+        .catch(function () {
+          code.textContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+          code.dataset.loaded = "1";
+        });
+    }
+
+    function close() { box.hidden = true; }
+
+    btn.addEventListener("click", open);
+    closeBtn.addEventListener("click", close);
+    box.addEventListener("click", function (e) { if (e.target === box) close(); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !box.hidden) close();
+    });
+  })();
+</script>
 </body>
 </html>

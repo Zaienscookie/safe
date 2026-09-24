@@ -77,7 +77,7 @@
     '<div class="visit-tip__box">' +
       '<p class="visit-tip__kicker">VISIT TIP · 访问建议</p>' +
       '<h2 class="visit-tip__title">访问提示</h2>' +
-      '<p class="visit-tip__text">建议使用电脑访问以获得完整的手势互动体验；手机端请横屏观看。</p>' +
+      '<p class="visit-tip__text">已自动切换为横屏显示。如需更完整的手势互动体验，建议使用电脑访问。</p>' +
       '<button class="visit-tip__btn" type="button">知道了</button>' +
     '</div>';
 
