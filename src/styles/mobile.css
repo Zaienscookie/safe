@@ -66,6 +66,12 @@
   .research-screen__content {
     padding-bottom: 3.4rem; /* 页脚已隐藏，无需预留底部空间 */
   }
+
+  /* 首页主内容（文案 + 装饰图形）在手机端整体比例略小；底部导航不缩放。 */
+  .homepage-screen__content > .homepage-copy,
+  .homepage-screen__content > .homepage-visual {
+    zoom: 0.9;
+  }
 }
 
 /* —— 手机小屏：进一步收紧 —— */
