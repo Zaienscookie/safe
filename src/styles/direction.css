@@ -38,6 +38,9 @@ body {
   top: 3.8rem;
   left: 3.8rem;
   z-index: 5;
+  /* 固定在左上角，宽度贴合内容，避免整行盒子伸到右上角的方向切换导航下面 */
+  width: fit-content;
+  max-width: 60vw;
   animation: brandFadeIn 0.5s var(--ease-standard) both;
 }
 
@@ -126,7 +129,7 @@ body {
 /* —— 主内容卡片（中央）—— */
 .direction-card {
   position: relative;
-  margin: 9rem auto 3rem;
+  margin: 10rem auto 3rem;
   width: min(44rem, 92vw);
   padding: 3rem 3.2rem;
   background: linear-gradient(180deg, rgba(12, 12, 16, 0.97), rgba(20, 20, 26, 0.96));
@@ -313,7 +316,7 @@ body {
 }
 
 @media (max-width: 980px) {
-  .brand-mark { top: 2rem; left: 1.5rem; right: 1.5rem; gap: 0.75rem; }
+  .brand-mark { top: 2rem; left: 1.5rem; right: auto; gap: 0.75rem; }
   .direction-nav { top: 2rem; right: 1.5rem; max-width: 55vw; }
   .direction-card { padding: 2.2rem 1.8rem; }
   .direction-card__title { font-size: 2rem; }
@@ -329,11 +332,14 @@ body {
 }
 
 /* =========================================================================
- * 子页面横屏矮屏（手机横屏）：收紧留白与字号，减少滚动
+ * 子页面横屏矮屏 / 近方形平板：品牌改为随页面滚动（不再固定压住内容），
+ * 并收紧留白与字号，减少滚动
  * ========================================================================= */
-@media (max-height: 560px) {
+@media (max-height: 720px), (max-aspect-ratio: 3/2) {
   .brand-mark {
     position: static;
+    width: fit-content;
+    max-width: calc(100% - 2.8rem);
     margin: 1rem 1.4rem 0;
   }
 
@@ -344,7 +350,8 @@ body {
   }
 
   .direction-card {
-    margin: 1.4rem 1.4rem 2rem;
+    margin: 1.4rem auto 2rem;
+    width: min(44rem, calc(100% - 2.8rem));
     padding: 1.5rem 1.6rem;
   }
 

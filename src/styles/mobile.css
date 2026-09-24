@@ -867,3 +867,74 @@
     padding-right: 9rem;
   }
 }
+
+/* =========================================================================
+ * 很窄的手机横屏（视口宽 ≤760px）：各栏目改「单栏满宽」，避免两栏被挤扁、
+ * 卡片错位、面板挤在角落。稍宽的手机（≥761px）仍保留两栏紧凑排版。
+ * ========================================================================= */
+@media (max-width: 760px) {
+  /* 首页：文案在上居中、装饰区在下居中，左右对齐一致；右侧给导航让位 */
+  .homepage-screen__content {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    row-gap: 1.2rem;
+    padding-right: 9rem;
+  }
+
+  .homepage-copy {
+    justify-self: center;
+    width: 100%;
+  }
+
+  .homepage-visual {
+    justify-self: center;
+  }
+
+  /* 方向：两组卡片各占整行、面板整行；每组最后一张卡横跨两列，避免半行空位 */
+  .department-screen__content {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: stretch;
+    padding-left: 1.6rem;
+  }
+
+  .department-cluster--left,
+  .department-cluster--right {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .department-cluster {
+    width: 100%;
+  }
+
+  .department-cluster .department-card:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .department-panel {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: stretch;
+    width: auto;
+    max-width: none;
+    margin: 1rem 0 0;
+  }
+
+  /* 活动：计划面板与信息卡各占整行、顶部对齐 */
+  .research-screen__content {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: stretch;
+  }
+
+  .research-panel,
+  .research-info {
+    width: auto;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .research-info {
+    margin-top: 1.2rem;
+  }
+}
