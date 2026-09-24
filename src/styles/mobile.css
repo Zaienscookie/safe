@@ -821,35 +821,43 @@
     z-index: 12;
   }
 
+  /* 统一用深色玻璃面板：浅色栏目里也常有深色卡片 / 装饰图形（首页黑洞、方向
+   * 深色面板），白色面板压在上面很突兀；深色玻璃在深浅背景上都协调 */
   .homepage-screen .side-nav,
-  .member-screen .side-nav,
-  .department-screen .side-nav {
-    border: 1px solid rgba(17, 17, 17, 0.08);
-    border-radius: 1rem;
-    background: rgba(246, 246, 241, 0.8);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-  }
-
   .headquarters-screen .side-nav--light,
+  .member-screen .side-nav,
+  .department-screen .side-nav,
   .research-screen .side-nav--light,
   .particle-screen .side-nav--light {
     border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 1rem;
-    background: rgba(18, 24, 30, 0.4);
-    -webkit-backdrop-filter: blur(18px);
-    backdrop-filter: blur(18px);
+    background: rgba(14, 18, 24, 0.6);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
   }
 
   .side-nav .side-nav__item,
   .side-nav--light .side-nav__item {
+    color: rgba(246, 244, 239, 0.82);
     text-align: right;
     white-space: nowrap;
     font-size: 0.78rem;
     letter-spacing: 0.06em;
     min-height: 0;
     padding: 0.2rem 0;
+  }
+
+  .side-nav .side-nav__item:hover,
+  .side-nav .side-nav__item:focus-visible,
+  .side-nav--light .side-nav__item:hover,
+  .side-nav--light .side-nav__item:focus-visible {
+    color: #ffffff;
+  }
+
+  .side-nav .side-nav__item--active,
+  .side-nav--light .side-nav__item--active {
+    color: #ff8c00;
   }
 
   /* 给右侧竖排导航让出空间，避免盖住成员卡 / 方向面板 / 活动信息 / 关于文案 */
