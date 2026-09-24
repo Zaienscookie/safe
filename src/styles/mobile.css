@@ -66,12 +66,6 @@
   .research-screen__content {
     padding-bottom: 3.4rem; /* 页脚已隐藏，无需预留底部空间 */
   }
-
-  /* 首页主内容（文案 + 装饰图形）在手机端整体比例略小；底部导航不缩放。 */
-  .homepage-screen__content > .homepage-copy,
-  .homepage-screen__content > .homepage-visual {
-    zoom: 0.9;
-  }
 }
 
 /* —— 手机小屏：进一步收紧 —— */
@@ -260,6 +254,11 @@
 
   /* 首页：文案在左、装饰图形在右（缩小后不再撑高页面） */
   .homepage-screen__content {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+  }
+
+  .homepage-screen__stage {
     grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
     align-items: center;
     column-gap: 1.4rem;
