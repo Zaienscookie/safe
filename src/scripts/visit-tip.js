@@ -7,9 +7,7 @@
  *     1) 从子页面返回主站时 URL 会带 from 参数，此时不再弹出；
  *     2) 用 sessionStorage 记住本次会话已提示过（关闭标签页即清除，
  *        不写入 localStorage/Cookie，不跨会话、不追踪）。
- * - 点击「知道了」或弹窗背景即可关闭；
- * - z-index 低于横屏守卫（landscape.js），移动端竖屏被强制横屏遮罩覆盖，
- *   横屏后本弹窗自然可见。
+ * - 点击「知道了」或弹窗背景即可关闭。
  * ========================================================================= */
 (function () {
   /* 电脑端不显示访问提示；仅在移动端（手机/平板 UA）弹出 */
@@ -31,7 +29,7 @@
     window.sessionStorage.setItem(SEEN_KEY, "1");
   } catch (e) { /* 隐私模式等禁用存储时忽略，仍按 from 逻辑提示 */ }
 
-  var GUARD_Z = 90000; // 低于横屏守卫的 99999
+  var GUARD_Z = 90000;
 
   // —— 注入样式 ——
   var style = document.createElement("style");
@@ -77,7 +75,7 @@
     '<div class="visit-tip__box">' +
       '<p class="visit-tip__kicker">VISIT TIP · 访问建议</p>' +
       '<h2 class="visit-tip__title">访问提示</h2>' +
-      '<p class="visit-tip__text">已自动切换为横屏显示。如需更完整的手势互动体验，建议使用电脑访问。</p>' +
+      '<p class="visit-tip__text">为了获得更完整的手势互动体验，建议使用电脑访问。</p>' +
       '<button class="visit-tip__btn" type="button">知道了</button>' +
     '</div>';
 

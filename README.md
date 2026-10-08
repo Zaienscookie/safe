@@ -80,7 +80,6 @@
    │  ├─ enter.js            # ★ 主站交互引擎（屏幕切换/导航/配置）
    │  ├─ particle.js         # ★ 手势粒子模块（start/stop + 手势映射）
    │  ├─ direction.js        # 方向详情页渲染（读 ?d= 参数，SPA 内切换）
-   │  ├─ landscape.js        # 移动端横屏守卫（竖屏遮罩强制横屏）
    │  ├─ visit-tip.js        # 访问提示弹窗（建议电脑访问）
    │  └─ rhine-logo-animation-data.js  # Logo 动画 JSON 数据
    └─ styles/
@@ -139,7 +138,7 @@
 
 ### 7.5 移动端与安全
 - `mobile.css`：820px/560px 断点，内容区可滚动、导航横排、字号收紧。
-- `landscape.js`：**移动端强制横屏**，竖屏全屏遮罩拦点击。判断**仅按 UA**（触屏笔记本不会误判）。
+- 移动端不做强制横屏：早期 `landscape.js` 的旋转 iframe 在触屏下无法滚动、页面只显示一半，已删除，改用原生竖屏响应式布局。
 - `visit-tip.js`：访问提示弹窗，**仅主站 index.html 引用、且仅移动端弹出**（电脑端不显示；子页面不引用）。
 - 授权过场**不自动跳转**：必须点击「下一步」才进首页。
 - 互动粒子：移动端一律禁止（弹“仅支持电脑端访问”）。
@@ -149,7 +148,7 @@
 - 手势粒子需要 **HTTPS 或 localhost + 摄像头授权**；手机端被禁止，需电脑浏览器。
 - 靶场实验卡：先 `fetch` 探测 `192.168.89.28:8080`（`links.range`），4 秒超时/失败则进 `notice.html`。
 - 纯静态无痕：刷新即回进入页；访问提示弹窗仅主站且仅移动端弹出。
-- 移动端强制横屏（`landscape.js`）；电脑端不受影响。
+- 移动端为原生竖屏响应式（已移除强制横屏）；电脑端不受影响。
 - 修改 `index.html` 结构时注意 `<section>`/`<div>` 配对；`site-copy.department` 数组项必须与右侧卡片顺序一致，否则文案错位。
 - 上传服务器请整目录上传（尤其 `lib/`、`assets/images/qrcode.jpg`、mp4 视频、`flag.html` 源码注释）。
 
@@ -165,7 +164,7 @@
 
 - **活动背景视频**（约 17MB）：改为「进入活动栏目才播放」（HTML `preload="none"` + `enter.js` 的 `playBgVideo()`），首屏不再下载该视频；
 - **纳新人物卡图片**：加 `loading="lazy"`，首屏外延迟加载；
-- **移动端**：`mobile.css` 含触屏点按目标（≥40px）、刘海屏安全区、取消 hover 粘滞、iOS 输入框防缩放、过小文字提升；`landscape.js` 强制横屏；`visit-tip.js` 仅主站且仅移动端弹窗；
+- **移动端**：`mobile.css` 含触屏点按目标（≥40px）、刘海屏安全区、取消 hover 粘滞、iOS 输入框防缩放、过小文字提升；原生竖屏可滚动；`visit-tip.js` 仅主站且仅移动端弹窗；
 - **兼容性**：所有移动端规则均在媒体查询内，桌面端经逐像素对比**零影响**；
 - **基础项**：全站统一 `favicon`、`theme-color`、各页 `meta description`。
 
